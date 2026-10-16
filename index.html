@@ -305,7 +305,7 @@
             <div class="bg-white p-3.5 sm:p-6 rounded-2xl border border-slate-200 shadow-sm flex flex-col sm:flex-row items-start sm:items-center justify-between gap-2.5">
                 <div>
                     <h2 class="text-base sm:text-xl font-black text-slate-900 mb-0.5">科目別クイズ (全12科目)</h2>
-                    <p class="text-xs text-slate-500">対策したい科目を選択してください。</p>
+                    <p class="text-xs text-slate-500">単元を選んで効率よく解答できます。</p>
                 </div>
                 <button onclick="showView('history')" class="bg-slate-100 active:bg-slate-200 text-slate-700 font-bold px-3 py-1.5 rounded-xl text-xs flex items-center gap-1.5 transition">
                     <i class="fa-solid fa-chart-pie"></i> 成績分析を見る
@@ -394,14 +394,14 @@
                 <div id="result-pass-status" class="p-3 sm:p-3.5 rounded-xl font-bold text-xs sm:text-sm"></div>
 
                 <div class="flex flex-col sm:flex-row gap-2 sm:gap-2.5 justify-center pt-1">
+                    <button onclick="retryCurrentQuiz()" class="bg-emerald-600 hover:bg-emerald-700 text-white font-bold px-4 py-2.5 sm:py-3 rounded-xl shadow-md transition flex items-center justify-center gap-2 text-xs sm:text-sm">
+                        <i class="fa-solid fa-rotate-right"></i> もう一度解く
+                    </button>
                     <button onclick="showView('subjects')" class="bg-brand-600 hover:bg-brand-700 text-white font-bold px-4 py-2.5 sm:py-3 rounded-xl shadow-md transition flex items-center justify-center gap-2 text-xs sm:text-sm">
-                        <i class="fa-solid fa-rotate-right"></i> 別の科目を選ぶ
+                        <i class="fa-solid fa-book-open"></i> 別の科目を選ぶ
                     </button>
                     <button onclick="showView('history')" class="bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold px-4 py-2.5 sm:py-3 rounded-xl transition flex items-center justify-center gap-2 text-xs sm:text-sm">
                         <i class="fa-solid fa-chart-line"></i> 学習履歴を見る
-                    </button>
-                    <button onclick="showView('mistakes')" class="bg-rose-50 hover:bg-rose-100 text-rose-700 border border-rose-200 font-bold px-4 py-2.5 sm:py-3 rounded-xl transition flex items-center justify-center gap-2 text-xs sm:text-sm">
-                        <i class="fa-solid fa-bookmark"></i> 復習ノート
                     </button>
                 </div>
             </div>
@@ -499,14 +499,14 @@
             <div class="bg-white p-3.5 sm:p-6 rounded-2xl border border-slate-200 shadow-sm flex flex-col sm:flex-row items-start sm:items-center justify-between gap-2.5">
                 <div>
                     <h2 class="text-base sm:text-xl font-black text-slate-900">今月のログインスタンプ</h2>
-                    <p class="text-xs text-slate-500">1日1回開くと自動スタンプ！</p>
+                    <p class="text-xs text-slate-500">ログインした日はスタンプが捺印され、来なかった日はスキップされます。</p>
                 </div>
                 <div class="bg-amber-50 border border-amber-200 text-amber-900 font-black text-xs sm:text-sm px-3 py-1.5 rounded-xl flex items-center gap-1.5">
-                    <i class="fa-solid fa-fire text-amber-500"></i> 現在 <span id="stamp-streak-display" class="text-sm sm:text-base text-brand-600">1</span> 日連続学習中！
+                    <i class="fa-solid fa-fire text-amber-500"></i> 現在 <span id="stamp-streak-display" class="text-sm sm:text-base text-brand-600">1</span> 日連続ログイン中！
                 </div>
             </div>
             <div class="bg-white p-3.5 sm:p-6 rounded-2xl border border-slate-200 shadow-sm">
-                <div id="stamp-grid-container" class="grid grid-cols-5 sm:grid-cols-7 gap-1.5 sm:gap-3"></div>
+                <div id="stamp-grid-container" class="grid grid-cols-4 sm:grid-cols-7 gap-2 sm:gap-3"></div>
             </div>
         </section>
 
@@ -681,7 +681,7 @@
                                     </th>
                                     <th class="px-3 py-2.5">科目 / テーマ</th>
                                     <th class="px-3 py-2.5">問題文</th>
-                                    <th class="px-3 py-2.5">用途</th>
+                                    <th class="px-3 py-2.5">公開状態</th>
                                     <th class="px-3 py-2.5 text-right">操作</th>
                                 </tr>
                             </thead>
@@ -760,7 +760,19 @@
 
     </main>
 
-    <!-- モーダル: 教科書・資料追加モーダル (新機能) -->
+    <!-- モーダル: 単元・テーマ選択モーダル -->
+    <div id="modal-topic-select" class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-50 flex items-center justify-center p-3 hidden animate-fade-in">
+        <div class="bg-white w-full max-w-md rounded-3xl p-5 shadow-2xl border border-slate-100 space-y-4 max-h-[90vh] overflow-y-auto custom-scrollbar">
+            <div class="flex justify-between items-center border-b pb-2">
+                <h3 id="modal-topic-title" class="text-base font-black text-slate-900">単元・テーマの選択</h3>
+                <button onclick="closeModal('modal-topic-select')" class="text-slate-400 hover:text-slate-600"><i class="fa-solid fa-xmark text-lg"></i></button>
+            </div>
+            <p class="text-xs text-slate-500">挑戦したい単元（テーマ）を選んでクイズを開始してください。</p>
+            <div id="modal-topic-list" class="space-y-2"></div>
+        </div>
+    </div>
+
+    <!-- モーダル: 教科書・資料追加モーダル -->
     <div id="modal-material" class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-50 flex items-center justify-center p-3 hidden animate-fade-in">
         <div class="bg-white w-full max-w-lg rounded-3xl p-5 shadow-2xl border border-slate-100 space-y-3 max-h-[90vh] overflow-y-auto custom-scrollbar">
             <div class="flex justify-between items-center border-b pb-2">
@@ -858,9 +870,15 @@
                     <label class="block text-slate-500 mb-1">解説文</label>
                     <textarea id="q-input-explanation" rows="2" class="w-full bg-slate-50 border border-slate-300 rounded-xl p-2"></textarea>
                 </div>
-                <div class="flex items-center gap-2 pt-1">
-                    <input type="checkbox" id="q-input-ismock" class="rounded text-brand-600">
-                    <label for="q-input-ismock" class="text-slate-700">模擬試験の出題対象に含める</label>
+                <div class="flex items-center justify-between p-2 bg-slate-50 rounded-xl border border-slate-200">
+                    <div class="flex items-center gap-2">
+                        <input type="checkbox" id="q-input-ispublished" checked class="rounded text-brand-600">
+                        <label for="q-input-ispublished" class="text-slate-800 font-bold">受講生へ公開する</label>
+                    </div>
+                    <div class="flex items-center gap-2">
+                        <input type="checkbox" id="q-input-ismock" class="rounded text-brand-600">
+                        <label for="q-input-ismock" class="text-slate-700">模擬試験に含める</label>
+                    </div>
                 </div>
             </div>
             <div class="flex gap-2 pt-2">
@@ -1371,7 +1389,9 @@
             activeUsersList: [],
             allUserResults: [],
             wrongQuestionIds: [],
+            userStamps: [],
             currentSubjectId: '',
+            currentTopicFilter: 'all',
             currentQuizSet: [],
             currentQuizAnswers: [],
             currentQuizIndex: 0,
@@ -1383,14 +1403,27 @@
             adminSubTab: 'users'
         };
 
+        function getTodayStr() {
+            const d = new Date();
+            const year = d.getFullYear();
+            const month = String(d.getMonth() + 1).padStart(2, '0');
+            const day = String(d.getDate()).padStart(2, '0');
+            return `${year}-${month}-${day}`;
+        }
+
         function loadLocalState() {
             const fixedName = localStorage.getItem('ko_ninsiken_user_name_fixed');
             if (fixedName) window.appState.userName = fixedName;
             document.getElementById('header-user-name').innerText = window.appState.userName || '学習者';
+
+            try {
+                const savedStamps = localStorage.getItem('ko_ninsiken_stamps');
+                if (savedStamps) window.appState.userStamps = JSON.parse(savedStamps);
+            } catch(e){}
         }
 
         window.saveLocalState = function() {
-            localStorage.setItem('kousotsu_app_master_v16', JSON.stringify({
+            localStorage.setItem('kousotsu_app_master_v17', JSON.stringify({
                 userName: window.appState.userName
             }));
         };
@@ -1422,9 +1455,9 @@
         function renderDashboardSubjects() {
             const container = document.getElementById('dashboard-subjects-grid');
             container.innerHTML = SUBJECTS.slice(0, 6).map(s => {
-                const qCount = window.appState.questions.filter(q => q.subjectId === s.id).length;
+                const qCount = window.appState.questions.filter(q => q.subjectId === s.id && q.isPublished !== false).length;
                 return `
-                    <div onclick="startSubjectQuiz('${s.id}')" class="bg-white p-3.5 rounded-2xl border border-slate-200 hover:border-brand-500 cursor-pointer flex items-center justify-between">
+                    <div onclick="openTopicSelectModal('${s.id}')" class="bg-white p-3.5 rounded-2xl border border-slate-200 hover:border-brand-500 cursor-pointer flex items-center justify-between">
                         <div class="flex items-center space-x-3">
                             <div class="w-10 h-10 rounded-xl bg-gradient-to-tr ${s.color} text-white flex items-center justify-center text-lg"><i class="fa-solid ${s.icon}"></i></div>
                             <div>
@@ -1475,21 +1508,64 @@
         function renderFullSubjects() {
             const container = document.getElementById('full-subjects-grid');
             container.innerHTML = SUBJECTS.map(s => {
-                const qCount = window.appState.questions.filter(q => q.subjectId === s.id).length;
+                const qCount = window.appState.questions.filter(q => q.subjectId === s.id && q.isPublished !== false).length;
                 return `
                     <div class="bg-white rounded-2xl border border-slate-200 p-4 space-y-3">
                         <div class="flex items-center space-x-3">
                             <div class="w-11 h-11 rounded-2xl bg-gradient-to-tr ${s.color} text-white flex items-center justify-center text-lg"><i class="fa-solid ${s.icon}"></i></div>
                             <div>
                                 <h3 class="font-black text-slate-900 text-base">${s.name}</h3>
-                                <span class="bg-slate-100 text-[10px] font-bold px-2 py-0.5 rounded-full">出題数 ${qCount} 問</span>
+                                <span class="bg-slate-100 text-[10px] font-bold px-2 py-0.5 rounded-full">出題可能 ${qCount} 問</span>
                             </div>
                         </div>
-                        <button onclick="startSubjectQuiz('${s.id}')" class="w-full bg-slate-900 text-white font-bold py-2 rounded-xl text-xs">クイズを開始</button>
+                        <button onclick="openTopicSelectModal('${s.id}')" class="w-full bg-slate-900 text-white font-bold py-2 rounded-xl text-xs">単元を選んで開始</button>
                     </div>
                 `;
             }).join('');
         }
+
+        // 単元・テーマ選択モーダルを開く
+        window.openTopicSelectModal = function(subjectId) {
+            const subject = SUBJECTS.find(s => s.id === subjectId);
+            if (!subject) return;
+
+            const subjectQs = window.appState.questions.filter(q => q.subjectId === subjectId && q.isPublished !== false);
+            if (subjectQs.length === 0) {
+                showToast('この科目には現在公開中の問題がありません', 'info');
+                return;
+            }
+
+            const topics = Array.from(new Set(subjectQs.map(q => q.topic || '基本')));
+
+            document.getElementById('modal-topic-title').innerText = `${subject.name} - 単元・テーマの選択`;
+            
+            const container = document.getElementById('modal-topic-list');
+            let html = `
+                <button onclick="startSubjectQuiz('${subjectId}', 'all')" class="w-full text-left bg-brand-50 hover:bg-brand-100 border-2 border-brand-200 rounded-2xl p-3.5 font-bold text-brand-900 transition flex items-center justify-between">
+                    <div>
+                        <div class="text-sm">🌟 すべての単元からランダム出題</div>
+                        <div class="text-[10px] text-brand-600 font-normal">全 ${subjectQs.length} 問からランダム選出</div>
+                    </div>
+                    <i class="fa-solid fa-chevron-right text-brand-500"></i>
+                </button>
+            `;
+
+            topics.forEach(top => {
+                const count = subjectQs.filter(q => (q.topic || '基本') === top).length;
+                html += `
+                    <button onclick="startSubjectQuiz('${subjectId}', '${top}')" class="w-full text-left bg-slate-50 hover:bg-slate-100 border border-slate-200 rounded-2xl p-3.5 font-bold text-slate-800 transition flex items-center justify-between">
+                        <div>
+                            <div class="text-xs sm:text-sm">📌 単元: ${top}</div>
+                            <div class="text-[10px] text-slate-400 font-normal">${count} 問登録</div>
+                        </div>
+                        <i class="fa-solid fa-chevron-right text-slate-300"></i>
+                    </button>
+                `;
+            });
+
+            container.innerHTML = html;
+            openModal('modal-topic-select');
+        };
 
         // ニックネーム設定
         window.openUserNameModal = function() {
@@ -1618,7 +1694,7 @@
                 if (l.wrongQuestions) l.wrongQuestions.forEach(wq => { if (wq.questionId) wrongIds.add(wq.questionId); });
             });
 
-            const mistakeQuestions = window.appState.questions.filter(q => wrongIds.has(q.id));
+            const mistakeQuestions = window.appState.questions.filter(q => wrongIds.has(q.id) && q.isPublished !== false);
             if (mistakeQuestions.length === 0) {
                 showToast('再テストできる元データがありません', 'info');
                 return;
@@ -1634,17 +1710,76 @@
             loadCurrentQuestion();
         };
 
-        // ログインスタンプ
+        // 実効型ログインスタンプ機能 (日付判定 & スキップ処理)
+        function checkInTodayStamp() {
+            const today = getTodayStr();
+            let stamps = window.appState.userStamps || [];
+            if (!stamps.includes(today)) {
+                stamps.push(today);
+                window.appState.userStamps = stamps;
+                localStorage.setItem('ko_ninsiken_stamps', JSON.stringify(stamps));
+            }
+        }
+
         function renderStampsView() {
+            checkInTodayStamp();
             const container = document.getElementById('stamp-grid-container');
             if (!container) return;
+
+            const now = new Date();
+            const year = now.getFullYear();
+            const month = now.getMonth();
+            const todayStr = getTodayStr();
+            const stampsSet = new Set(window.appState.userStamps || []);
+
+            const daysInMonth = new Date(year, month + 1, 0).getDate();
             let html = '';
-            for (let i = 1; i <= 31; i++) {
-                const isStamped = i <= 3; 
+
+            // 連続ログイン日数の計算
+            let streak = 0;
+            let checkDate = new Date();
+            while (true) {
+                const y = checkDate.getFullYear();
+                const m = String(checkDate.getMonth() + 1).padStart(2, '0');
+                const d = String(checkDate.getDate()).padStart(2, '0');
+                const dateKey = `${y}-${m}-${d}`;
+                if (stampsSet.has(dateKey)) {
+                    streak++;
+                    checkDate.setDate(checkDate.getDate() - 1);
+                } else {
+                    break;
+                }
+            }
+            document.getElementById('stamp-streak-display').innerText = streak;
+
+            for (let day = 1; day <= daysInMonth; day++) {
+                const dateStr = `${year}-${String(month + 1).padStart(2, '0')}-${String(day).padStart(2, '0')}`;
+                const isToday = (dateStr === todayStr);
+                const isStamped = stampsSet.has(dateStr);
+                const isPast = new Date(dateStr) < new Date(todayStr);
+
+                let statusClass = "bg-slate-50 border-slate-200 text-slate-400";
+                let iconHtml = '<div class="w-4 h-4 rounded-full border-2 border-slate-300 mx-auto"></div>';
+                let labelText = "未達成";
+
+                if (isStamped) {
+                    statusClass = "bg-amber-50 border-amber-300 text-amber-900 shadow-sm";
+                    iconHtml = '<i class="fa-solid fa-stamp text-xl sm:text-2xl text-amber-500"></i>';
+                    labelText = "出席済";
+                } else if (isPast) {
+                    statusClass = "bg-slate-100 border-slate-200 text-slate-400 opacity-60";
+                    iconHtml = '<i class="fa-solid fa-minus text-slate-300"></i>';
+                    labelText = "スキップ";
+                } else if (isToday) {
+                    statusClass = "bg-brand-50 border-brand-300 text-brand-900 ring-2 ring-brand-400";
+                    labelText = "今日";
+                }
+
                 html += `
-                    <div class="p-3 rounded-2xl border flex flex-col items-center justify-center ${isStamped ? 'bg-amber-50 border-amber-300' : 'bg-slate-50 border-slate-200'}">
-                        <span class="text-[10px] font-bold text-slate-400 mb-1">${i}日</span>
-                        ${isStamped ? '<i class="fa-solid fa-stamp text-xl text-amber-500"></i>' : '<div class="w-5 h-5 rounded-full border-2 border-slate-300"></div>'}
+                    <div class="p-2 sm:p-3 rounded-2xl border flex flex-col items-center justify-between min-h-[70px] sm:min-h-[85px] text-center ${statusClass}">
+                        <span class="text-[10px] font-bold ${isToday ? 'text-brand-600' : 'text-slate-400'}">${day}日</span>
+                        <div class="my-0.5">${iconHtml}</div>
+                        <span class="text-[9px] font-bold">${labelText}</span>
                     </div>
                 `;
             }
@@ -1679,24 +1814,47 @@
         }
 
         // クイズ進行
-        window.startSubjectQuiz = function(subjectId) {
-            const questions = window.appState.questions.filter(q => q.subjectId === subjectId);
-            if (questions.length === 0) { showToast('この科目にはまだ問題がありません', 'info'); return; }
-            
+        window.startSubjectQuiz = function(subjectId, topicFilter = 'all') {
+            closeModal('modal-topic-select');
+            let questions = window.appState.questions.filter(q => q.subjectId === subjectId && q.isPublished !== false);
+            if (topicFilter !== 'all') {
+                questions = questions.filter(q => (q.topic || '基本') === topicFilter);
+            }
+
+            if (questions.length === 0) {
+                showToast('この単元にはまだ問題がありません', 'info');
+                return;
+            }
+
             window.appState.currentSubjectId = subjectId;
+            window.appState.currentTopicFilter = topicFilter;
             window.appState.currentQuizSet = [...questions].sort(() => Math.random() - 0.5);
             window.appState.currentQuizAnswers = [];
             window.appState.currentQuizIndex = 0;
             window.appState.quizScore = 0;
             window.appState.isMockExam = false;
-            
+
+            showView('quiz');
+            loadCurrentQuestion();
+        };
+
+        window.retryCurrentQuiz = function() {
+            if (!window.appState.currentQuizSet || window.appState.currentQuizSet.length === 0) {
+                showView('subjects');
+                return;
+            }
+            window.appState.currentQuizSet = [...window.appState.currentQuizSet].sort(() => Math.random() - 0.5);
+            window.appState.currentQuizAnswers = [];
+            window.appState.currentQuizIndex = 0;
+            window.appState.quizScore = 0;
             showView('quiz');
             loadCurrentQuestion();
         };
 
         window.startMockExam = function() {
-            if (window.appState.questions.length === 0) { showToast('問題データベースが空です', 'warning'); return; }
-            window.appState.currentQuizSet = [...window.appState.questions].sort(() => Math.random() - 0.5).slice(0, 10);
+            const pubQuestions = window.appState.questions.filter(q => q.isPublished !== false);
+            if (pubQuestions.length === 0) { showToast('問題データベースが空です', 'warning'); return; }
+            window.appState.currentQuizSet = [...pubQuestions].sort(() => Math.random() - 0.5).slice(0, 10);
             window.appState.currentQuizAnswers = [];
             window.appState.currentQuizIndex = 0;
             window.appState.quizScore = 0;
@@ -1894,7 +2052,7 @@
             `).join('');
         };
 
-        // --- 管理者問題追加・削除 ---
+        // --- 管理者問題追加・削除・公開非公開切替 ---
         window.openQuestionModal = function() { openModal('modal-question'); };
         window.saveQuestion = function() {
             const qItem = {
@@ -1910,6 +2068,7 @@
                 ],
                 correctIndex: document.getElementById('q-input-correct').value,
                 explanation: document.getElementById('q-input-explanation').value,
+                isPublished: document.getElementById('q-input-ispublished').checked,
                 isMock: document.getElementById('q-input-ismock').checked
             };
 
@@ -1918,6 +2077,15 @@
             if (window.syncQuestionCloud) window.syncQuestionCloud(qItem);
             closeModal('modal-question');
             showToast('問題を追加しました', 'success');
+        };
+
+        window.toggleQuestionPublish = function(qId) {
+            const q = window.appState.questions.find(item => item.id === qId);
+            if (!q) return;
+            const newStatus = (q.isPublished === false) ? true : false;
+            q.isPublished = newStatus;
+            if (window.syncQuestionCloud) window.syncQuestionCloud(q);
+            showToast(newStatus ? '問題を「公開」にしました' : '問題を「非公開」にしました', newStatus ? 'success' : 'warning');
         };
 
         window.deleteQuestionItem = function(qId) {
@@ -2183,7 +2351,7 @@
             openModal('modal-user-detail');
         };
 
-        // 人別絞り込みドロップダウン（テスト解答ログ ＋ オンライン/アクセス履歴の両方から名前を抽出して完全反映）
+        // 人別絞り込みドロップダウン
         window.populateUserLogSelectOptions = function() {
             const select = document.getElementById('admin-user-log-select');
             if (!select) return;
@@ -2237,15 +2405,25 @@
             if (selectedSubject !== 'all') filtered = filtered.filter(q => q.subjectId === selectedSubject);
 
             document.getElementById('admin-q-count').innerText = filtered.length;
-            tbody.innerHTML = filtered.map(q => `
-                <tr class="hover:bg-slate-50 border-b border-slate-100 text-slate-800">
-                    <td class="px-3 py-2 text-center"><input type="checkbox" value="${q.id}" class="q-select-checkbox rounded text-brand-600"></td>
-                    <td class="px-3 py-2 font-bold text-xs">${q.subjectId}</td>
-                    <td class="px-3 py-2 font-bold text-xs max-w-xs truncate">${q.question}</td>
-                    <td class="px-3 py-2 text-xs">${q.isMock ? '模試対象' : '通常'}</td>
-                    <td class="px-3 py-2 text-right"><button onclick="deleteQuestionItem('${q.id}')" class="text-rose-600 p-1"><i class="fa-solid fa-trash"></i></button></td>
-                </tr>
-            `).join('');
+            tbody.innerHTML = filtered.map(q => {
+                const isPub = (q.isPublished !== false);
+                return `
+                    <tr class="hover:bg-slate-50 border-b border-slate-100 text-slate-800">
+                        <td class="px-3 py-2 text-center"><input type="checkbox" value="${q.id}" class="q-select-checkbox rounded text-brand-600"></td>
+                        <td class="px-3 py-2 font-bold text-xs">
+                            <span class="text-slate-900">${q.subjectId}</span>
+                            <span class="text-[10px] text-slate-400 block">${q.topic || '基本'}</span>
+                        </td>
+                        <td class="px-3 py-2 font-bold text-xs max-w-xs truncate">${q.question}</td>
+                        <td class="px-3 py-2 text-xs">
+                            <button onclick="toggleQuestionPublish('${q.id}')" class="px-2 py-1 rounded-lg text-[10px] font-bold transition ${isPub ? 'bg-emerald-100 text-emerald-800 hover:bg-emerald-200' : 'bg-slate-200 text-slate-600 hover:bg-slate-300'}">
+                                ${isPub ? '🟢 公開中' : '⚪ 非公開'}
+                            </button>
+                        </td>
+                        <td class="px-3 py-2 text-right"><button onclick="deleteQuestionItem('${q.id}')" class="text-rose-600 p-1"><i class="fa-solid fa-trash"></i></button></td>
+                    </tr>
+                `;
+            }).join('');
         };
 
         window.renderAdminHomeworkList = function() {
