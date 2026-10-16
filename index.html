@@ -1149,12 +1149,30 @@
 
                         document.getElementById('sync-indicator').classList.remove('hidden');
 
-                        if (!user.isAnonymous) {
-                            const name = user.displayName || 'Googleユーザー';
-                            window.appState.userName = name;
-                            localStorage.setItem('ko_ninsiken_user_name_fixed', name);
-                            document.getElementById('header-user-name').innerText = name;
+                        // ユーザー固有の保存済みニックネーム判定・復元ロジック
+                        let savedName = '';
+                        try {
+                            const userProfDoc = await getDoc(doc(db, 'artifacts', appId, 'users', user.uid, 'settings', 'profile'));
+                            if (userProfDoc.exists() && userProfDoc.data().customName) {
+                                savedName = userProfDoc.data().customName;
+                            }
+                        } catch(e) {}
 
+                        if (!savedName) {
+                            savedName = localStorage.getItem('ko_ninsiken_user_name_' + user.uid);
+                        }
+
+                        if (!savedName && !user.isAnonymous) {
+                            savedName = user.displayName || 'Googleユーザー';
+                        }
+
+                        const finalName = savedName || '学習者';
+                        window.appState.userName = finalName;
+                        localStorage.setItem('ko_ninsiken_user_name_' + user.uid, finalName);
+                        localStorage.setItem('ko_ninsiken_user_name_fixed', finalName);
+                        document.getElementById('header-user-name').innerText = finalName;
+
+                        if (!user.isAnonymous) {
                             document.getElementById('auth-buttons-login').classList.add('hidden');
                             document.getElementById('btn-logout').classList.remove('hidden');
 
@@ -1237,9 +1255,19 @@
             try {
                 const result = await signInWithPopup(auth, provider);
                 const user = result.user;
-                const name = user.displayName || 'Googleユーザー';
                 
+                // クラウドから既存ニックネームを確認
+                let savedName = '';
+                try {
+                    const profDoc = await getDoc(doc(db, 'artifacts', appId, 'users', user.uid, 'settings', 'profile'));
+                    if (profDoc.exists() && profDoc.data().customName) {
+                        savedName = profDoc.data().customName;
+                    }
+                } catch(e){}
+
+                const name = savedName || user.displayName || 'Googleユーザー';
                 window.appState.userName = name;
+                localStorage.setItem('ko_ninsiken_user_name_' + user.uid, name);
                 localStorage.setItem('ko_ninsiken_user_name_fixed', name);
                 document.getElementById('header-user-name').innerText = name;
                 
@@ -1423,7 +1451,7 @@
         }
 
         window.saveLocalState = function() {
-            localStorage.setItem('kousotsu_app_master_v17', JSON.stringify({
+            localStorage.setItem('kousotsu_app_master_v18', JSON.stringify({
                 userName: window.appState.userName
             }));
         };
@@ -1567,21 +1595,42 @@
             openModal('modal-topic-select');
         };
 
-        // ニックネーム設定
+        // ニックネーム設定（Googleアカウント・クラウド保存対応）
         window.openUserNameModal = function() {
             document.getElementById('user-name-input').value = window.appState.userName || '';
             openModal('modal-user-name');
         };
 
-        window.saveUserName = function() {
+        window.saveUserName = async function() {
             const input = document.getElementById('user-name-input').value.trim();
             if (!input) return;
+            
             window.appState.userName = input;
-            localStorage.setItem('ko_ninsiken_user_name_fixed', input);
             document.getElementById('header-user-name').innerText = input;
             closeModal('modal-user-name');
-            if (window.syncUserProfileCloud) window.syncUserProfileCloud(input, true);
-            showToast('ユーザー名を変更しました', 'success');
+
+            // Firebaseおよびローカルへの永続保存
+            if (typeof auth !== 'undefined' && auth && auth.currentUser) {
+                const u = auth.currentUser;
+                localStorage.setItem('ko_ninsiken_user_name_' + u.uid, input);
+                localStorage.setItem('ko_ninsiken_user_name_fixed', input);
+
+                if (typeof db !== 'undefined' && db) {
+                    try {
+                        const { doc, setDoc } = await import("https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js");
+                        await setDoc(doc(db, 'artifacts', 'ko-ninsiken', 'users', u.uid, 'settings', 'profile'), {
+                            customName: input,
+                            updatedAt: new Date().toISOString()
+                        }, { merge: true });
+                    } catch(e) { console.warn('Profile save fallback'); }
+                }
+
+                if (window.syncUserProfileCloud) window.syncUserProfileCloud(input, true);
+            } else {
+                localStorage.setItem('ko_ninsiken_user_name_fixed', input);
+            }
+
+            showToast('ユーザー名を保存しました', 'success');
         };
 
         // 暗記カード
@@ -1710,7 +1759,7 @@
             loadCurrentQuestion();
         };
 
-        // 実効型ログインスタンプ機能 (日付判定 & スキップ処理)
+        // 実効型ログインスタンプ機能
         function checkInTodayStamp() {
             const today = getTodayStr();
             let stamps = window.appState.userStamps || [];
@@ -1735,7 +1784,6 @@
             const daysInMonth = new Date(year, month + 1, 0).getDate();
             let html = '';
 
-            // 連続ログイン日数の計算
             let streak = 0;
             let checkDate = new Date();
             while (true) {
