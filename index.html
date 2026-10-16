@@ -1149,17 +1149,15 @@
 
                         document.getElementById('sync-indicator').classList.remove('hidden');
 
-                        // ユーザー固有の保存済みニックネーム判定・復元ロジック
-                        let savedName = '';
-                        try {
-                            const userProfDoc = await getDoc(doc(db, 'artifacts', appId, 'users', user.uid, 'settings', 'profile'));
-                            if (userProfDoc.exists() && userProfDoc.data().customName) {
-                                savedName = userProfDoc.data().customName;
-                            }
-                        } catch(e) {}
-
+                        // --- ニックネーム復元ロジック (カスタム設定名を絶対優先) ---
+                        let savedName = localStorage.getItem('ko_ninsiken_user_name_' + user.uid);
                         if (!savedName) {
-                            savedName = localStorage.getItem('ko_ninsiken_user_name_' + user.uid);
+                            try {
+                                const userDoc = await getDoc(doc(db, 'artifacts', appId, 'public', 'data', 'active_users', user.uid));
+                                if (userDoc.exists() && userDoc.data().userName && userDoc.data().userName !== 'Googleユーザー' && userDoc.data().userName !== '学習者') {
+                                    savedName = userDoc.data().userName;
+                                }
+                            } catch(e) {}
                         }
 
                         if (!savedName && !user.isAnonymous) {
@@ -1256,14 +1254,15 @@
                 const result = await signInWithPopup(auth, provider);
                 const user = result.user;
                 
-                // クラウドから既存ニックネームを確認
-                let savedName = '';
-                try {
-                    const profDoc = await getDoc(doc(db, 'artifacts', appId, 'users', user.uid, 'settings', 'profile'));
-                    if (profDoc.exists() && profDoc.data().customName) {
-                        savedName = profDoc.data().customName;
-                    }
-                } catch(e){}
+                let savedName = localStorage.getItem('ko_ninsiken_user_name_' + user.uid);
+                if (!savedName) {
+                    try {
+                        const userDoc = await getDoc(doc(db, 'artifacts', appId, 'public', 'data', 'active_users', user.uid));
+                        if (userDoc.exists() && userDoc.data().userName && userDoc.data().userName !== 'Googleユーザー' && userDoc.data().userName !== '学習者') {
+                            savedName = userDoc.data().userName;
+                        }
+                    } catch(e){}
+                }
 
                 const name = savedName || user.displayName || 'Googleユーザー';
                 window.appState.userName = name;
@@ -1271,7 +1270,7 @@
                 localStorage.setItem('ko_ninsiken_user_name_fixed', name);
                 document.getElementById('header-user-name').innerText = name;
                 
-                if (window.syncUserProfileCloud) window.syncUserProfileCloud(name, true);
+                if (window.syncUserProfileCloud) await window.syncUserProfileCloud(name, true);
                 showToast(`${name} としてログインしました`, 'success');
             } catch (error) {
                 showToast('Googleログインがキャンセルされました', 'warning');
@@ -1451,7 +1450,7 @@
         }
 
         window.saveLocalState = function() {
-            localStorage.setItem('kousotsu_app_master_v18', JSON.stringify({
+            localStorage.setItem('kousotsu_app_master_v19', JSON.stringify({
                 userName: window.appState.userName
             }));
         };
@@ -1595,7 +1594,7 @@
             openModal('modal-topic-select');
         };
 
-        // ニックネーム設定（Googleアカウント・クラウド保存対応）
+        // ニックネーム設定（確実に一元保存）
         window.openUserNameModal = function() {
             document.getElementById('user-name-input').value = window.appState.userName || '';
             openModal('modal-user-name');
@@ -1609,23 +1608,14 @@
             document.getElementById('header-user-name').innerText = input;
             closeModal('modal-user-name');
 
-            // Firebaseおよびローカルへの永続保存
             if (typeof auth !== 'undefined' && auth && auth.currentUser) {
                 const u = auth.currentUser;
                 localStorage.setItem('ko_ninsiken_user_name_' + u.uid, input);
                 localStorage.setItem('ko_ninsiken_user_name_fixed', input);
 
-                if (typeof db !== 'undefined' && db) {
-                    try {
-                        const { doc, setDoc } = await import("https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js");
-                        await setDoc(doc(db, 'artifacts', 'ko-ninsiken', 'users', u.uid, 'settings', 'profile'), {
-                            customName: input,
-                            updatedAt: new Date().toISOString()
-                        }, { merge: true });
-                    } catch(e) { console.warn('Profile save fallback'); }
+                if (window.syncUserProfileCloud) {
+                    await window.syncUserProfileCloud(input, true);
                 }
-
-                if (window.syncUserProfileCloud) window.syncUserProfileCloud(input, true);
             } else {
                 localStorage.setItem('ko_ninsiken_user_name_fixed', input);
             }
