@@ -79,6 +79,9 @@
                 <button onclick="showView('dashboard')" id="nav-dashboard" class="nav-btn px-2.5 py-1.5 rounded-xl text-xs xl:text-sm font-bold text-slate-700 hover:text-brand-600 hover:bg-slate-100 transition flex items-center gap-1.5 whitespace-nowrap shrink-0">
                     <i class="fa-solid fa-house text-slate-400"></i> ホーム
                 </button>
+                <button onclick="showView('materials')" id="nav-materials" class="nav-btn px-2.5 py-1.5 rounded-xl text-xs xl:text-sm font-bold text-slate-700 hover:text-brand-600 hover:bg-slate-100 transition flex items-center gap-1.5 whitespace-nowrap shrink-0">
+                    <i class="fa-solid fa-book text-emerald-500"></i> 教科書・資料
+                </button>
                 <button onclick="showView('subjects')" id="nav-subjects" class="nav-btn px-2.5 py-1.5 rounded-xl text-xs xl:text-sm font-bold text-slate-700 hover:text-brand-600 hover:bg-slate-100 transition flex items-center gap-1.5 whitespace-nowrap shrink-0">
                     <i class="fa-solid fa-book-open text-slate-400"></i> 科目クイズ
                 </button>
@@ -138,6 +141,9 @@
 
         <!-- Mobile Drawer Navigation -->
         <div id="mobile-menu" class="hidden lg:hidden border-t border-slate-200 bg-white px-4 py-2 space-y-1 shadow-md">
+            <button onclick="showView('materials'); toggleMobileMenu()" class="w-full text-left px-3 py-2 rounded-xl font-bold text-xs sm:text-sm text-slate-800 hover:bg-slate-100 flex items-center gap-2.5 active:bg-slate-100">
+                <i class="fa-solid fa-book w-4 text-emerald-600"></i> 教科書・資料一覧
+            </button>
             <button onclick="showView('homework'); toggleMobileMenu()" class="w-full text-left px-3 py-2 rounded-xl font-bold text-xs sm:text-sm text-slate-800 hover:bg-slate-100 flex items-center gap-2.5 active:bg-slate-100">
                 <i class="fa-solid fa-pen-ruler w-4 text-amber-500"></i> 宿題一覧
             </button>
@@ -159,6 +165,10 @@
             <i class="fa-solid fa-house text-base mb-0.5"></i>
             <span class="text-[10px]">ホーム</span>
         </button>
+        <button onclick="showView('materials')" id="bnav-materials" class="bnav-btn flex-1 flex flex-col items-center justify-center py-1 px-1 text-slate-500 font-bold active:scale-95 transition">
+            <i class="fa-solid fa-book text-base mb-0.5"></i>
+            <span class="text-[10px]">教科書</span>
+        </button>
         <button onclick="showView('subjects')" id="bnav-subjects" class="bnav-btn flex-1 flex flex-col items-center justify-center py-1 px-1 text-slate-500 font-bold active:scale-95 transition">
             <i class="fa-solid fa-book-open text-base mb-0.5"></i>
             <span class="text-[10px]">クイズ</span>
@@ -170,10 +180,6 @@
         <button onclick="showView('mock-exam')" id="bnav-mock-exam" class="bnav-btn flex-1 flex flex-col items-center justify-center py-1 px-1 text-slate-500 font-bold active:scale-95 transition">
             <i class="fa-solid fa-stopwatch text-base mb-0.5"></i>
             <span class="text-[10px]">模試</span>
-        </button>
-        <button onclick="showView('mistakes')" id="bnav-mistakes" class="bnav-btn flex-1 flex flex-col items-center justify-center py-1 px-1 text-slate-500 font-bold active:scale-95 transition relative">
-            <i class="fa-solid fa-bookmark text-base mb-0.5"></i>
-            <span class="text-[10px]">復習</span>
         </button>
     </nav>
 
@@ -189,14 +195,14 @@
                     </span>
                     <h2 class="text-lg sm:text-3xl font-black mb-1.5 sm:mb-2 leading-snug">合格への最短ルートを学習しよう！</h2>
                     <p class="text-slate-100 text-xs sm:text-sm leading-relaxed mb-3.5 sm:mb-6 opacity-95">
-                        全12科目の要点クイズ・暗記カード・模擬試験を完全収録。間違えた問題は復習ノートに自動保存されます。
+                        教科書資料・要点クイズ・暗記カード・模擬試験を完全収録。間違えた問題は復習ノートに自動保存されます。
                     </p>
                     <div class="flex flex-row gap-2 sm:gap-3">
+                        <button onclick="showView('materials')" class="flex-1 sm:flex-none bg-emerald-500 hover:bg-emerald-600 text-white font-bold px-3.5 sm:px-5 py-2.5 sm:py-3 rounded-xl shadow-lg transition flex items-center justify-center gap-1.5 text-xs sm:text-sm">
+                            <i class="fa-solid fa-book"></i> 教科書を読む
+                        </button>
                         <button onclick="showView('subjects')" class="flex-1 sm:flex-none bg-white text-brand-700 hover:bg-brand-50 active:bg-slate-100 font-bold px-3.5 sm:px-5 py-2.5 sm:py-3 rounded-xl shadow-lg transition flex items-center justify-center gap-1.5 text-xs sm:text-sm">
                             <i class="fa-solid fa-play"></i> クイズ開始
-                        </button>
-                        <button onclick="showView('homework')" class="flex-1 sm:flex-none bg-amber-400 hover:bg-amber-500 text-slate-950 font-black px-3.5 sm:px-5 py-2.5 sm:py-3 rounded-xl shadow-lg transition flex items-center justify-center gap-1.5 text-xs sm:text-sm">
-                            <i class="fa-solid fa-pen-ruler"></i> 宿題を見る
                         </button>
                     </div>
                 </div>
@@ -263,6 +269,35 @@
                 
                 <div id="dashboard-subjects-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-2.5 sm:gap-3"></div>
             </div>
+        </section>
+
+        <!-- VIEW: MATERIALS (教科書・教材資料画面) -->
+        <section id="view-materials" class="hidden space-y-3 sm:space-y-6 animate-fade-in">
+            <div class="bg-white p-3.5 sm:p-6 rounded-2xl border border-slate-200 shadow-sm flex flex-col sm:flex-row items-start sm:items-center justify-between gap-2.5">
+                <div>
+                    <h2 class="text-base sm:text-xl font-black text-slate-900 flex items-center gap-2">
+                        <i class="fa-solid fa-book text-emerald-600"></i> 教科書・学習解説資料
+                    </h2>
+                    <p class="text-xs text-slate-500 mt-0.5">先生が配信した各科目の教科書資料や図解・まとめノートです。</p>
+                </div>
+                <select id="user-material-subject-filter" onchange="renderMaterialsView()" class="w-full sm:w-auto bg-slate-100 font-bold text-slate-800 text-xs sm:text-sm border-0 rounded-xl px-3 py-2 focus:ring-2 focus:ring-emerald-500">
+                    <option value="all">すべての科目</option>
+                    <option value="japanese">国語</option>
+                    <option value="math">数学I</option>
+                    <option value="english">英語</option>
+                    <option value="history">歴史</option>
+                    <option value="geography">地理</option>
+                    <option value="civics">公共</option>
+                    <option value="science">科学と人間生活</option>
+                    <option value="physics">物理基礎</option>
+                    <option value="chemistry">化学基礎</option>
+                    <option value="biology">生物基礎</option>
+                    <option value="earth_science">地学基礎</option>
+                    <option value="info">情報</option>
+                </select>
+            </div>
+
+            <div id="user-materials-grid" class="grid grid-cols-1 md:grid-cols-2 gap-3 sm:gap-4"></div>
         </section>
 
         <!-- VIEW: SUBJECT SELECTION -->
@@ -499,7 +534,7 @@
                         <i class="fa-solid fa-shield-halved"></i> 管理者ダッシュボード
                     </div>
                     <h2 class="text-base sm:text-2xl font-black">高認アプリ 管理・統括モード</h2>
-                    <p class="text-[11px] sm:text-xs text-slate-300 mt-0.5">問題・宿題管理および全ユーザーのリアルタイム監視・間違えた問題の分析ができます。</p>
+                    <p class="text-[11px] sm:text-xs text-slate-300 mt-0.5">教科書資料・問題・宿題管理および全ユーザーのリアルタイム監視・間違えた問題の分析ができます。</p>
                 </div>
             </div>
 
@@ -507,6 +542,9 @@
             <div class="flex border-b border-slate-200 space-x-1 sm:space-x-3 overflow-x-auto custom-scrollbar">
                 <button id="admin-tab-users" onclick="switchAdminSubTab('users')" class="py-2 px-2.5 text-xs sm:text-sm font-bold border-b-2 border-indigo-600 text-indigo-600 transition flex items-center gap-1.5 whitespace-nowrap">
                     <i class="fa-solid fa-users text-indigo-500"></i> ユーザー監視・個人成績
+                </button>
+                <button id="admin-tab-material" onclick="switchAdminSubTab('material')" class="py-2 px-2.5 text-xs sm:text-sm font-bold border-b-2 border-transparent text-slate-500 hover:text-slate-800 transition flex items-center gap-1.5 whitespace-nowrap">
+                    <i class="fa-solid fa-book text-emerald-600"></i> 教科書・資料管理
                 </button>
                 <button id="admin-tab-quiz" onclick="switchAdminSubTab('quiz')" class="py-2 px-2.5 text-xs sm:text-sm font-bold border-b-2 border-transparent text-slate-500 hover:text-slate-800 transition flex items-center gap-1.5 whitespace-nowrap">
                     <i class="fa-solid fa-pen-to-square"></i> クイズ問題管理
@@ -586,7 +624,21 @@
                 </div>
             </div>
 
-            <!-- ADMIN SUB-TAB 2: QUIZ MANAGEMENT -->
+            <!-- ADMIN SUB-TAB 2: MATERIAL (教科書・資料管理) -->
+            <div id="admin-subtab-material" class="hidden space-y-3">
+                <div class="flex justify-between items-center bg-white p-3.5 rounded-2xl border border-slate-200">
+                    <div>
+                        <h3 class="font-bold text-slate-900 text-sm sm:text-base">教科書・解説資料の管理</h3>
+                        <p class="text-[11px] text-slate-500">受講生がいつでも読める科目別の教材・写真を追加できます。</p>
+                    </div>
+                    <button onclick="openMaterialModal()" class="bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-xs px-3.5 py-2 rounded-xl shadow transition flex items-center gap-1.5">
+                        <i class="fa-solid fa-plus"></i> 新しい資料を追加
+                    </button>
+                </div>
+                <div id="admin-materials-grid" class="grid grid-cols-1 md:grid-cols-2 gap-3"></div>
+            </div>
+
+            <!-- ADMIN SUB-TAB 3: QUIZ MANAGEMENT -->
             <div id="admin-subtab-quiz" class="hidden space-y-3">
                 <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-2 bg-white p-3.5 rounded-2xl border border-slate-200">
                     <div class="flex flex-wrap items-center gap-2">
@@ -639,7 +691,7 @@
                 </div>
             </div>
 
-            <!-- ADMIN SUB-TAB 3: HOMEWORK MANAGEMENT -->
+            <!-- ADMIN SUB-TAB 4: HOMEWORK MANAGEMENT -->
             <div id="admin-subtab-homework" class="hidden space-y-3">
                 <div class="flex justify-between items-center bg-white p-3.5 rounded-2xl border border-slate-200">
                     <div>
@@ -653,7 +705,7 @@
                 <div id="admin-homework-grid" class="grid grid-cols-1 md:grid-cols-2 gap-3"></div>
             </div>
 
-            <!-- ADMIN SUB-TAB 4: FLASHCARD MANAGEMENT -->
+            <!-- ADMIN SUB-TAB 5: FLASHCARD MANAGEMENT -->
             <div id="admin-subtab-card" class="hidden space-y-3">
                 <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-2 bg-white p-3.5 rounded-2xl border border-slate-200">
                     <div class="flex items-center gap-2">
@@ -708,7 +760,52 @@
 
     </main>
 
-    <!-- 復活モーダル: 問題追加モーダル (HTML) -->
+    <!-- モーダル: 教科書・資料追加モーダル (新機能) -->
+    <div id="modal-material" class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-50 flex items-center justify-center p-3 hidden animate-fade-in">
+        <div class="bg-white w-full max-w-lg rounded-3xl p-5 shadow-2xl border border-slate-100 space-y-3 max-h-[90vh] overflow-y-auto custom-scrollbar">
+            <div class="flex justify-between items-center border-b pb-2">
+                <h3 class="text-base font-black text-slate-900">教科書・参考資料の追加</h3>
+                <button onclick="closeModal('modal-material')" class="text-slate-400 hover:text-slate-600"><i class="fa-solid fa-xmark text-lg"></i></button>
+            </div>
+            <div class="space-y-2 text-xs font-bold">
+                <div>
+                    <label class="block text-slate-500 mb-1">科目</label>
+                    <select id="mat-input-subject" class="w-full bg-slate-50 border border-slate-300 rounded-xl p-2 font-bold">
+                        <option value="japanese">国語</option>
+                        <option value="math">数学I</option>
+                        <option value="english">英語</option>
+                        <option value="history">歴史</option>
+                        <option value="geography">地理</option>
+                        <option value="civics">公共</option>
+                        <option value="science">科学と人間生活</option>
+                        <option value="physics">物理基礎</option>
+                        <option value="chemistry">化学基礎</option>
+                        <option value="biology">生物基礎</option>
+                        <option value="earth_science">地学基礎</option>
+                        <option value="info">情報</option>
+                    </select>
+                </div>
+                <div>
+                    <label class="block text-slate-500 mb-1">資料のタイトル</label>
+                    <input type="text" id="mat-input-title" placeholder="例: 現代文の重要古語と要点まとめ" class="w-full bg-slate-50 border border-slate-300 rounded-xl p-2">
+                </div>
+                <div>
+                    <label class="block text-slate-500 mb-1">本文・解説テキスト</label>
+                    <textarea id="mat-input-content" rows="6" placeholder="教科書的な説明文やまとめを入力してください..." class="w-full bg-slate-50 border border-slate-300 rounded-xl p-2"></textarea>
+                </div>
+                <div>
+                    <label class="block text-slate-500 mb-1">図解・参考写真URL (任意)</label>
+                    <input type="text" id="mat-input-imageurl" placeholder="https://..." class="w-full bg-slate-50 border border-slate-300 rounded-xl p-2 font-mono">
+                </div>
+            </div>
+            <div class="flex gap-2 pt-2">
+                <button onclick="closeModal('modal-material')" class="w-1/2 bg-slate-100 text-slate-700 font-bold py-2 rounded-xl text-xs">キャンセル</button>
+                <button onclick="saveMaterial()" class="w-1/2 bg-emerald-600 text-white font-bold py-2 rounded-xl text-xs shadow-md">資料を保存</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- モーダル: 問題追加モーダル (HTML) -->
     <div id="modal-question" class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-50 flex items-center justify-center p-3 hidden animate-fade-in">
         <div class="bg-white w-full max-w-lg rounded-3xl p-5 shadow-2xl border border-slate-100 space-y-3 max-h-[90vh] overflow-y-auto custom-scrollbar">
             <div class="flex justify-between items-center border-b pb-2">
@@ -773,7 +870,7 @@
         </div>
     </div>
 
-    <!-- 復活モーダル: 宿題追加モーダル (HTML) -->
+    <!-- モーダル: 宿題追加モーダル (HTML) -->
     <div id="modal-homework" class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-50 flex items-center justify-center p-3 hidden animate-fade-in">
         <div class="bg-white w-full max-w-md rounded-3xl p-5 shadow-2xl border border-slate-100 space-y-3 max-h-[90vh] overflow-y-auto custom-scrollbar">
             <div class="flex justify-between items-center border-b pb-2">
@@ -822,7 +919,7 @@
         </div>
     </div>
 
-    <!-- 復活モーダル: 暗記カード追加モーダル (HTML) -->
+    <!-- モーダル: 暗記カード追加モーダル (HTML) -->
     <div id="modal-card" class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-50 flex items-center justify-center p-3 hidden animate-fade-in">
         <div class="bg-white w-full max-w-md rounded-3xl p-5 shadow-2xl border border-slate-100 space-y-3 max-h-[90vh] overflow-y-auto custom-scrollbar">
             <div class="flex justify-between items-center border-b pb-2">
@@ -1023,7 +1120,7 @@
 
                     if (user) {
                         try {
-                            const blockDoc = await getDoc(doc(doc(db, 'artifacts', appId, 'public', 'data', 'blocked_users', user.uid)));
+                            const blockDoc = await getDoc(doc(db, 'artifacts', appId, 'public', 'data', 'blocked_users', user.uid));
                             if (blockDoc.exists() && blockDoc.data().blocked) {
                                 alert('あなたのアカウントは管理者によってアクセスがブロックされています。');
                                 await signOut(auth);
@@ -1149,6 +1246,15 @@
         function subscribeCloudData() {
             if (!db || !auth || !auth.currentUser) return;
 
+            onSnapshot(collection(db, 'artifacts', appId, 'public', 'data', 'materials'), (snapshot) => {
+                const list = [];
+                snapshot.forEach(doc => list.push(doc.data()));
+                list.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
+                window.appState.materials = list;
+                window.renderMaterialsView();
+                if (window.appState.activeView === 'admin') window.renderAdminMaterialsTable();
+            });
+
             onSnapshot(collection(db, 'artifacts', appId, 'public', 'data', 'questions'), (snapshot) => {
                 const cloudQs = [];
                 snapshot.forEach(doc => cloudQs.push(doc.data()));
@@ -1190,7 +1296,10 @@
                 snapshot.forEach(doc => users.push(doc.data()));
                 users.sort((a, b) => new Date(b.lastActive) - new Date(a.lastActive));
                 window.appState.activeUsersList = users;
-                if (window.appState.activeView === 'admin') window.renderAdminActiveUsersTable();
+                if (window.appState.activeView === 'admin') {
+                    window.renderAdminActiveUsersTable();
+                    window.populateUserLogSelectOptions();
+                }
             });
         }
 
@@ -1226,6 +1335,8 @@
             } catch(e){ showToast('ブロック処理に失敗しました', 'danger'); }
         };
 
+        window.syncMaterialCloud = async function(item) { if (db) await setDoc(doc(db, 'artifacts', appId, 'public', 'data', 'materials', item.id), item); };
+        window.deleteMaterialCloud = async function(id) { if (db) await deleteDoc(doc(db, 'artifacts', appId, 'public', 'data', 'materials', id)); };
         window.syncQuestionCloud = async function(qItem) { if (db) await setDoc(doc(db, 'artifacts', appId, 'public', 'data', 'questions', qItem.id), qItem); };
         window.deleteQuestionCloud = async function(qId) { if (db) await deleteDoc(doc(db, 'artifacts', appId, 'public', 'data', 'questions', qId)); };
         window.syncCardCloud = async function(cItem) { if (db) await setDoc(doc(db, 'artifacts', appId, 'public', 'data', 'flashcards', cItem.id), cItem); };
@@ -1234,7 +1345,7 @@
         window.deleteHomeworkCloud = async function(hwId) { if (db) await deleteDoc(doc(db, 'artifacts', appId, 'public', 'data', 'homeworks', hwId)); };
     </script>
 
-    <!-- MAIN APP JAVASCRIPT LOGIC (全機能・全復元ロジック) -->
+    <!-- MAIN APP JAVASCRIPT LOGIC -->
     <script>
         const SUBJECTS = [
             { id: 'japanese', name: '国語', icon: 'fa-book', color: 'from-rose-500 to-pink-600' },
@@ -1256,6 +1367,7 @@
             questions: [],
             flashcards: [],
             homeworks: [],
+            materials: [],
             activeUsersList: [],
             allUserResults: [],
             wrongQuestionIds: [],
@@ -1278,7 +1390,7 @@
         }
 
         window.saveLocalState = function() {
-            localStorage.setItem('kousotsu_app_master_v15', JSON.stringify({
+            localStorage.setItem('kousotsu_app_master_v16', JSON.stringify({
                 userName: window.appState.userName
             }));
         };
@@ -1289,7 +1401,7 @@
         };
 
         window.showView = function(viewName) {
-            const views = ['dashboard', 'subjects', 'homework', 'quiz', 'result', 'flashcards', 'mock-exam', 'mistakes', 'stamps', 'history', 'admin'];
+            const views = ['dashboard', 'materials', 'subjects', 'homework', 'quiz', 'result', 'flashcards', 'mock-exam', 'mistakes', 'stamps', 'history', 'admin'];
             views.forEach(v => { document.getElementById(`view-${v}`)?.classList.add('hidden'); });
 
             document.getElementById(`view-${viewName}`)?.classList.remove('hidden');
@@ -1297,6 +1409,7 @@
             window.scrollTo({ top: 0, behavior: 'smooth' });
 
             if (viewName === 'dashboard') renderDashboardSubjects();
+            if (viewName === 'materials') renderMaterialsView();
             if (viewName === 'subjects') renderFullSubjects();
             if (viewName === 'homework') renderHomeworkView();
             if (viewName === 'flashcards') initFlashcardsView();
@@ -1324,6 +1437,40 @@
                 `;
             }).join('');
         }
+
+        // 教科書・学習資料表示 (受講生画面)
+        window.renderMaterialsView = function() {
+            const container = document.getElementById('user-materials-grid');
+            if (!container) return;
+            const filterSubject = document.getElementById('user-material-subject-filter')?.value || 'all';
+            let list = window.appState.materials || [];
+
+            if (filterSubject !== 'all') list = list.filter(m => m.subjectId === filterSubject);
+
+            if (list.length === 0) {
+                container.innerHTML = `<div class="col-span-2 bg-white rounded-2xl p-8 text-center border border-slate-200"><h3 class="font-bold text-slate-900">登録されている教科書・資料がありません。</h3></div>`;
+                return;
+            }
+
+            container.innerHTML = list.map(m => {
+                const subject = SUBJECTS.find(s => s.id === m.subjectId);
+                return `
+                    <div class="bg-white rounded-2xl border border-slate-200 p-4 sm:p-5 shadow-sm space-y-3">
+                        <div class="flex justify-between items-center">
+                            <span class="bg-emerald-100 text-emerald-900 font-bold text-xs px-2.5 py-0.5 rounded-full">${subject ? subject.name : m.subjectId}</span>
+                            <span class="text-[10px] text-slate-400 font-mono">${new Date(m.createdAt).toLocaleDateString('ja-JP')}</span>
+                        </div>
+                        <h3 class="font-black text-slate-900 text-base sm:text-lg leading-snug">${m.title}</h3>
+                        <p class="text-xs sm:text-sm text-slate-700 leading-relaxed whitespace-pre-line bg-slate-50 p-3 rounded-xl border border-slate-200">${m.content || ''}</p>
+                        ${m.imageUrl ? `
+                            <div class="bg-slate-900 p-1 rounded-2xl overflow-hidden flex justify-center cursor-pointer">
+                                <img src="${m.imageUrl}" onclick="openImageModal('${m.imageUrl}')" class="max-h-60 rounded-xl object-contain hover:opacity-90 transition">
+                            </div>
+                        ` : ''}
+                    </div>
+                `;
+            }).join('');
+        };
 
         function renderFullSubjects() {
             const container = document.getElementById('full-subjects-grid');
@@ -1427,7 +1574,6 @@
             const container = document.getElementById('mistakes-list');
             if (!container) return;
             
-            // 自分の過去ミス問題抽出
             const myLogs = (window.appState.allUserResults || []).filter(r => r.userName === window.appState.userName);
             const wrongMap = new Map();
 
@@ -1505,7 +1651,7 @@
             container.innerHTML = html;
         }
 
-        // 分析ビュー (画面)
+        // 分析ビュー
         function renderAnalyticsView() {
             const container = document.getElementById('analytics-subjects-container');
             if (!container) return;
@@ -1700,7 +1846,55 @@
             openModal('modal-image-view');
         };
 
-        // --- 管理者追加・削除ロジック (復活) ---
+        // --- 管理者教科書・資料追加・削除 ---
+        window.openMaterialModal = function() { openModal('modal-material'); };
+        window.saveMaterial = function() {
+            const item = {
+                id: 'mat_' + Date.now(),
+                subjectId: document.getElementById('mat-input-subject').value,
+                title: document.getElementById('mat-input-title').value,
+                content: document.getElementById('mat-input-content').value,
+                imageUrl: document.getElementById('mat-input-imageurl').value,
+                createdAt: new Date().toISOString()
+            };
+
+            if (!item.title || !item.content) { showToast('タイトルと本文を入力してください', 'warning'); return; }
+
+            if (window.syncMaterialCloud) window.syncMaterialCloud(item);
+            closeModal('modal-material');
+            showToast('教科書資料を追加しました', 'success');
+        };
+
+        window.deleteMaterialItem = function(id) {
+            showConfirmModal('削除確認', 'この資料を削除しますか？', () => {
+                if (window.deleteMaterialCloud) window.deleteMaterialCloud(id);
+                showToast('資料を削除しました', 'info');
+            });
+        };
+
+        window.renderAdminMaterialsTable = function() {
+            const container = document.getElementById('admin-materials-grid');
+            if (!container) return;
+            const list = window.appState.materials || [];
+
+            if (list.length === 0) {
+                container.innerHTML = `<div class="col-span-2 bg-white rounded-2xl p-6 text-center border border-slate-200 text-xs text-slate-400">登録された資料はありません。</div>`;
+                return;
+            }
+
+            container.innerHTML = list.map(m => `
+                <div class="bg-white p-3.5 rounded-2xl border border-slate-200 shadow-sm space-y-1.5">
+                    <div class="flex justify-between items-center">
+                        <span class="bg-emerald-100 text-emerald-900 text-[10px] font-bold px-2 py-0.5 rounded-full">${m.subjectId}</span>
+                        <button onclick="deleteMaterialItem('${m.id}')" class="text-rose-600 text-xs font-bold p-1"><i class="fa-solid fa-trash"></i> 削除</button>
+                    </div>
+                    <h4 class="font-bold text-slate-900 text-sm">${m.title}</h4>
+                    <p class="text-xs text-slate-500 line-clamp-2">${m.content || ''}</p>
+                </div>
+            `).join('');
+        };
+
+        // --- 管理者問題追加・削除 ---
         window.openQuestionModal = function() { openModal('modal-question'); };
         window.saveQuestion = function() {
             const qItem = {
@@ -1748,6 +1942,7 @@
             });
         };
 
+        // --- 管理者宿題追加・削除 ---
         window.openHomeworkModal = function() { openModal('modal-homework'); };
         window.saveHomework = function() {
             const hwItem = {
@@ -1774,6 +1969,7 @@
             });
         };
 
+        // --- 管理者カード追加・削除 ---
         window.openCardModal = function() { openModal('modal-card'); };
         window.saveCard = function() {
             const cItem = {
@@ -1821,7 +2017,7 @@
         // --- 管理者ダッシュボード描画 ---
         window.switchAdminSubTab = function(tabName) {
             window.appState.adminSubTab = tabName;
-            ['users', 'quiz', 'homework', 'card'].forEach(t => {
+            ['users', 'material', 'quiz', 'homework', 'card'].forEach(t => {
                 document.getElementById(`admin-tab-${t}`)?.classList.remove('border-indigo-600', 'text-indigo-600');
                 document.getElementById(`admin-subtab-${t}`)?.classList.add('hidden');
             });
@@ -1830,6 +2026,7 @@
             document.getElementById(`admin-subtab-${tabName}`)?.classList.remove('hidden');
 
             if (tabName === 'users') { renderAdminActiveUsersTable(); renderAdminUserResultsTable(); }
+            if (tabName === 'material') renderAdminMaterialsTable();
             if (tabName === 'quiz') renderAdminQuestionsTable();
             if (tabName === 'homework') renderAdminHomeworkList();
             if (tabName === 'card') renderAdminCardsTable();
@@ -1839,6 +2036,7 @@
             renderAdminActiveUsersTable();
             populateUserLogSelectOptions();
             renderAdminUserResultsTable();
+            renderAdminMaterialsTable();
             renderAdminQuestionsTable();
             renderAdminHomeworkList();
             renderAdminCardsTable();
@@ -1985,12 +2183,15 @@
             openModal('modal-user-detail');
         };
 
+        // 人別絞り込みドロップダウン（テスト解答ログ ＋ オンライン/アクセス履歴の両方から名前を抽出して完全反映）
         window.populateUserLogSelectOptions = function() {
             const select = document.getElementById('admin-user-log-select');
             if (!select) return;
             const currentVal = select.value;
             const names = new Set();
             (window.appState.allUserResults || []).forEach(r => { if (r.userName) names.add(r.userName); });
+            (window.appState.activeUsersList || []).forEach(u => { if (u.userName) names.add(u.userName); });
+            
             select.innerHTML = '<option value="all">全員のログを表示</option>' + 
                 Array.from(names).map(n => `<option value="${n}">${n}</option>`).join('');
             select.value = currentVal;
