@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <!-- 検索エンジンに登録させない設定（URLを知っている人のみアクセス可能） -->
+    <!-- 検索エンジンに登録させない設定 -->
     <meta name="robots" content="noindex,nofollow">
     <title>高卒認定試験 サポートナビ - 高認パスポート</title>
     <!-- Tailwind CSS CDN -->
@@ -85,6 +85,10 @@
                 <button onclick="showView('flashcards')" id="nav-flashcards" class="nav-btn px-2.5 py-1.5 rounded-xl text-xs xl:text-sm font-bold text-slate-700 hover:text-brand-600 hover:bg-slate-100 transition flex items-center gap-1.5 whitespace-nowrap shrink-0">
                     <i class="fa-solid fa-layer-group text-slate-400"></i> 暗記カード
                 </button>
+                <button onclick="showView('homework')" id="nav-homework" class="nav-btn px-2.5 py-1.5 rounded-xl text-xs xl:text-sm font-bold text-slate-700 hover:text-brand-600 hover:bg-slate-100 transition flex items-center gap-1.5 whitespace-nowrap shrink-0 relative">
+                    <i class="fa-solid fa-pen-ruler text-slate-400"></i> 宿題
+                    <span id="homework-badge" class="hidden bg-amber-500 text-white text-[10px] px-1.5 py-0.2 rounded-full font-bold ml-0.5">0</span>
+                </button>
                 <button onclick="showView('mock-exam')" id="nav-mock-exam" class="nav-btn px-2.5 py-1.5 rounded-xl text-xs xl:text-sm font-bold text-slate-700 hover:text-brand-600 hover:bg-slate-100 transition flex items-center gap-1.5 whitespace-nowrap shrink-0">
                     <i class="fa-solid fa-stopwatch text-slate-400"></i> 模擬試験
                 </button>
@@ -102,7 +106,7 @@
 
             <!-- User Name, Google / Apple Login & Admin Area -->
             <div class="flex items-center gap-1 sm:gap-2 shrink-0">
-                <!-- 管理者モードボタン（管理者アカウントでのみ自動表示） -->
+                <!-- 管理者モードボタン -->
                 <button onclick="checkAdminAuth()" id="nav-admin" class="hidden items-center gap-1 px-2.5 py-1.5 rounded-xl text-xs font-bold text-indigo-700 hover:bg-indigo-100 bg-indigo-50 border border-indigo-200 transition whitespace-nowrap">
                     <i class="fa-solid fa-user-gear"></i> <span class="hidden lg:inline">管理者モード</span>
                 </button>
@@ -119,10 +123,6 @@
                     <button id="btn-google-login" onclick="signInWithGoogle()" class="bg-white hover:bg-slate-50 text-slate-700 font-bold text-xs p-1.5 sm:px-2 sm:py-1.5 rounded-xl border border-slate-300 transition flex items-center gap-1 shadow-sm" title="Googleログイン">
                         <i class="fa-brands fa-google text-rose-500"></i>
                         <span class="hidden sm:inline">Google</span>
-                    </button>
-                    <button id="btn-apple-login" onclick="signInWithApple()" class="bg-slate-900 hover:bg-black text-white font-bold text-xs p-1.5 sm:px-2 sm:py-1.5 rounded-xl border border-slate-900 transition flex items-center gap-1 shadow-sm" title="Appleでサインイン">
-                        <i class="fa-brands fa-apple text-xs sm:text-sm"></i>
-                        <span class="hidden sm:inline">Apple</span>
                     </button>
                 </div>
 
@@ -144,6 +144,9 @@
 
         <!-- Mobile Drawer Navigation -->
         <div id="mobile-menu" class="hidden lg:hidden border-t border-slate-200 bg-white px-4 py-2 space-y-1 shadow-md">
+            <button onclick="showView('homework'); toggleMobileMenu()" class="w-full text-left px-3 py-2 rounded-xl font-bold text-xs sm:text-sm text-slate-800 hover:bg-slate-100 flex items-center gap-2.5 active:bg-slate-100">
+                <i class="fa-solid fa-pen-ruler w-4 text-amber-500"></i> 宿題一覧
+            </button>
             <button onclick="showView('stamps'); toggleMobileMenu()" class="w-full text-left px-3 py-2 rounded-xl font-bold text-xs sm:text-sm text-slate-800 hover:bg-slate-100 flex items-center gap-2.5 active:bg-slate-100">
                 <i class="fa-solid fa-calendar-check w-4 text-brand-600"></i> ログインスタンプ
             </button>
@@ -151,7 +154,7 @@
                 <i class="fa-solid fa-chart-line w-4 text-brand-600"></i> 自分の学習履歴・分析
             </button>
             <button id="mobile-admin-btn" onclick="checkAdminAuth(); toggleMobileMenu()" class="hidden w-full text-left px-3 py-2 rounded-xl font-bold text-xs sm:text-sm text-indigo-700 bg-indigo-50/80 items-center gap-2.5 active:bg-indigo-100">
-                <i class="fa-solid fa-user-gear w-4 text-indigo-600"></i> 管理者モード（問題管理・全成績閲覧）
+                <i class="fa-solid fa-user-gear w-4 text-indigo-600"></i> 管理者モード
             </button>
         </div>
     </header>
@@ -166,9 +169,9 @@
             <i class="fa-solid fa-book-open text-base mb-0.5"></i>
             <span class="text-[10px]">クイズ</span>
         </button>
-        <button onclick="showView('flashcards')" id="bnav-flashcards" class="bnav-btn flex-1 flex flex-col items-center justify-center py-1 px-1 text-slate-500 font-bold active:scale-95 transition">
-            <i class="fa-solid fa-layer-group text-base mb-0.5"></i>
-            <span class="text-[10px]">暗記</span>
+        <button onclick="showView('homework')" id="bnav-homework" class="bnav-btn flex-1 flex flex-col items-center justify-center py-1 px-1 text-slate-500 font-bold active:scale-95 transition relative">
+            <i class="fa-solid fa-pen-ruler text-base mb-0.5"></i>
+            <span class="text-[10px]">宿題</span>
         </button>
         <button onclick="showView('mock-exam')" id="bnav-mock-exam" class="bnav-btn flex-1 flex flex-col items-center justify-center py-1 px-1 text-slate-500 font-bold active:scale-95 transition">
             <i class="fa-solid fa-stopwatch text-base mb-0.5"></i>
@@ -177,7 +180,6 @@
         <button onclick="showView('mistakes')" id="bnav-mistakes" class="bnav-btn flex-1 flex flex-col items-center justify-center py-1 px-1 text-slate-500 font-bold active:scale-95 transition relative">
             <i class="fa-solid fa-bookmark text-base mb-0.5"></i>
             <span class="text-[10px]">復習</span>
-            <span id="mobile-mistake-badge" class="absolute top-0 right-2 bg-rose-500 text-white text-[9px] px-1 py-0.2 rounded-full font-bold">0</span>
         </button>
     </nav>
 
@@ -199,8 +201,8 @@
                         <button onclick="showView('subjects')" class="flex-1 sm:flex-none bg-white text-brand-700 hover:bg-brand-50 active:bg-slate-100 font-bold px-3.5 sm:px-5 py-2.5 sm:py-3 rounded-xl shadow-lg transition flex items-center justify-center gap-1.5 text-xs sm:text-sm">
                             <i class="fa-solid fa-play"></i> クイズ開始
                         </button>
-                        <button onclick="showView('mock-exam')" class="flex-1 sm:flex-none bg-black/20 hover:bg-black/30 active:bg-black/40 backdrop-blur-md text-white font-bold px-3.5 sm:px-5 py-2.5 sm:py-3 rounded-xl transition flex items-center justify-center gap-1.5 text-xs sm:text-sm border border-white/20">
-                            <i class="fa-solid fa-stopwatch"></i> 模擬試験 (15分)
+                        <button onclick="showView('homework')" class="flex-1 sm:flex-none bg-amber-400 hover:bg-amber-500 text-slate-950 font-black px-3.5 sm:px-5 py-2.5 sm:py-3 rounded-xl shadow-lg transition flex items-center justify-center gap-1.5 text-xs sm:text-sm">
+                            <i class="fa-solid fa-pen-ruler"></i> 宿題を見る
                         </button>
                     </div>
                 </div>
@@ -282,6 +284,20 @@
             </div>
 
             <div id="full-subjects-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-2.5 sm:gap-4"></div>
+        </section>
+
+        <!-- VIEW: HOMEWORK (宿題) -->
+        <section id="view-homework" class="hidden space-y-3 sm:space-y-6 animate-fade-in">
+            <div class="bg-white p-3.5 sm:p-6 rounded-2xl border border-slate-200 shadow-sm flex flex-col sm:flex-row items-start sm:items-center justify-between gap-2.5">
+                <div>
+                    <h2 class="text-base sm:text-xl font-black text-slate-900 flex items-center gap-2">
+                        <i class="fa-solid fa-pen-ruler text-amber-500"></i> 出題されている宿題
+                    </h2>
+                    <p class="text-xs text-slate-500 mt-0.5">先生からの宿題と添付画像です。ダウンロード不要で直接確認できます。</p>
+                </div>
+            </div>
+
+            <div id="user-homework-list" class="grid grid-cols-1 md:grid-cols-2 gap-3 sm:gap-4"></div>
         </section>
 
         <!-- VIEW: ACTIVE QUIZ -->
@@ -556,20 +572,26 @@
                     <div class="inline-flex items-center gap-1 bg-indigo-500/30 text-indigo-300 text-[10px] sm:text-[11px] px-2.5 py-0.5 rounded-full font-bold border border-indigo-500/30 mb-1">
                         <i class="fa-solid fa-shield-halved"></i> 管理者ダッシュボード
                     </div>
-                    <h2 class="text-base sm:text-2xl font-black">問題・友達成績管理モード</h2>
-                    <p class="text-[11px] sm:text-xs text-slate-300 mt-0.5">問題の追加・修正・一括作成、および成績ログの管理ができます。</p>
+                    <h2 class="text-base sm:text-2xl font-black">高認アプリ 管理・統括モード</h2>
+                    <p class="text-[11px] sm:text-xs text-slate-300 mt-0.5">問題・カード・宿題の追加・削除・一括処理、および不審ユーザーの閲覧・ブロック管理ができます。</p>
                 </div>
                 <div class="flex flex-wrap gap-1.5 w-full md:w-auto">
-                    <button onclick="exportAllDataJSON()" class="flex-1 md:flex-none bg-indigo-600 hover:bg-indigo-700 text-white font-bold text-xs px-2.5 py-1.5 rounded-xl transition flex items-center justify-center gap-1">
-                        <i class="fa-solid fa-download"></i> バックアップ
+                    <button onclick="resetToDefaultDataPrompt()" class="flex-1 md:flex-none bg-rose-900/60 hover:bg-rose-800 text-rose-200 text-xs font-bold px-3 py-2 rounded-xl border border-rose-700/50 transition flex items-center justify-center gap-1">
+                        <i class="fa-solid fa-rotate-left"></i> 初期状態にリセット
                     </button>
-                    <label class="flex-1 md:flex-none bg-slate-800 hover:bg-slate-700 text-slate-200 font-bold text-xs px-2.5 py-1.5 rounded-xl border border-slate-700 cursor-pointer transition flex items-center justify-center gap-1">
-                        <i class="fa-solid fa-upload"></i> 復元
-                        <input type="file" id="import-file-input" accept=".json,.csv" class="hidden" onchange="importDataFile(event)">
-                    </label>
-                    <button onclick="resetToDefaultDataPrompt()" class="flex-1 md:flex-none bg-rose-900/60 hover:bg-rose-800 text-rose-200 text-xs font-bold px-2.5 py-1.5 rounded-xl border border-rose-700/50 transition flex items-center justify-center gap-1">
-                        <i class="fa-solid fa-rotate-left"></i> 初期化
-                    </button>
+                </div>
+            </div>
+
+            <!-- クラウド自動バックアップ履歴パネル -->
+            <div class="bg-indigo-950/80 border border-indigo-800/80 rounded-2xl p-3.5 sm:p-5 text-white space-y-2.5 shadow-md">
+                <div class="flex items-center justify-between">
+                    <h3 class="font-bold text-xs sm:text-sm text-indigo-200 flex items-center gap-2">
+                        <i class="fa-solid fa-cloud-arrow-up text-emerald-400"></i> クラウド自動バックアップ履歴 (最新10件)
+                    </h3>
+                    <span class="text-[10px] text-slate-400">※全変更は即時クラウドへ自動保存されます</span>
+                </div>
+                <div id="admin-backups-list" class="space-y-1.5 max-h-44 overflow-y-auto custom-scrollbar pr-1">
+                    <div class="text-xs text-slate-400 py-2 text-center">バックアップ履歴を読み込んでいます...</div>
                 </div>
             </div>
 
@@ -581,8 +603,12 @@
                 <button id="admin-tab-bulk" onclick="switchAdminSubTab('bulk')" class="py-2 px-2.5 text-xs sm:text-sm font-bold border-b-2 border-transparent text-slate-500 hover:text-slate-800 transition flex items-center gap-1.5 whitespace-nowrap">
                     <i class="fa-solid fa-bolt text-amber-500"></i> テキスト一括登録
                 </button>
+
+                <button id="admin-tab-homework" onclick="switchAdminSubTab('homework')" class="py-2 px-2.5 text-xs sm:text-sm font-bold border-b-2 border-transparent text-slate-500 hover:text-slate-800 transition flex items-center gap-1.5 whitespace-nowrap">
+                    <i class="fa-solid fa-pen-ruler text-amber-600"></i> 宿題管理
+                </button>
                 <button id="admin-tab-users" onclick="switchAdminSubTab('users')" class="py-2 px-2.5 text-xs sm:text-sm font-bold border-b-2 border-transparent text-slate-500 hover:text-slate-800 transition flex items-center gap-1.5 whitespace-nowrap">
-                    <i class="fa-solid fa-users text-indigo-500"></i> 友達成績
+                    <i class="fa-solid fa-users text-indigo-500"></i> ユーザー監視・ブロック
                 </button>
                 <button id="admin-tab-card" onclick="switchAdminSubTab('card')" class="py-2 px-2.5 text-xs sm:text-sm font-bold border-b-2 border-transparent text-slate-500 hover:text-slate-800 transition flex items-center gap-1.5 whitespace-nowrap">
                     <i class="fa-solid fa-layer-group"></i> カード管理
@@ -591,30 +617,49 @@
 
             <!-- ADMIN SUB-TAB 1: QUIZ MANAGEMENT -->
             <div id="admin-subtab-quiz" class="space-y-3">
-                <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-2">
-                    <div>
-                        <h3 class="font-bold text-slate-900 text-sm sm:text-base">登録問題一覧 (<span id="admin-q-count">0</span>問)</h3>
-                        <p class="text-[11px] text-slate-500">新規作成や「複製」ボタンで既存問題をコピーして簡単に追加できます。</p>
+                <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-2 bg-white p-3.5 rounded-2xl border border-slate-200">
+                    <div class="flex flex-wrap items-center gap-2">
+                        <span class="font-bold text-slate-900 text-xs sm:text-sm">科目フィルター:</span>
+                        <select id="admin-quiz-filter-subject" onchange="renderAdminQuestionsTable()" class="bg-slate-100 font-bold text-slate-800 text-xs rounded-xl px-2.5 py-1.5 border border-slate-300">
+                            <option value="all">すべての科目</option>
+                            <option value="japanese">国語</option>
+                            <option value="math">数学I</option>
+                            <option value="english">英語</option>
+                            <option value="history">歴史</option>
+                            <option value="geography">地理</option>
+                            <option value="civics">公共</option>
+                            <option value="science">科学と人間生活</option>
+                            <option value="physics">物理基礎</option>
+                            <option value="chemistry">化学基礎</option>
+                            <option value="biology">生物基礎</option>
+                            <option value="earth_science">地学基礎</option>
+                            <option value="info">情報</option>
+                        </select>
+                        <span class="text-xs text-slate-500 font-bold ml-1">(全 <span id="admin-q-count">0</span> 問)</span>
                     </div>
-                    <div class="flex gap-2 w-full sm:w-auto">
-                        <button onclick="openQuestionModal()" class="flex-1 sm:flex-none bg-brand-600 hover:bg-brand-700 text-white text-xs font-bold px-3 py-2 rounded-xl shadow transition flex items-center justify-center gap-1.5">
-                            <i class="fa-solid fa-plus"></i> 新規問題を1問追加
+
+                    <div class="flex flex-wrap gap-2 w-full sm:w-auto justify-end">
+                        <button onclick="deleteSelectedQuestions()" class="bg-rose-50 hover:bg-rose-100 text-rose-700 border border-rose-300 text-xs font-bold px-3 py-1.5 rounded-xl transition flex items-center gap-1">
+                            <i class="fa-solid fa-trash-can"></i> 選択した項目を一括削除
                         </button>
-                        <button onclick="switchAdminSubTab('bulk')" class="flex-1 sm:flex-none bg-amber-50 hover:bg-amber-100 text-amber-800 border border-amber-300 text-xs font-bold px-3 py-2 rounded-xl transition flex items-center justify-center gap-1">
-                            <i class="fa-solid fa-bolt"></i> テキスト一括追加
+                        <button onclick="openQuestionModal()" class="bg-brand-600 hover:bg-brand-700 text-white text-xs font-bold px-3 py-1.5 rounded-xl shadow transition flex items-center gap-1.5">
+                            <i class="fa-solid fa-plus"></i> 新規追加
                         </button>
                     </div>
                 </div>
 
                 <div class="bg-white rounded-2xl border border-slate-200 overflow-hidden shadow-sm">
                     <div class="overflow-x-auto custom-scrollbar">
-                        <table class="w-full text-left text-xs sm:text-sm min-w-[500px]">
+                        <table class="w-full text-left text-xs sm:text-sm min-w-[550px]">
                             <thead class="bg-slate-50 text-[10px] sm:text-[11px] font-bold text-slate-500 uppercase border-b border-slate-200">
                                 <tr>
-                                    <th class="px-3 py-2">科目 / テーマ</th>
-                                    <th class="px-3 py-2">問題文</th>
-                                    <th class="px-3 py-2">正解</th>
-                                    <th class="px-3 py-2 text-right">操作</th>
+                                    <th class="px-3 py-2.5 w-8 text-center">
+                                        <input type="checkbox" id="select-all-q-checkbox" onchange="toggleSelectAllQuestions(this)" class="rounded text-brand-600">
+                                    </th>
+                                    <th class="px-3 py-2.5">科目 / テーマ</th>
+                                    <th class="px-3 py-2.5">問題文</th>
+                                    <th class="px-3 py-2.5">用途</th>
+                                    <th class="px-3 py-2.5 text-right">操作</th>
                                 </tr>
                             </thead>
                             <tbody id="admin-questions-tbody" class="divide-y divide-slate-200"></tbody>
@@ -639,7 +684,7 @@
                     </div>
 
                     <div class="bg-slate-50 p-3 rounded-xl border border-slate-200 text-[11px] text-slate-600 font-mono space-y-1">
-                        <div class="font-bold text-slate-800">フォーマット（カンマ区切りまたはタブ区切り）:</div>
+                        <div class="font-bold text-slate-800">フォーマット:</div>
                         <div class="text-brand-700">問題文, 選択肢1, 選択肢2, 選択肢3, 選択肢4, 正解番号(1~4), 解説, 科目ID, テーマ</div>
                     </div>
 
@@ -658,21 +703,31 @@ x² - 5x + 6 を因数分解しなさい。,(x-2)(x-3),(x+2)(x-3),(x-1)(x-6),(x+
                 </div>
             </div>
 
-            <!-- ADMIN SUB-TAB 3: USER RESULTS -->
+            <!-- ADMIN SUB-TAB 3: HOMEWORK MANAGEMENT -->
+            <div id="admin-subtab-homework" class="hidden space-y-3">
+                <div class="flex justify-between items-center bg-white p-3.5 rounded-2xl border border-slate-200">
+                    <div>
+                        <h3 class="font-bold text-slate-900 text-sm sm:text-base">宿題の一覧・追加</h3>
+                        <p class="text-[11px] text-slate-500">期限や提出用写真を設定して受講生へ宿題を出せます。</p>
+                    </div>
+                    <button onclick="openHomeworkModal()" class="bg-amber-500 hover:bg-amber-600 text-slate-950 font-black text-xs px-3.5 py-2 rounded-xl shadow transition flex items-center gap-1.5">
+                        <i class="fa-solid fa-plus"></i> 新しい宿題を追加
+                    </button>
+                </div>
+
+                <div id="admin-homework-grid" class="grid grid-cols-1 md:grid-cols-2 gap-3"></div>
+            </div>
+
+            <!-- ADMIN SUB-TAB 4: USER MONITORING & BLOCK -->
             <div id="admin-subtab-users" class="hidden space-y-3">
                 <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-2">
                     <div>
-                        <h3 class="font-bold text-slate-900 text-sm sm:text-base">全ユーザー学習ログ</h3>
-                        <p class="text-[11px] text-slate-500">クラウド経由で送信された友達のテスト結果です。</p>
+                        <h3 class="font-bold text-slate-900 text-sm sm:text-base">ログインユーザー監視 & 不審者ブロック</h3>
+                        <p class="text-[11px] text-slate-500">アプリを利用中のアカウント一覧です。不審な利用者はワンクリックで強制ログアウト・アクセス拒否できます。</p>
                     </div>
-                    <div class="flex gap-2 w-full sm:w-auto">
-                        <button onclick="exportAllUserLogsCSV()" class="flex-1 sm:flex-none bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-xs px-3 py-2 rounded-xl transition flex items-center justify-center gap-1 shadow-sm">
-                            <i class="fa-solid fa-file-csv"></i> 成績CSV
-                        </button>
-                        <button onclick="clearAllUserLogsPrompt()" class="flex-1 sm:flex-none bg-rose-50 hover:bg-rose-100 text-rose-700 text-xs font-bold px-3 py-2 rounded-xl border border-rose-200 transition">
-                            <i class="fa-solid fa-trash-can"></i> 消去
-                        </button>
-                    </div>
+                    <button onclick="exportAllUserLogsCSV()" class="bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-xs px-3 py-1.5 rounded-xl transition flex items-center justify-center gap-1 shadow-sm">
+                        <i class="fa-solid fa-file-csv"></i> 全成績ログCSV
+                    </button>
                 </div>
 
                 <div class="bg-white rounded-2xl border border-slate-200 overflow-hidden shadow-sm">
@@ -680,27 +735,48 @@ x² - 5x + 6 を因数分解しなさい。,(x-2)(x-3),(x+2)(x-3),(x-1)(x-6),(x+
                         <table class="w-full text-left text-xs sm:text-sm min-w-[500px]">
                             <thead class="bg-slate-50 text-[10px] sm:text-[11px] font-bold text-slate-500 uppercase border-b border-slate-200">
                                 <tr>
-                                    <th class="px-3 py-2">日時</th>
-                                    <th class="px-3 py-2">名前</th>
-                                    <th class="px-3 py-2">モード / 科目</th>
-                                    <th class="px-3 py-2">スコア</th>
-                                    <th class="px-3 py-2">正答率</th>
-                                    <th class="px-3 py-2">判定</th>
+                                    <th class="px-3 py-2.5">ユーザー名 / メール</th>
+                                    <th class="px-3 py-2.5">最終アクセス</th>
+                                    <th class="px-3 py-2.5">アクセス状態</th>
+                                    <th class="px-3 py-2.5 text-right">セキュリティ操作</th>
                                 </tr>
                             </thead>
-                            <tbody id="admin-user-results-tbody" class="divide-y divide-slate-200"></tbody>
+                            <tbody id="admin-active-users-tbody" class="divide-y divide-slate-200"></tbody>
                         </table>
                     </div>
                 </div>
             </div>
 
-            <!-- ADMIN SUB-TAB 4: FLASHCARD MANAGEMENT -->
+            <!-- ADMIN SUB-TAB 5: FLASHCARD MANAGEMENT -->
             <div id="admin-subtab-card" class="hidden space-y-3">
-                <div class="flex justify-between items-center">
-                    <h3 class="font-bold text-slate-900 text-sm sm:text-base">登録暗記カード一覧</h3>
-                    <button onclick="openCardModal()" class="bg-indigo-600 hover:bg-indigo-700 text-white text-xs font-bold px-3 py-2 rounded-xl shadow transition flex items-center gap-1.5">
-                        <i class="fa-solid fa-plus"></i> 新規カード
-                    </button>
+                <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-2 bg-white p-3.5 rounded-2xl border border-slate-200">
+                    <div class="flex items-center gap-2">
+                        <span class="font-bold text-slate-900 text-xs sm:text-sm">科目フィルター:</span>
+                        <select id="admin-card-filter-subject" onchange="renderAdminCardsTable()" class="bg-slate-100 font-bold text-slate-800 text-xs rounded-xl px-2.5 py-1.5 border border-slate-300">
+                            <option value="all">すべての科目</option>
+                            <option value="japanese">国語</option>
+                            <option value="math">数学I</option>
+                            <option value="english">英語</option>
+                            <option value="history">歴史</option>
+                            <option value="geography">地理</option>
+                            <option value="civics">公共</option>
+                            <option value="science">科学と人間生活</option>
+                            <option value="physics">物理基礎</option>
+                            <option value="chemistry">化学基礎</option>
+                            <option value="biology">生物基礎</option>
+                            <option value="earth_science">地学基礎</option>
+                            <option value="info">情報</option>
+                        </select>
+                    </div>
+
+                    <div class="flex flex-wrap gap-2 w-full sm:w-auto justify-end">
+                        <button onclick="deleteSelectedCards()" class="bg-rose-50 hover:bg-rose-100 text-rose-700 border border-rose-300 text-xs font-bold px-3 py-1.5 rounded-xl transition flex items-center gap-1">
+                            <i class="fa-solid fa-trash-can"></i> 選択したカードを一括削除
+                        </button>
+                        <button onclick="openCardModal()" class="bg-indigo-600 hover:bg-indigo-700 text-white text-xs font-bold px-3 py-1.5 rounded-xl shadow transition flex items-center gap-1.5">
+                            <i class="fa-solid fa-plus"></i> 新規カード
+                        </button>
+                    </div>
                 </div>
 
                 <div class="bg-white rounded-2xl border border-slate-200 overflow-hidden shadow-sm">
@@ -708,10 +784,13 @@ x² - 5x + 6 を因数分解しなさい。,(x-2)(x-3),(x+2)(x-3),(x-1)(x-6),(x+
                         <table class="w-full text-left text-xs sm:text-sm min-w-[450px]">
                             <thead class="bg-slate-50 text-[10px] sm:text-[11px] font-bold text-slate-500 uppercase border-b border-slate-200">
                                 <tr>
-                                    <th class="px-3 py-2">科目</th>
-                                    <th class="px-3 py-2">表面</th>
-                                    <th class="px-3 py-2">裏面</th>
-                                    <th class="px-3 py-2 text-right">操作</th>
+                                    <th class="px-3 py-2.5 w-8 text-center">
+                                        <input type="checkbox" id="select-all-c-checkbox" onchange="toggleSelectAllCards(this)" class="rounded text-indigo-600">
+                                    </th>
+                                    <th class="px-3 py-2.5">科目</th>
+                                    <th class="px-3 py-2.5">表面</th>
+                                    <th class="px-3 py-2.5">裏面</th>
+                                    <th class="px-3 py-2.5 text-right">操作</th>
                                 </tr>
                             </thead>
                             <tbody id="admin-cards-tbody" class="divide-y divide-slate-200"></tbody>
@@ -731,7 +810,7 @@ x² - 5x + 6 を因数分解しなさい。,(x-2)(x-3),(x+2)(x-3),(x-1)(x-6),(x+
             </div>
             <div>
                 <h3 class="text-base font-black text-slate-900">表示名（ニックネーム）設定</h3>
-                <p class="text-xs text-slate-500 mt-0.5">成績ログで識別するための名前です。（例: たくや）</p>
+                <p class="text-xs text-slate-500 mt-0.5">成績ログで識別するための名前です。</p>
             </div>
             <div>
                 <input type="text" id="user-name-input" placeholder="例: たくや" class="w-full bg-slate-50 border border-slate-300 rounded-xl px-3.5 py-2.5 font-bold text-sm text-slate-900 focus:ring-2 focus:ring-brand-500 focus:outline-none">
@@ -815,14 +894,22 @@ x² - 5x + 6 を因数分解しなさい。,(x-2)(x-3),(x+2)(x-3),(x-1)(x-6),(x+
                 </div>
             </div>
 
-            <div>
-                <label class="block text-[11px] font-bold text-slate-700 mb-0.5">正解の番号</label>
-                <select id="edit-q-correct" class="w-full bg-slate-50 border border-slate-300 rounded-xl px-2.5 py-1.5 text-xs font-bold text-emerald-700">
-                    <option value="0">選択肢 1 が正解</option>
-                    <option value="1">選択肢 2 が正解</option>
-                    <option value="2">選択肢 3 が正解</option>
-                    <option value="3">選択肢 4 が正解</option>
-                </select>
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-2">
+                <div>
+                    <label class="block text-[11px] font-bold text-slate-700 mb-0.5">正解の番号</label>
+                    <select id="edit-q-correct" class="w-full bg-slate-50 border border-slate-300 rounded-xl px-2.5 py-1.5 text-xs font-bold text-emerald-700">
+                        <option value="0">選択肢 1 が正解</option>
+                        <option value="1">選択肢 2 が正解</option>
+                        <option value="2">選択肢 3 が正解</option>
+                        <option value="3">選択肢 4 が正解</option>
+                    </select>
+                </div>
+                <div class="flex items-center pt-3">
+                    <label class="flex items-center space-x-2 cursor-pointer font-bold text-xs text-indigo-700">
+                        <input type="checkbox" id="edit-q-ismock" class="rounded text-indigo-600 w-4 h-4">
+                        <span><i class="fa-solid fa-stopwatch mr-1"></i> 模擬試験の対象問題にする</span>
+                    </label>
+                </div>
             </div>
 
             <div>
@@ -833,6 +920,63 @@ x² - 5x + 6 を因数分解しなさい。,(x-2)(x-3),(x+2)(x-3),(x-1)(x-6),(x+
             <div class="flex justify-end gap-2 pt-1">
                 <button onclick="closeModal('modal-question-editor')" class="bg-slate-100 text-slate-700 font-bold px-4 py-2 rounded-xl text-xs">キャンセル</button>
                 <button onclick="saveQuestionItem()" class="bg-brand-600 text-white font-bold px-5 py-2 rounded-xl text-xs shadow-md">保存する</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- MODAL: CREATE / EDIT HOMEWORK -->
+    <div id="modal-homework-editor" class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-50 flex items-center justify-center p-3 hidden animate-fade-in">
+        <div class="bg-white w-full max-w-lg rounded-3xl p-5 shadow-2xl border border-slate-100 space-y-3 max-h-[90vh] overflow-y-auto custom-scrollbar">
+            <div class="flex justify-between items-center border-b border-slate-200 pb-2">
+                <h3 id="modal-hw-title" class="text-base font-black text-slate-900">宿題の新規作成</h3>
+                <button onclick="closeModal('modal-homework-editor')" class="text-slate-400 p-1"><i class="fa-solid fa-xmark text-lg"></i></button>
+            </div>
+            <input type="hidden" id="edit-hw-id">
+
+            <div>
+                <label class="block text-[11px] font-bold text-slate-700 mb-0.5">対象科目</label>
+                <select id="edit-hw-subject" class="w-full bg-slate-50 border border-slate-300 rounded-xl px-2.5 py-1.5 text-xs font-bold text-slate-900">
+                    <option value="japanese">国語</option>
+                    <option value="math">数学I</option>
+                    <option value="english">英語</option>
+                    <option value="history">歴史</option>
+                    <option value="geography">地理</option>
+                    <option value="civics">公共</option>
+                    <option value="science">科学と人間生活</option>
+                    <option value="physics">物理基礎</option>
+                    <option value="chemistry">化学基礎</option>
+                    <option value="biology">生物基礎</option>
+                    <option value="earth_science">地学基礎</option>
+                    <option value="info">情報</option>
+                </select>
+            </div>
+
+            <div>
+                <label class="block text-[11px] font-bold text-slate-700 mb-0.5">宿題タイトル</label>
+                <input type="text" id="edit-hw-title" placeholder="例: 第1回 現代文の過去問演習プリント" class="w-full bg-slate-50 border border-slate-300 rounded-xl px-2.5 py-1.5 text-xs text-slate-900">
+            </div>
+
+            <div>
+                <label class="block text-[11px] font-bold text-slate-700 mb-0.5">提出期限 (期日)</label>
+                <input type="date" id="edit-hw-duedate" class="w-full bg-slate-50 border border-slate-300 rounded-xl px-2.5 py-1.5 text-xs font-bold text-slate-900">
+            </div>
+
+            <div>
+                <label class="block text-[11px] font-bold text-slate-700 mb-0.5">詳しい説明・指示内容</label>
+                <textarea id="edit-hw-desc" rows="3" placeholder="教科書P.24〜28の問1〜問5をノートに解いて提出してください。" class="w-full bg-slate-50 border border-slate-300 rounded-xl p-2 text-xs text-slate-900"></textarea>
+            </div>
+
+            <div>
+                <label class="block text-[11px] font-bold text-slate-700 mb-0.5">写真・イメージ画像の添付 (選択)</label>
+                <input type="file" id="edit-hw-file" accept="image/*" class="w-full text-xs text-slate-600 bg-slate-50 border border-slate-300 rounded-xl p-1.5">
+                <div id="hw-image-preview-container" class="mt-2 hidden">
+                    <img id="hw-image-preview" src="" class="max-h-36 rounded-xl border border-slate-200 object-cover">
+                </div>
+            </div>
+
+            <div class="flex justify-end gap-2 pt-1">
+                <button onclick="closeModal('modal-homework-editor')" class="bg-slate-100 text-slate-700 font-bold px-4 py-2 rounded-xl text-xs">キャンセル</button>
+                <button onclick="saveHomeworkItem()" class="bg-amber-500 hover:bg-amber-600 text-slate-950 font-black px-5 py-2 rounded-xl text-xs shadow-md">保存して出題</button>
             </div>
         </div>
     </div>
@@ -881,6 +1025,14 @@ x² - 5x + 6 を因数分解しなさい。,(x-2)(x-3),(x+2)(x-3),(x-1)(x-6),(x+
         </div>
     </div>
 
+    <!-- MODAL: IMAGE FULL VIEW -->
+    <div id="modal-image-view" class="fixed inset-0 bg-slate-950/90 backdrop-blur-md z-50 flex items-center justify-center p-3 hidden animate-fade-in" onclick="closeModal('modal-image-view')">
+        <div class="max-w-3xl max-h-[90vh] relative p-2">
+            <img id="modal-full-image" src="" class="max-h-[85vh] max-w-full rounded-2xl shadow-2xl object-contain mx-auto">
+            <p class="text-white text-center text-xs mt-2 font-bold"><i class="fa-solid fa-xmark mr-1"></i> タップして閉じる</p>
+        </div>
+    </div>
+
     <!-- GENERAL CONFIRM MODAL -->
     <div id="modal-confirm" class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-50 flex items-center justify-center p-3 hidden animate-fade-in">
         <div class="bg-white w-full max-w-xs rounded-3xl p-5 shadow-2xl border border-slate-100 text-center space-y-3">
@@ -908,7 +1060,6 @@ x² - 5x + 6 を因数分解しなさい。,(x-2)(x-3),(x+2)(x-3),(x-1)(x-6),(x+
             signInWithCustomToken, 
             onAuthStateChanged,
             GoogleAuthProvider,
-            OAuthProvider,
             signInWithPopup,
             signOut,
             setPersistence,
@@ -932,7 +1083,6 @@ x² - 5x + 6 を因数分解しなさい。,(x-2)(x-3),(x+2)(x-3),(x-1)(x-6),(x+
         let db = null;
         let auth = null;
         let currentUser = null;
-        let isFirstAuthCheck = true;
 
         if (firebaseConfig && firebaseConfig.apiKey) {
             try {
@@ -948,13 +1098,20 @@ x² - 5x + 6 を因数分解しなさい。,(x-2)(x-3),(x+2)(x-3),(x-1)(x-6),(x+
 
                     if (user) {
                         currentUser = user;
+
+                        // ブロックリストのリアルタイムチェック
+                        const blockDoc = await getDoc(doc(db, 'artifacts', appId, 'public', 'data', 'blocked_users', user.uid));
+                        if (blockDoc.exists() && blockDoc.data().blocked) {
+                            alert('あなたのアカウントは管理者によってアクセスがブロックされています。');
+                            await signOut(auth);
+                            location.reload();
+                            return;
+                        }
+
                         document.getElementById('sync-indicator').classList.remove('hidden');
 
                         if (!user.isAnonymous) {
-                            const isApple = user.providerData.some(p => p.providerId === 'apple.com');
-                            const defaultName = isApple ? 'Appleユーザー' : 'Googleユーザー';
-                            const name = user.displayName || defaultName;
-
+                            const name = user.displayName || 'Googleユーザー';
                             window.appState.userName = name;
                             localStorage.setItem('ko_ninsiken_user_name_fixed', name);
                             document.getElementById('header-user-name').innerText = name;
@@ -967,12 +1124,8 @@ x² - 5x + 6 を因数分解しなさい。,(x-2)(x-3),(x+2)(x-3),(x-1)(x-6),(x+
                                 avatarEl.src = user.photoURL;
                                 avatarEl.classList.remove('hidden');
                                 document.getElementById('header-user-icon').classList.add('hidden');
-                            } else {
-                                document.getElementById('header-user-avatar').classList.add('hidden');
-                                document.getElementById('header-user-icon').classList.remove('hidden');
                             }
 
-                            // 管理者アカウント判定
                             if (user.email && user.email.toLowerCase() === ADMIN_EMAIL.toLowerCase()) {
                                 if (navAdminBtn) navAdminBtn.classList.remove('hidden'), navAdminBtn.classList.add('inline-flex');
                                 if (mobileAdminBtn) mobileAdminBtn.classList.remove('hidden'), mobileAdminBtn.classList.add('flex');
@@ -980,29 +1133,15 @@ x² - 5x + 6 を因数分解しなさい。,(x-2)(x-3),(x+2)(x-3),(x-1)(x-6),(x+
                                 if (navAdminBtn) navAdminBtn.classList.add('hidden');
                                 if (mobileAdminBtn) mobileAdminBtn.classList.add('hidden');
                             }
-
-                            if (isFirstAuthCheck) {
-                                showToast(`${name} としてログインしました`, 'success');
-                            }
                         } else {
                             document.getElementById('auth-buttons-login').classList.remove('hidden');
                             document.getElementById('btn-logout').classList.add('hidden');
-                            document.getElementById('header-user-avatar').classList.add('hidden');
-                            document.getElementById('header-user-icon').classList.remove('hidden');
                             if (navAdminBtn) navAdminBtn.classList.add('hidden');
                             if (mobileAdminBtn) mobileAdminBtn.classList.add('hidden');
                         }
 
-                        try {
-                            const userDocRef = doc(db, 'artifacts', appId, 'users', user.uid);
-                            const snap = await getDoc(userDocRef);
-                            if (snap.exists() && snap.data().userName && user.isAnonymous) {
-                                window.appState.userName = snap.data().userName;
-                                localStorage.setItem('ko_ninsiken_user_name_fixed', snap.data().userName);
-                                document.getElementById('header-user-name').innerText = snap.data().userName;
-                            }
-                        } catch(e){}
-
+                        // ユーザーのオンライン状態を記録
+                        window.syncUserProfileCloud(window.appState.userName);
                         subscribeCloudData();
                     } else {
                         if (navAdminBtn) navAdminBtn.classList.add('hidden');
@@ -1015,9 +1154,8 @@ x² - 5x + 6 を因数分解しなさい。,(x-2)(x-3),(x+2)(x-3),(x-1)(x-6),(x+
                             await signInAnonymously(auth);
                         }
                     }
-                    isFirstAuthCheck = false;
                 });
-            } catch(e) { console.warn('Firebase sync fallback to local mode.'); }
+            } catch(e) { console.warn('Firebase sync fallback'); }
         }
 
         window.checkAdminAuth = function() {
@@ -1050,28 +1188,7 @@ x² - 5x + 6 を因数分解しなさい。,(x-2)(x-3),(x+2)(x-3),(x-1)(x-6),(x+
                 if (window.syncUserProfileCloud) window.syncUserProfileCloud(name);
                 showToast(`${name} としてログインしました`, 'success');
             } catch (error) {
-                console.error("Google Sign-In Error:", error);
-                showToast('Googleログイン処理がキャンセルされたか失敗しました', 'warning');
-            }
-        };
-
-        window.signInWithApple = async function() {
-            if (!auth) return;
-            const provider = new OAuthProvider('apple.com');
-            try {
-                const result = await signInWithPopup(auth, provider);
-                const user = result.user;
-                const name = user.displayName || 'Appleユーザー';
-                
-                window.appState.userName = name;
-                localStorage.setItem('ko_ninsiken_user_name_fixed', name);
-                document.getElementById('header-user-name').innerText = name;
-                
-                if (window.syncUserProfileCloud) window.syncUserProfileCloud(name);
-                showToast(`${name} としてログインしました`, 'success');
-            } catch (error) {
-                console.error("Apple Sign-In Error:", error);
-                showToast('Appleログイン処理がキャンセルされたか失敗しました', 'warning');
+                showToast('Googleログインがキャンセルされました', 'warning');
             }
         };
 
@@ -1082,101 +1199,149 @@ x² - 5x + 6 を因数分解しなさい。,(x-2)(x-3),(x+2)(x-3),(x-1)(x-6),(x+
                 localStorage.removeItem('ko_ninsiken_user_name_fixed');
                 showToast('ログアウトしました', 'info');
                 setTimeout(() => location.reload(), 500);
-            } catch (error) {
-                console.error("Sign-Out Error:", error);
-            }
+            } catch (error) {}
         };
 
         function subscribeCloudData() {
             if (!db || !currentUser) return;
 
-            const questionsCol = collection(db, 'artifacts', appId, 'public', 'data', 'questions');
-            onSnapshot(questionsCol, (snapshot) => {
-                if (!snapshot.empty) {
-                    const cloudQs = [];
-                    snapshot.forEach(doc => cloudQs.push(doc.data()));
-                    if (cloudQs.length > 0) {
-                        window.appState.questions = cloudQs;
-                        window.saveLocalState();
-                        window.refreshCurrentViewUI();
-                    }
-                }
-            }, (err) => console.log('Firestore Q sync fallback to local'));
+            // クイズ問題購読
+            onSnapshot(collection(db, 'artifacts', appId, 'public', 'data', 'questions'), (snapshot) => {
+                const cloudQs = [];
+                snapshot.forEach(doc => cloudQs.push(doc.data()));
+                window.appState.questions = cloudQs;
+                window.saveLocalState();
+                if (window.appState.activeView === 'admin') window.renderAdminQuestionsTable();
+            });
 
-            const cardsCol = collection(db, 'artifacts', appId, 'public', 'data', 'flashcards');
-            onSnapshot(cardsCol, (snapshot) => {
-                if (!snapshot.empty) {
-                    const cloudCards = [];
-                    snapshot.forEach(doc => cloudCards.push(doc.data()));
-                    if (cloudCards.length > 0) {
-                        window.appState.flashcards = cloudCards;
-                        window.saveLocalState();
-                        window.refreshCurrentViewUI();
-                    }
-                }
-            }, (err) => console.log('Firestore Flashcard sync fallback to local'));
+            // 暗記カード購読
+            onSnapshot(collection(db, 'artifacts', appId, 'public', 'data', 'flashcards'), (snapshot) => {
+                const cloudCards = [];
+                snapshot.forEach(doc => cloudCards.push(doc.data()));
+                window.appState.flashcards = cloudCards;
+                window.saveLocalState();
+                if (window.appState.activeView === 'admin') window.renderAdminCardsTable();
+            });
 
-            const allResultsCol = collection(db, 'artifacts', appId, 'public', 'data', 'all_results');
-            onSnapshot(allResultsCol, (snapshot) => {
-                const logs = [];
-                snapshot.forEach(doc => logs.push(doc.data()));
-                logs.sort((a, b) => new Date(b.timestamp) - new Date(a.timestamp));
-                window.appState.allUserResults = logs;
-                if (window.appState.activeView === 'admin') {
-                    window.renderAdminUserResultsTable();
-                }
-            }, (err) => console.log('All user results sync error'));
+            // 宿題購読
+            onSnapshot(collection(db, 'artifacts', appId, 'public', 'data', 'homeworks'), (snapshot) => {
+                const list = [];
+                snapshot.forEach(doc => list.push(doc.data()));
+                list.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
+                window.appState.homeworks = list;
+                window.renderHomeworkView();
+                if (window.appState.activeView === 'admin') window.renderAdminHomeworkList();
+            });
+
+            // 全アクティブユーザー監視（管理者用）
+            onSnapshot(collection(db, 'artifacts', appId, 'public', 'data', 'active_users'), (snapshot) => {
+                const users = [];
+                snapshot.forEach(doc => users.push(doc.data()));
+                users.sort((a, b) => new Date(b.lastActive) - new Date(a.lastActive));
+                window.appState.activeUsersList = users;
+                if (window.appState.activeView === 'admin') window.renderAdminActiveUsersTable();
+            });
+
+            // バックアップ購読
+            onSnapshot(collection(db, 'artifacts', appId, 'public', 'data', 'backups'), (snapshot) => {
+                const list = [];
+                snapshot.forEach(doc => list.push(doc.data()));
+                list.sort((a, b) => new Date(b.timestamp) - new Date(a.timestamp));
+                window.appState.cloudBackups = list;
+                if (window.appState.activeView === 'admin') window.renderAdminBackupsList();
+            });
         }
 
         window.syncUserProfileCloud = async function(userName) {
             if (!db || !auth || !auth.currentUser) return;
             try {
-                const userDocRef = doc(db, 'artifacts', appId, 'users', auth.currentUser.uid);
-                await setDoc(userDocRef, { userName: userName, updatedAt: new Date().toISOString() }, { merge: true });
-            } catch(e) { console.warn('Cloud profile sync skipped', e); }
+                const u = auth.currentUser;
+                const activeData = {
+                    uid: u.uid,
+                    userName: userName || '匿名',
+                    email: u.email || '未連携 (匿名アカウント)',
+                    lastActive: new Date().toISOString(),
+                    isAnonymous: u.isAnonymous
+                };
+                await setDoc(doc(db, 'artifacts', appId, 'public', 'data', 'active_users', u.uid), activeData);
+            } catch(e){}
         };
 
-        window.syncUserHistoryCloud = async function(historyEntry) {
-            if (!db || !auth || !auth.currentUser) return;
+        window.blockUserCloud = async function(uid) {
+            if (!db) return;
             try {
-                const historyDoc = doc(db, 'artifacts', appId, 'users', auth.currentUser.uid, 'history', historyEntry.id);
-                await setDoc(historyDoc, historyEntry);
+                await setDoc(doc(db, 'artifacts', appId, 'public', 'data', 'blocked_users', uid), { blocked: true, blockedAt: new Date().toISOString() });
+                await deleteDoc(doc(db, 'artifacts', appId, 'public', 'data', 'active_users', uid));
+                showToast('ユーザーをブロックしました（次回操作時に強制遮断されます）', 'success');
+            } catch(e){ showToast('ブロック処理に失敗しました', 'danger'); }
+        };
 
-                const globalDoc = doc(db, 'artifacts', appId, 'public', 'data', 'all_results', historyEntry.id);
-                await setDoc(globalDoc, historyEntry);
-            } catch(e) { console.warn('Cloud history sync skipped'); }
+        window.saveAutoBackupCloud = async function(actionLabel = 'データ変更') {
+            if (!db || !auth || !auth.currentUser) return;
+            if (!auth.currentUser.email || auth.currentUser.email.toLowerCase() !== ADMIN_EMAIL.toLowerCase()) return;
+
+            try {
+                const now = new Date();
+                const backupId = 'bak_' + now.getTime();
+                const backupData = {
+                    id: backupId,
+                    timestamp: now.toISOString(),
+                    formattedDate: now.toLocaleString('ja-JP', { month: 'numeric', day: 'numeric', hour: '2-digit', minute: '2-digit' }),
+                    actionLabel: actionLabel,
+                    questions: [...window.appState.questions],
+                    flashcards: [...window.appState.flashcards]
+                };
+                await setDoc(doc(db, 'artifacts', appId, 'public', 'data', 'backups', backupId), backupData);
+            } catch(e){}
+        };
+
+        window.restoreFromBackupCloud = function(backupId) {
+            const backup = (window.appState.cloudBackups || []).find(b => b.id === backupId);
+            if (!backup) return;
+
+            showConfirmModal('復元確認', `【${backup.formattedDate}】のデータに戻しますか？`, async () => {
+                if (backup.questions) {
+                    window.appState.questions = [...backup.questions];
+                    for (const q of backup.questions) await setDoc(doc(db, 'artifacts', appId, 'public', 'data', 'questions', q.id), q);
+                }
+                if (backup.flashcards) {
+                    window.appState.flashcards = [...backup.flashcards];
+                    for (const c of backup.flashcards) await setDoc(doc(db, 'artifacts', appId, 'public', 'data', 'flashcards', c.id), c);
+                }
+                window.saveLocalState();
+                window.renderAdminDashboard();
+                showToast(`復元が完了しました！`, 'success');
+            });
         };
 
         window.syncQuestionCloud = async function(qItem) {
             if (!db) return;
-            try {
-                const qDoc = doc(db, 'artifacts', appId, 'public', 'data', 'questions', qItem.id);
-                await setDoc(qDoc, qItem);
-            } catch(e) { console.warn('Cloud question sync skipped', e); }
+            await setDoc(doc(db, 'artifacts', appId, 'public', 'data', 'questions', qItem.id), qItem);
         };
 
         window.deleteQuestionCloud = async function(qId) {
             if (!db) return;
-            try {
-                const qDoc = doc(db, 'artifacts', appId, 'public', 'data', 'questions', qId);
-                await deleteDoc(qDoc);
-            } catch(e) { console.warn('Cloud delete question failed', e); }
+            await deleteDoc(doc(db, 'artifacts', appId, 'public', 'data', 'questions', qId));
         };
 
         window.syncCardCloud = async function(cItem) {
             if (!db) return;
-            try {
-                const cDoc = doc(db, 'artifacts', appId, 'public', 'data', 'flashcards', cItem.id);
-                await setDoc(cDoc, cItem);
-            } catch(e) { console.warn('Cloud card sync skipped', e); }
+            await setDoc(doc(db, 'artifacts', appId, 'public', 'data', 'flashcards', cItem.id), cItem);
         };
 
         window.deleteCardCloud = async function(cId) {
             if (!db) return;
-            try {
-                const cDoc = doc(db, 'artifacts', appId, 'public', 'data', 'flashcards', cId);
-                await deleteDoc(cDoc);
-            } catch(e) { console.warn('Cloud delete card failed', e); }
+            await deleteDoc(doc(db, 'artifacts', appId, 'public', 'data', 'flashcards', cId));
+        };
+
+        window.syncHomeworkCloud = async function(hwItem) {
+            if (!db) return;
+            await setDoc(doc(db, 'artifacts', appId, 'public', 'data', 'homeworks', hwItem.id), hwItem);
+        };
+
+        window.deleteHomeworkCloud = async function(hwId) {
+            if (!db) return;
+            await deleteDoc(doc(db, 'artifacts', appId, 'public', 'data', 'homeworks', hwId));
         };
     </script>
 
@@ -1196,44 +1361,14 @@ x² - 5x + 6 を因数分解しなさい。,(x-2)(x-3),(x+2)(x-3),(x-1)(x-6),(x+
             { id: 'info', name: '情報', icon: 'fa-desktop', color: 'from-cyan-500 to-blue-600', bgLight: 'bg-cyan-50 text-cyan-800' }
         ];
 
-        const DEFAULT_QUESTIONS = [
-            { id: 'j1', subjectId: 'japanese', topic: '四字熟語・慣用句', question: '「相手の弱みにつけこんで、不当な要求をする」ことを意味する慣用句を選びなさい。', choices: ['足元を見る', '眉をひそめる', '腹を割る', '手をこまねく'], correctIndex: 0, explanation: '「足元を見る」は、相手の弱い立場や弱点を見抜いて利用することを指します。' },
-            { id: 'j2', subjectId: 'japanese', topic: '敬語表現', question: '次の文章の空欄に入る適切な敬語表現を選びなさい。\n「明日、校長先生が（  ）。」', choices: ['お越しになります', '参ります', '伺います', 'まします'], correctIndex: 0, explanation: '相手の動作に対する尊敬語としては「お越しになる」が適切です。' },
-            { id: 'm1', subjectId: 'math', topic: '展開と因数分解', question: 'x² - 5x + 6 を因数分解した結果として正しいものはどれですか？', choices: ['(x - 2)(x - 3)', '(x + 2)(x - 3)', '(x - 1)(x - 6)', '(x + 1)(x + 6)'], correctIndex: 0, explanation: '掛けて +6、足して -5 になる2数は -2 と -3 なので (x - 2)(x - 3) となります。' },
-            { id: 'm2', subjectId: 'math', topic: '2次関数', question: '2次関数 y = (x - 3)² + 4 の頂点の座標として正しいものを選びなさい。', choices: ['(-3, 4)', '(3, 4)', '(3, -4)', '(-3, -4)'], correctIndex: 1, explanation: 'y = a(x - p)² + q の頂点座標は (p, q) より (3, 4) となります。' },
-            { id: 'e1', subjectId: 'english', topic: '関係代名詞', question: 'This is the restaurant (   ) we ate delicious pizza last night.', choices: ['where', 'which', 'who', 'what'], correctIndex: 0, explanation: '後ろの文が完全であり、場所を表す先行詞 the restaurant を修飾するため関係副詞 where が入ります。' },
-            { id: 'h1', subjectId: 'history', topic: '明治維新', question: '1871年に明治政府が行った、地方の藩を廃止して中央政府直轄の府県を設置した改革を選びなさい。', choices: ['大政奉還', '廃藩置県', '地租改正', '殖産興業'], correctIndex: 1, explanation: '中央集権化を進めるため全国の藩を廃止して府県を置いた政治改革を「廃藩置県」と呼びます。' },
-            { id: 'geo1', subjectId: 'geography', topic: '経緯度', question: '本初子午線（経度0度）が通るイギリスの旧天文台がある都市を選びなさい。', choices: ['ロンドン（グリニッジ）', 'パリ', 'ニューヨーク', 'カイロ'], correctIndex: 0, explanation: '旧グリニッジ天文台を通る子午線が本初子午線（経度0度）です。' },
-            { id: 'c1', subjectId: 'civics', topic: '日本国憲法', question: '日本国憲法の三大原則として含まれないものはどれですか？', choices: ['君主主権', '国民主権', '基本的人権の尊重', '平和主義'], correctIndex: 0, explanation: '日本国憲法の三大原則は「国民主権」「基本的人権の尊重」「平和主義」です。' },
-            { id: 's1', subjectId: 'science', topic: '光の性質', question: '光が空気中から水中に進むとき、境界面で進行方向が折れ曲がる現象を選びなさい。', choices: ['屈折', '反射', '散乱', '回折'], correctIndex: 0, explanation: '異なる物質の境界を進む際に光が曲がる現象を屈折と呼びます。' },
-            { id: 'phy1', subjectId: 'physics', topic: '電気回路', question: 'オームの法則「V = R I」において、Vが表す物理量を選びなさい。', choices: ['電流', '電圧（電位差）', '抵抗', '電力'], correctIndex: 1, explanation: 'Vは電圧(V)、Rは抵抗(Ω)、Iは電流(A)を表します。' },
-            { id: 'chem1', subjectId: 'chemistry', topic: '酸と塩基', question: '酸と塩基が反応して、塩（えん）と水が生じる反応を選びなさい。', choices: ['酸化反応', '還元反応', '中和反応', '分解反応'], correctIndex: 2, explanation: '酸と塩基が互いの性質を打ち消し合う反応を「中和反応」と呼びます。' },
-            { id: 'bio1', subjectId: 'biology', topic: 'DNAと遺伝子', question: '遺伝情報の本体であるDNAを構成する4種類の塩基に含まれないものを選びなさい。', choices: ['アデニン(A)', 'チミン(T)', 'ウラシル(U)', 'グアニン(G)'], correctIndex: 2, explanation: 'DNAの塩基はA, T, G, Cです。ウラシル(U)はRNAに含まれます。' },
-            { id: 'ear1', subjectId: 'earth_science', topic: '地震波', question: '地震が発生した際、最初に到着するP波（初期微動）の波の種類を選びなさい。', choices: ['縦波（伸縮波）', '横波（せん断波）', '表面波', '津波'], correctIndex: 0, explanation: 'P波(Primary wave)は伝播速度が速い縦波です。' },
-            { id: 'inf1', subjectId: 'info', topic: 'データ単位', question: 'コンピューターが扱う「0と1」の2つの値で表現する最小のデータ単位を選びなさい。', choices: ['1 ビット (bit)', '1 バイト (Byte)', '1 ギガ (Giga)', '1 ピクセル (px)'], correctIndex: 0, explanation: '0または1の1桁の情報を「1ビット」と呼びます。8ビット＝1バイトです。' }
-        ];
-
-        const DEFAULT_FLASHCARDS = [
-            { id: 'fc1', subjectId: 'japanese', front: '他山之石（他山の石）', back: '【意味】他人の誤った言動であっても、自分の修養の糧にできるということ。' },
-            { id: 'fc3', subjectId: 'math', front: '2次関数の頂点の標準形', back: 'y = a(x - p)² + q\n（頂点: (p, q) ）' },
-            { id: 'fc5', subjectId: 'english', front: 'frequently (副詞)', back: '【意味】頻繁に、しばしば\n(例: He frequently visits the library.)' },
-            { id: 'fc7', subjectId: 'history', front: '殖産興業（明治時代）', back: '明治政府が官営模範工場（富岡製糸場など）を設立し近代産業育成を目指した政策。' },
-            { id: 'fc9', subjectId: 'geography', front: '白夜（びゃくや）', back: '高緯度地域（北極圏・南極圏）で夏季に夜でも太陽が沈まない現象。' },
-            { id: 'fc11', subjectId: 'civics', front: '三権分立', back: '国家権力を「立法（国会）」「行政（内閣）」「司法（裁判所）」の3つに分散する仕組み。' },
-            { id: 'fc13', subjectId: 'science', front: 'ミトコンドリアの働き', back: '酸素を用いて有機物を分解し、生命活動に必要なエネルギー（ATP）を生成する。' },
-            { id: 'fc15', subjectId: 'physics', front: '重力加速度 g', back: '地球表面付近で物体が自由落下する際の加速度。約 9.8 m/s²。' },
-            { id: 'fc17', subjectId: 'chemistry', front: 'モル (mol)', back: '粒子 6.02 × 10²³ 個を集めた物質量の単位（アボガドロ定数）。' },
-            { id: 'fc19', subjectId: 'biology', front: '恒常性（ホメオスタシス）', back: '体温や血糖値など体内の環境を一定に保つ仕組み。' },
-            { id: 'fc21', subjectId: 'earth_science', front: 'マグニチュード vs 震度', back: 'マグニチュード(M): 地震そのものの規模\n震度: 各地点の揺れの強さ' },
-            { id: 'fc23', subjectId: 'info', front: '情報モラル', back: 'インターネットを利用する際のルール、マナー、著作権の配慮。' }
-        ];
-
         window.appState = {
             userName: '',
-            questions: [...DEFAULT_QUESTIONS],
-            flashcards: [...DEFAULT_FLASHCARDS],
+            questions: [],
+            flashcards: [],
+            homeworks: [],
+            activeUsersList: [],
             history: [],
-            allUserResults: [],
+            cloudBackups: [],
             wrongQuestionIds: [],
             flashcardStatus: {},
             stamps: [],
@@ -1252,43 +1387,13 @@ x² - 5x + 6 を因数分解しなさい。,(x-2)(x-3),(x+2)(x-3),(x-1)(x-6),(x+
 
         function loadLocalState() {
             const fixedName = localStorage.getItem('ko_ninsiken_user_name_fixed');
-            if (fixedName) {
-                window.appState.userName = fixedName;
-            } else {
-                window.appState.userName = '学習者_' + Math.floor(1000 + Math.random() * 9000);
-                localStorage.setItem('ko_ninsiken_user_name_fixed', window.appState.userName);
-            }
-
-            const saved = localStorage.getItem('kousotsu_app_master_v10');
-            if (saved) {
-                try {
-                    const parsed = JSON.parse(saved);
-                    if (parsed.questions && parsed.questions.length > 0) window.appState.questions = parsed.questions;
-                    if (parsed.flashcards && parsed.flashcards.length > 0) window.appState.flashcards = parsed.flashcards;
-                    if (parsed.history) window.appState.history = parsed.history;
-                    if (parsed.allUserResults) window.appState.allUserResults = parsed.allUserResults;
-                    if (parsed.wrongQuestionIds) window.appState.wrongQuestionIds = parsed.wrongQuestionIds;
-                    if (parsed.flashcardStatus) window.appState.flashcardStatus = parsed.flashcardStatus;
-                    if (parsed.stamps) window.appState.stamps = parsed.stamps;
-                    if (parsed.streak) window.appState.streak = parsed.streak;
-                    if (parsed.lastLoginDate) window.appState.lastLoginDate = parsed.lastLoginDate;
-                } catch(e) { console.error('Local storage parse error', e); }
-            }
-            document.getElementById('header-user-name').innerText = window.appState.userName;
-            updateStatsUI();
+            if (fixedName) window.appState.userName = fixedName;
+            document.getElementById('header-user-name').innerText = window.appState.userName || '学習者';
         }
 
         window.saveLocalState = function() {
-            if (window.appState.userName) {
-                localStorage.setItem('ko_ninsiken_user_name_fixed', window.appState.userName);
-            }
-
-            localStorage.setItem('kousotsu_app_master_v10', JSON.stringify({
+            localStorage.setItem('kousotsu_app_master_v11', JSON.stringify({
                 userName: window.appState.userName,
-                questions: window.appState.questions,
-                flashcards: window.appState.flashcards,
-                history: window.appState.history,
-                allUserResults: window.appState.allUserResults,
                 wrongQuestionIds: window.appState.wrongQuestionIds,
                 flashcardStatus: window.appState.flashcardStatus,
                 stamps: window.appState.stamps,
@@ -1298,113 +1403,27 @@ x² - 5x + 6 を因数分解しなさい。,(x-2)(x-3),(x+2)(x-3),(x-1)(x-6),(x+
             updateStatsUI();
         };
 
-        window.openUserNameModal = function() {
-            document.getElementById('user-name-input').value = window.appState.userName;
-            openModal('modal-user-name');
-        };
-
-        window.saveUserName = function() {
-            const val = document.getElementById('user-name-input').value.trim();
-            if (!val) { showToast('名前を入力してください', 'warning'); return; }
-            window.appState.userName = val;
-            document.getElementById('header-user-name').innerText = val;
-            
-            localStorage.setItem('ko_ninsiken_user_name_fixed', val);
-            window.saveLocalState();
-            if (window.syncUserProfileCloud) window.syncUserProfileCloud(val);
-
-            closeModal('modal-user-name');
-            showToast('名前を保存しました', 'success');
-        };
-
-        function checkDailyLoginStamp() {
-            const today = new Date().toISOString().split('T')[0];
-            if (window.appState.lastLoginDate !== today) {
-                const yesterday = new Date(Date.now() - 86400000).toISOString().split('T')[0];
-                if (window.appState.lastLoginDate === yesterday) {
-                    window.appState.streak += 1;
-                } else if (!window.appState.lastLoginDate) {
-                    window.appState.streak = 1;
-                } else {
-                    window.appState.streak = 1;
-                }
-
-                window.appState.lastLoginDate = today;
-                if (!window.appState.stamps.includes(today)) {
-                    window.appState.stamps.push(today);
-                }
-                window.saveLocalState();
-
-                document.getElementById('modal-streak-count').innerText = window.appState.streak;
-                openModal('modal-stamp');
-                try { confetti({ particleCount: 80, spread: 60, origin: { y: 0.6 } }); } catch(e){}
-            }
-        }
-
         function updateStatsUI() {
-            const history = window.appState.history;
-            let totalAnswered = 0, totalCorrect = 0;
-            history.forEach(h => { totalAnswered += h.total; totalCorrect += h.score; });
-
-            document.getElementById('stat-total-answered').innerText = totalAnswered;
-            const accuracy = totalAnswered > 0 ? Math.round((totalCorrect / totalAnswered) * 100) : 0;
-            document.getElementById('stat-accuracy').innerText = accuracy + '%';
-            document.getElementById('stat-streak').innerText = window.appState.streak;
-
-            const wrongCount = window.appState.wrongQuestionIds.length;
-            document.getElementById('stat-wrong-count').innerText = wrongCount;
-            document.getElementById('mistake-count-badge').innerText = wrongCount;
-            document.getElementById('mobile-mistake-badge').innerText = wrongCount;
+            document.getElementById('stat-wrong-count').innerText = window.appState.wrongQuestionIds.length;
+            document.getElementById('mistake-count-badge').innerText = window.appState.wrongQuestionIds.length;
         }
 
         window.showView = function(viewName) {
-            if (window.appState.mockTimer) clearInterval(window.appState.mockTimer);
-
-            const views = ['dashboard', 'subjects', 'quiz', 'result', 'flashcards', 'mock-exam', 'mistakes', 'stamps', 'history', 'admin'];
+            const views = ['dashboard', 'subjects', 'homework', 'quiz', 'result', 'flashcards', 'mock-exam', 'mistakes', 'stamps', 'history', 'admin'];
             views.forEach(v => {
                 const el = document.getElementById(`view-${v}`);
                 if (el) el.classList.add('hidden');
-                
-                const navBtn = document.getElementById(`nav-${v}`);
-                if (navBtn) navBtn.classList.remove('text-brand-600', 'bg-slate-100');
-
-                const bnavBtn = document.getElementById(`bnav-${v}`);
-                if (bnavBtn) {
-                    bnavBtn.classList.remove('text-brand-600');
-                    bnavBtn.classList.add('text-slate-500');
-                }
             });
 
             const target = document.getElementById(`view-${viewName}`);
             if (target) target.classList.remove('hidden');
-
-            const activeNav = document.getElementById(`nav-${viewName}`);
-            if (activeNav) activeNav.classList.add('text-brand-600', 'bg-slate-100');
-
-            const activeBnav = document.getElementById(`bnav-${viewName}`);
-            if (activeBnav) {
-                activeBnav.classList.remove('text-slate-500');
-                activeBnav.classList.add('text-brand-600');
-            }
-
             window.appState.activeView = viewName;
             window.scrollTo({ top: 0, behavior: 'smooth' });
 
             if (viewName === 'dashboard') renderDashboardSubjects();
             if (viewName === 'subjects') renderFullSubjects();
-            if (viewName === 'flashcards') initFlashcardsView();
-            if (viewName === 'mistakes') renderMistakesList();
-            if (viewName === 'stamps') renderStampsView();
-            if (viewName === 'history') renderHistoryAndAnalytics();
+            if (viewName === 'homework') renderHomeworkView();
             if (viewName === 'admin') renderAdminDashboard();
-        };
-
-        window.refreshCurrentViewUI = function() {
-            window.showView(window.appState.activeView);
-        };
-
-        window.toggleMobileMenu = function() {
-            document.getElementById('mobile-menu').classList.toggle('hidden');
         };
 
         function renderDashboardSubjects() {
@@ -1412,17 +1431,17 @@ x² - 5x + 6 を因数分解しなさい。,(x-2)(x-3),(x+2)(x-3),(x-1)(x-6),(x+
             container.innerHTML = SUBJECTS.slice(0, 6).map(s => {
                 const qCount = window.appState.questions.filter(q => q.subjectId === s.id).length;
                 return `
-                    <div onclick="startSubjectQuiz('${s.id}')" class="bg-white p-3 sm:p-4 rounded-2xl border border-slate-200 hover:border-brand-500 hover:shadow-md active:bg-slate-50 transition cursor-pointer flex items-center justify-between group">
+                    <div onclick="startSubjectQuiz('${s.id}')" class="bg-white p-3.5 rounded-2xl border border-slate-200 hover:border-brand-500 hover:shadow-md cursor-pointer flex items-center justify-between">
                         <div class="flex items-center space-x-3">
-                            <div class="w-9 h-9 sm:w-11 sm:h-11 rounded-xl bg-gradient-to-tr ${s.color} text-white flex items-center justify-center text-base sm:text-lg shadow-sm shrink-0">
+                            <div class="w-10 h-10 rounded-xl bg-gradient-to-tr ${s.color} text-white flex items-center justify-center text-lg shadow-sm">
                                 <i class="fa-solid ${s.icon}"></i>
                             </div>
                             <div>
-                                <h4 class="font-bold text-slate-900 text-xs sm:text-base group-hover:text-brand-600 transition">${s.name}</h4>
-                                <span class="text-[10px] sm:text-xs text-slate-500 font-medium">${qCount} 演習問題</span>
+                                <h4 class="font-bold text-slate-900 text-sm">${s.name}</h4>
+                                <span class="text-[10px] text-slate-500">${qCount} 演習問題</span>
                             </div>
                         </div>
-                        <i class="fa-solid fa-chevron-right text-slate-300 group-hover:text-brand-500 transition text-xs shrink-0 ml-1"></i>
+                        <i class="fa-solid fa-chevron-right text-slate-300 text-xs"></i>
                     </div>
                 `;
             }).join('');
@@ -1433,50 +1452,454 @@ x² - 5x + 6 を因数分解しなさい。,(x-2)(x-3),(x+2)(x-3),(x-1)(x-6),(x+
             container.innerHTML = SUBJECTS.map(s => {
                 const qCount = window.appState.questions.filter(q => q.subjectId === s.id).length;
                 return `
-                    <div class="bg-white rounded-2xl border border-slate-200 p-3.5 sm:p-5 space-y-2.5 sm:space-y-3 hover:shadow-lg transition">
+                    <div class="bg-white rounded-2xl border border-slate-200 p-4 space-y-3">
                         <div class="flex items-center space-x-3">
-                            <div class="w-10 h-10 sm:w-12 sm:h-12 rounded-2xl bg-gradient-to-tr ${s.color} text-white flex items-center justify-center text-lg sm:text-xl shadow-md shrink-0">
+                            <div class="w-11 h-11 rounded-2xl bg-gradient-to-tr ${s.color} text-white flex items-center justify-center text-lg shadow-md">
                                 <i class="fa-solid ${s.icon}"></i>
                             </div>
                             <div>
-                                <h3 class="font-black text-slate-900 text-sm sm:text-base">${s.name}</h3>
-                                <span class="inline-block ${s.bgLight} text-[10px] sm:text-xs font-bold px-2 py-0.5 rounded-full mt-0.5">出題数 ${qCount} 問</span>
+                                <h3 class="font-black text-slate-900 text-base">${s.name}</h3>
+                                <span class="inline-block ${s.bgLight} text-[10px] font-bold px-2 py-0.5 rounded-full">出題数 ${qCount} 問</span>
                             </div>
                         </div>
-                        <p class="text-xs text-slate-600 leading-relaxed">
-                            高卒認定試験の頻出テーマを網羅。合格に必要な基礎知識を演習します。
-                        </p>
-                        <button onclick="startSubjectQuiz('${s.id}')" class="w-full bg-slate-900 hover:bg-brand-600 active:bg-brand-700 text-white font-bold py-2.5 rounded-xl transition flex items-center justify-center gap-1.5 text-xs sm:text-sm shadow-sm">
-                            <i class="fa-solid fa-play text-[10px]"></i> クイズを開始 (${qCount}問)
+                        <button onclick="startSubjectQuiz('${s.id}')" class="w-full bg-slate-900 hover:bg-brand-600 text-white font-bold py-2 rounded-xl text-xs transition">
+                            クイズを開始
                         </button>
                     </div>
                 `;
             }).join('');
         }
 
-        window.startSubjectQuiz = function(subjectId) {
-            const questions = window.appState.questions.filter(q => q.subjectId === subjectId);
-            if (questions.length === 0) {
-                showToast('この科目にはまだ問題が登録されていません。', 'info');
+        // 宿題一覧の計算・描画（期限カウントダウン機能付き）
+        window.renderHomeworkView = function() {
+            const container = document.getElementById('user-homework-list');
+            if (!container) return;
+
+            const list = window.appState.homeworks || [];
+            const badge = document.getElementById('homework-badge');
+
+            if (list.length > 0) {
+                if (badge) { badge.innerText = list.length; badge.classList.remove('hidden'); }
+            } else {
+                if (badge) badge.classList.add('hidden');
+                container.innerHTML = `
+                    <div class="col-span-2 bg-white rounded-2xl p-8 text-center border border-slate-200">
+                        <i class="fa-solid fa-circle-check text-4xl text-emerald-500 mb-2"></i>
+                        <h3 class="font-bold text-slate-900">現在出されている宿題はありません！</h3>
+                    </div>
+                `;
                 return;
             }
+
+            const now = new Date();
+            now.setHours(0,0,0,0);
+
+            container.innerHTML = list.map(hw => {
+                const subject = SUBJECTS.find(s => s.id === hw.subjectId);
+                let countdownHtml = '';
+                
+                if (hw.dueDate) {
+                    const due = new Date(hw.dueDate);
+                    due.setHours(0,0,0,0);
+                    const diffDays = Math.ceil((due - now) / (1000 * 60 * 60 * 24));
+
+                    if (diffDays < 0) {
+                        countdownHtml = `<span class="bg-slate-200 text-slate-700 font-black text-xs px-2.5 py-1 rounded-full"><i class="fa-solid fa-clock-rotate-left mr-1"></i> 期限切れ</span>`;
+                    } else if (diffDays === 0) {
+                        countdownHtml = `<span class="bg-rose-500 text-white font-black text-xs px-2.5 py-1 rounded-full animate-bounce"><i class="fa-solid fa-triangle-exclamation mr-1"></i> 本日まで！</span>`;
+                    } else if (diffDays <= 3) {
+                        countdownHtml = `<span class="bg-amber-500 text-white font-black text-xs px-2.5 py-1 rounded-full"><i class="fa-solid fa-stopwatch mr-1"></i> あと ${diffDays} 日！</span>`;
+                    } else {
+                        countdownHtml = `<span class="bg-brand-100 text-brand-800 font-bold text-xs px-2.5 py-1 rounded-full"><i class="fa-regular fa-calendar mr-1"></i> 残り ${diffDays} 日</span>`;
+                    }
+                }
+
+                return `
+                    <div class="bg-white rounded-2xl border border-slate-200 p-4 sm:p-5 shadow-sm space-y-3">
+                        <div class="flex items-center justify-between">
+                            <span class="bg-amber-100 text-amber-900 font-bold text-xs px-2.5 py-0.5 rounded-full">
+                                ${subject ? subject.name : '全般'}
+                            </span>
+                            ${countdownHtml}
+                        </div>
+                        <h3 class="font-black text-slate-900 text-base sm:text-lg">${hw.title}</h3>
+                        <p class="text-xs text-slate-600 leading-relaxed whitespace-pre-line">${hw.description || ''}</p>
+                        ${hw.imageUrl ? `
+                            <div class="pt-1">
+                                <p class="text-[11px] font-bold text-slate-400 mb-1"><i class="fa-solid fa-image mr-1"></i> 添付画像 (タップで拡大表示):</p>
+                                <img src="${hw.imageUrl}" onclick="openImageModal('${hw.imageUrl}')" class="max-h-48 rounded-xl border border-slate-200 object-cover cursor-pointer hover:opacity-90 transition">
+                            </div>
+                        ` : ''}
+                        <div class="text-[10px] text-slate-400 font-mono pt-1">出題日: ${new Date(hw.createdAt).toLocaleDateString('ja-JP')}</div>
+                    </div>
+                `;
+            }).join('');
+        };
+
+        window.openImageModal = function(url) {
+            document.getElementById('modal-full-image').src = url;
+            openModal('modal-image-view');
+        };
+
+        // 管理者画面のサブタブ切り替え
+        window.switchAdminSubTab = function(tabName) {
+            window.appState.adminSubTab = tabName;
+            const tabs = ['quiz', 'bulk', 'homework', 'users', 'card'];
+            tabs.forEach(t => {
+                const btn = document.getElementById(`admin-tab-${t}`);
+                const sec = document.getElementById(`admin-subtab-${t}`);
+                if (btn) btn.className = "py-2 px-2.5 text-xs sm:text-sm font-bold border-b-2 border-transparent text-slate-500 hover:text-slate-800 transition whitespace-nowrap";
+                if (sec) sec.classList.add('hidden');
+            });
+
+            const activeBtn = document.getElementById(`admin-tab-${tabName}`);
+            const activeSec = document.getElementById(`admin-subtab-${tabName}`);
+            if (activeBtn) activeBtn.className = "py-2 px-2.5 text-xs sm:text-sm font-bold border-b-2 border-brand-600 text-brand-600 transition whitespace-nowrap";
+            if (activeSec) activeSec.classList.remove('hidden');
+
+            if (tabName === 'quiz') renderAdminQuestionsTable();
+            if (tabName === 'homework') renderAdminHomeworkList();
+            if (tabName === 'users') renderAdminActiveUsersTable();
+            if (tabName === 'card') renderAdminCardsTable();
+        };
+
+        function renderAdminDashboard() {
+            renderAdminBackupsList();
+            renderAdminQuestionsTable();
+            renderAdminHomeworkList();
+            renderAdminActiveUsersTable();
+            renderAdminCardsTable();
+        }
+
+        // 管理者：問題一覧テーブル（科目フィルター＆一括選択対応）
+        window.renderAdminQuestionsTable = function() {
+            const tbody = document.getElementById('admin-questions-tbody');
+            const selectedSubject = document.getElementById('admin-quiz-filter-subject').value;
+
+            let filtered = window.appState.questions;
+            if (selectedSubject !== 'all') {
+                filtered = filtered.filter(q => q.subjectId === selectedSubject);
+            }
+
+            document.getElementById('admin-q-count').innerText = filtered.length;
+
+            tbody.innerHTML = filtered.map(q => {
+                const subject = SUBJECTS.find(s => s.id === q.subjectId);
+                return `
+                    <tr class="hover:bg-slate-50 border-b border-slate-100 text-slate-800">
+                        <td class="px-3 py-2 text-center">
+                            <input type="checkbox" value="${q.id}" class="q-select-checkbox rounded text-brand-600">
+                        </td>
+                        <td class="px-3 py-2 font-bold text-xs">
+                            <span class="bg-slate-100 text-slate-800 px-2 py-0.5 rounded-full text-[10px]">${subject ? subject.name : q.subjectId}</span>
+                            <div class="text-[10px] text-slate-400 mt-0.5">${q.topic || '-'}</div>
+                        </td>
+                        <td class="px-3 py-2 font-bold text-xs max-w-xs truncate">${q.question}</td>
+                        <td class="px-3 py-2 text-xs">
+                            ${q.isMock ? '<span class="bg-indigo-100 text-indigo-800 text-[10px] font-bold px-2 py-0.5 rounded-full"><i class="fa-solid fa-stopwatch mr-1"></i>模試対象</span>' : '<span class="text-slate-400">通常のみ</span>'}
+                        </td>
+                        <td class="px-3 py-2 text-right space-x-1 whitespace-nowrap">
+                            <button onclick="editQuestionItem('${q.id}')" class="p-1 text-brand-600"><i class="fa-solid fa-pen-to-square"></i></button>
+                            <button onclick="deleteQuestionItem('${q.id}')" class="p-1 text-rose-600"><i class="fa-solid fa-trash"></i></button>
+                        </td>
+                    </tr>
+                `;
+            }).join('');
+        };
+
+        window.toggleSelectAllQuestions = function(master) {
+            document.querySelectorAll('.q-select-checkbox').forEach(cb => cb.checked = master.checked);
+        };
+
+        // 一括削除処理（クイズ問題）
+        window.deleteSelectedQuestions = function() {
+            const checkedBoxes = document.querySelectorAll('.q-select-checkbox:checked');
+            if (checkedBoxes.length === 0) {
+                showToast('削除する問題にチェックを入れてください', 'warning');
+                return;
+            }
+
+            showConfirmModal('一括削除', `選択された ${checkedBoxes.length} 件のクイズ問題を削除しますか？`, async () => {
+                const idsToDelete = Array.from(checkedBoxes).map(cb => cb.value);
+                for (const id of idsToDelete) {
+                    window.appState.questions = window.appState.questions.filter(q => q.id !== id);
+                    if (window.deleteQuestionCloud) await window.deleteQuestionCloud(id);
+                }
+                window.saveLocalState();
+                if (window.saveAutoBackupCloud) await window.saveAutoBackupCloud(`一括削除(${idsToDelete.length}問)`);
+                renderAdminQuestionsTable();
+                showToast(`${idsToDelete.length} 件の問題を一括削除しました`, 'success');
+            });
+        };
+
+        // 管理者：暗記カード（科目フィルター＆一括選択対応）
+        window.renderAdminCardsTable = function() {
+            const tbody = document.getElementById('admin-cards-tbody');
+            const selectedSubject = document.getElementById('admin-card-filter-subject').value;
+
+            let filtered = window.appState.flashcards;
+            if (selectedSubject !== 'all') {
+                filtered = filtered.filter(c => c.subjectId === selectedSubject);
+            }
+
+            tbody.innerHTML = filtered.map(c => {
+                const subject = SUBJECTS.find(s => s.id === c.subjectId);
+                return `
+                    <tr class="hover:bg-slate-50 border-b border-slate-100 text-slate-800">
+                        <td class="px-3 py-2 text-center">
+                            <input type="checkbox" value="${c.id}" class="c-select-checkbox rounded text-indigo-600">
+                        </td>
+                        <td class="px-3 py-2 font-bold text-xs">${subject ? subject.name : c.subjectId}</td>
+                        <td class="px-3 py-2 font-bold text-xs max-w-[120px] truncate">${c.front}</td>
+                        <td class="px-3 py-2 text-xs max-w-[150px] truncate text-slate-600">${c.back}</td>
+                        <td class="px-3 py-2 text-right space-x-1 whitespace-nowrap">
+                            <button onclick="editCardItem('${c.id}')" class="p-1 text-indigo-600"><i class="fa-solid fa-pen-to-square"></i></button>
+                            <button onclick="deleteCardItem('${c.id}')" class="p-1 text-rose-600"><i class="fa-solid fa-trash"></i></button>
+                        </td>
+                    </tr>
+                `;
+            }).join('');
+        };
+
+        window.toggleSelectAllCards = function(master) {
+            document.querySelectorAll('.c-select-checkbox').forEach(cb => cb.checked = master.checked);
+        };
+
+        window.deleteSelectedCards = function() {
+            const checkedBoxes = document.querySelectorAll('.c-select-checkbox:checked');
+            if (checkedBoxes.length === 0) {
+                showToast('削除するカードにチェックを入れてください', 'warning');
+                return;
+            }
+
+            showConfirmModal('一括削除', `選択された ${checkedBoxes.length} 件のカードを削除しますか？`, async () => {
+                const idsToDelete = Array.from(checkedBoxes).map(cb => cb.value);
+                for (const id of idsToDelete) {
+                    window.appState.flashcards = window.appState.flashcards.filter(c => c.id !== id);
+                    if (window.deleteCardCloud) await window.deleteCardCloud(id);
+                }
+                window.saveLocalState();
+                if (window.saveAutoBackupCloud) await window.saveAutoBackupCloud(`カード一括削除(${idsToDelete.length}枚)`);
+                renderAdminCardsTable();
+                showToast(`${idsToDelete.length} 件のカードを一括削除しました`, 'success');
+            });
+        };
+
+        // 管理者：宿題一覧
+        window.renderAdminHomeworkList = function() {
+            const container = document.getElementById('admin-homework-grid');
+            if (!container) return;
+
+            const list = window.appState.homeworks || [];
+            if (list.length === 0) {
+                container.innerHTML = `<div class="col-span-2 text-center py-6 text-slate-400 text-xs">出題されている宿題はありません。</div>`;
+                return;
+            }
+
+            container.innerHTML = list.map(hw => {
+                const subject = SUBJECTS.find(s => s.id === hw.subjectId);
+                return `
+                    <div class="bg-white p-4 rounded-2xl border border-slate-200 shadow-sm space-y-2">
+                        <div class="flex justify-between items-center">
+                            <span class="bg-slate-100 text-slate-800 text-[10px] font-bold px-2 py-0.5 rounded-full">${subject ? subject.name : '全般'}</span>
+                            <button onclick="deleteHomeworkItem('${hw.id}')" class="text-rose-600 text-xs font-bold p-1"><i class="fa-solid fa-trash"></i> 削除</button>
+                        </div>
+                        <h4 class="font-bold text-slate-900 text-sm">${hw.title}</h4>
+                        <p class="text-xs text-slate-500">${hw.description || ''}</p>
+                        <div class="text-[11px] font-bold text-amber-600"><i class="fa-regular fa-calendar mr-1"></i>期限: ${hw.dueDate || 'なし'}</div>
+                    </div>
+                `;
+            }).join('');
+        };
+
+        window.openHomeworkModal = function() {
+            document.getElementById('edit-hw-id').value = '';
+            document.getElementById('edit-hw-title').value = '';
+            document.getElementById('edit-hw-desc').value = '';
+            document.getElementById('edit-hw-duedate').value = '';
+            document.getElementById('edit-hw-file').value = '';
+            document.getElementById('hw-image-preview-container').classList.add('hidden');
+            openModal('modal-homework-editor');
+        };
+
+        window.saveHomeworkItem = async function() {
+            const title = document.getElementById('edit-hw-title').value.trim();
+            const subjectId = document.getElementById('edit-hw-subject').value;
+            const dueDate = document.getElementById('edit-hw-duedate').value;
+            const desc = document.getElementById('edit-hw-desc').value.trim();
+            const fileInput = document.getElementById('edit-hw-file');
+
+            if (!title) { showToast('宿題タイトルを入力してください', 'warning'); return; }
+
+            let imageUrl = '';
+            if (fileInput.files && fileInput.files[0]) {
+                imageUrl = await new Promise((resolve) => {
+                    const reader = new FileReader();
+                    reader.onload = e => resolve(e.target.result);
+                    reader.readAsDataURL(fileInput.files[0]);
+                });
+            }
+
+            const newHw = {
+                id: 'hw_' + Date.now(),
+                subjectId,
+                title,
+                dueDate,
+                description: desc,
+                imageUrl,
+                createdAt: new Date().toISOString()
+            };
+
+            if (window.syncHomeworkCloud) await window.syncHomeworkCloud(newHw);
+            closeModal('modal-homework-editor');
+            showToast('宿題を出題しました！', 'success');
+        };
+
+        window.deleteHomeworkItem = function(hwId) {
+            showConfirmModal('宿題の削除', 'この宿題を削除しますか？', async () => {
+                if (window.deleteHomeworkCloud) await window.deleteHomeworkCloud(hwId);
+                showToast('宿題を削除しました', 'info');
+            });
+        };
+
+        // 管理者：アクティブユーザー監視＆不審者ブロックテーブル
+        window.renderAdminActiveUsersTable = function() {
+            const tbody = document.getElementById('admin-active-users-tbody');
+            if (!tbody) return;
+
+            const users = window.appState.activeUsersList || [];
+            if (users.length === 0) {
+                tbody.innerHTML = `<tr><td colspan="4" class="text-center py-6 text-slate-400 text-xs">アクセス中のユーザーがいません。</td></tr>`;
+                return;
+            }
+
+            tbody.innerHTML = users.map(u => {
+                const timeStr = new Date(u.lastActive).toLocaleString('ja-JP', { month: 'numeric', day: 'numeric', hour: '2-digit', minute: '2-digit' });
+                return `
+                    <tr class="hover:bg-slate-50 border-b border-slate-100 text-slate-800">
+                        <td class="px-3 py-2.5 font-bold text-xs">
+                            <div>${u.userName}</div>
+                            <div class="text-[10px] text-slate-400 font-mono">${u.email}</div>
+                        </td>
+                        <td class="px-3 py-2.5 font-mono text-[10px] text-slate-500">${timeStr}</td>
+                        <td class="px-3 py-2.5">
+                            <span class="bg-emerald-100 text-emerald-800 text-[10px] font-bold px-2 py-0.5 rounded-full flex items-center gap-1 w-max">
+                                <span class="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse"></span> アクティブ
+                            </span>
+                        </td>
+                        <td class="px-3 py-2.5 text-right">
+                            <button onclick="blockUserConfirm('${u.uid}', '${u.userName}')" class="bg-rose-600 hover:bg-rose-700 text-white font-bold text-[10px] px-2.5 py-1 rounded-lg transition shadow">
+                                <i class="fa-solid fa-user-slash mr-1"></i> ブロックして追放
+                            </button>
+                        </td>
+                    </tr>
+                `;
+            }).join('');
+        };
+
+        window.blockUserConfirm = function(uid, userName) {
+            showConfirmModal('ユーザーのアクセス遮断', `${userName} をブロックしますか？\n（このユーザーは即座にアクセス不可となります）`, async () => {
+                if (window.blockUserCloud) await window.blockUserCloud(uid);
+            });
+        };
+
+        window.openQuestionModal = function(qId = null) {
+            document.getElementById('edit-q-id').value = qId || '';
+            document.getElementById('modal-question-title').innerText = qId ? 'クイズ問題の編集' : '新規クイズ問題の作成';
+            
+            if (qId) {
+                const q = window.appState.questions.find(item => item.id === qId);
+                if (q) {
+                    document.getElementById('edit-q-subject').value = q.subjectId;
+                    document.getElementById('edit-q-topic').value = q.topic || '';
+                    document.getElementById('edit-q-text').value = q.question;
+                    document.getElementById('edit-q-c0').value = q.choices[0] || '';
+                    document.getElementById('edit-q-c1').value = q.choices[1] || '';
+                    document.getElementById('edit-q-c2').value = q.choices[2] || '';
+                    document.getElementById('edit-q-c3').value = q.choices[3] || '';
+                    document.getElementById('edit-q-correct').value = q.correctIndex;
+                    document.getElementById('edit-q-ismock').checked = !!q.isMock;
+                    document.getElementById('edit-q-explanation').value = q.explanation || '';
+                }
+            } else {
+                document.getElementById('edit-q-topic').value = '';
+                document.getElementById('edit-q-text').value = '';
+                document.getElementById('edit-q-c0').value = '';
+                document.getElementById('edit-q-c1').value = '';
+                document.getElementById('edit-q-c2').value = '';
+                document.getElementById('edit-q-c3').value = '';
+                document.getElementById('edit-q-correct').value = '0';
+                document.getElementById('edit-q-ismock').checked = false;
+                document.getElementById('edit-q-explanation').value = '';
+            }
+            openModal('modal-question-editor');
+        };
+
+        window.editQuestionItem = function(qId) { window.openQuestionModal(qId); };
+
+        window.saveQuestionItem = async function() {
+            const qId = document.getElementById('edit-q-id').value;
+            const subjectId = document.getElementById('edit-q-subject').value;
+            const topic = document.getElementById('edit-q-topic').value;
+            const questionText = document.getElementById('edit-q-text').value.trim();
+            const c0 = document.getElementById('edit-q-c0').value.trim();
+            const c1 = document.getElementById('edit-q-c1').value.trim();
+            const c2 = document.getElementById('edit-q-c2').value.trim();
+            const c3 = document.getElementById('edit-q-c3').value.trim();
+            const correctIndex = parseInt(document.getElementById('edit-q-correct').value);
+            const isMock = document.getElementById('edit-q-ismock').checked;
+            const explanation = document.getElementById('edit-q-explanation').value.trim();
+
+            if (!questionText || !c0 || !c1) { showToast('問題文と複数の選択肢を入力してください', 'warning'); return; }
+
+            const newQ = {
+                id: qId || 'q_' + Date.now(),
+                subjectId,
+                topic,
+                question: questionText,
+                choices: [c0, c1, c2 || 'なし', c3 || 'なし'],
+                correctIndex,
+                isMock,
+                explanation
+            };
+
+            if (window.syncQuestionCloud) await window.syncQuestionCloud(newQ);
+            if (window.saveAutoBackupCloud) await window.saveAutoBackupCloud(qId ? '問題編集' : '問題追加');
+
+            closeModal('modal-question-editor');
+            showToast('問題データを保存・同期しました！', 'success');
+        };
+
+        window.deleteQuestionItem = function(qId) {
+            showConfirmModal('問題の削除', 'この問題を削除しますか？', async () => {
+                if (window.deleteQuestionCloud) await window.deleteQuestionCloud(qId);
+                if (window.saveAutoBackupCloud) await window.saveAutoBackupCloud('問題削除');
+                showToast('問題を削除しました', 'info');
+            });
+        };
+
+        window.startSubjectQuiz = function(subjectId) {
+            const questions = window.appState.questions.filter(q => q.subjectId === subjectId);
+            if (questions.length === 0) { showToast('この科目にはまだ問題が登録されていません。', 'info'); return; }
             window.appState.currentQuizSet = [...questions].sort(() => Math.random() - 0.5);
             window.appState.currentQuizIndex = 0;
             window.appState.quizScore = 0;
             window.appState.quizStartTime = new Date();
             window.appState.isMockExam = false;
-
-            document.getElementById('mock-timer-bar').classList.add('hidden');
             showView('quiz');
             loadCurrentQuestion();
         };
 
+        // 模擬試験（模擬試験フラグが立った問題を優先選出）
         window.startMockExam = function() {
-            if (window.appState.questions.length === 0) {
-                showToast('問題データベースが空です。', 'warning');
-                return;
+            if (window.appState.questions.length === 0) { showToast('問題データベースが空です。', 'warning'); return; }
+            
+            let mockPool = window.appState.questions.filter(q => q.isMock);
+            if (mockPool.length < 10) {
+                mockPool = window.appState.questions; // 不足時は全体から補充
             }
-            window.appState.currentQuizSet = [...window.appState.questions].sort(() => Math.random() - 0.5).slice(0, 10);
+
+            window.appState.currentQuizSet = [...mockPool].sort(() => Math.random() - 0.5).slice(0, 10);
             window.appState.currentQuizIndex = 0;
             window.appState.quizScore = 0;
             window.appState.quizStartTime = new Date();
@@ -1496,7 +1919,6 @@ x² - 5x + 6 を因数分解しなさい。,(x-2)(x-3),(x+2)(x-3),(x-1)(x-6),(x+
                 updateTimerDisplay();
                 if (window.appState.mockTimeRemaining <= 0) {
                     clearInterval(window.appState.mockTimer);
-                    showToast('制限時間終了です！自動採点します。', 'info');
                     finishQuiz();
                 }
             }, 1000);
@@ -1505,8 +1927,7 @@ x² - 5x + 6 を因数分解しなさい。,(x-2)(x-3),(x+2)(x-3),(x-1)(x-6),(x+
         function updateTimerDisplay() {
             const mins = Math.floor(window.appState.mockTimeRemaining / 60);
             const secs = window.appState.mockTimeRemaining % 60;
-            document.getElementById('mock-timer-display').innerText = 
-                `${mins.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')}`;
+            document.getElementById('mock-timer-display').innerText = `${mins.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')}`;
         }
 
         function loadCurrentQuestion() {
@@ -1523,14 +1944,11 @@ x² - 5x + 6 を因数分解しなさい。,(x-2)(x-3),(x+2)(x-3),(x-1)(x-6),(x+
 
             const choicesContainer = document.getElementById('quiz-choices-container');
             choicesContainer.innerHTML = q.choices.map((choice, idx) => `
-                <button onclick="submitAnswer(${idx})" class="choice-btn w-full text-left bg-slate-50 hover:bg-brand-50 border-2 border-slate-200 hover:border-brand-500 rounded-xl sm:rounded-2xl p-2.5 sm:p-4 font-bold text-slate-800 transition flex items-center justify-between group active:scale-[0.99]">
+                <button onclick="submitAnswer(${idx})" class="choice-btn w-full text-left bg-slate-50 hover:bg-brand-50 border-2 border-slate-200 hover:border-brand-500 rounded-xl p-3 font-bold text-slate-800 transition flex items-center justify-between">
                     <span class="flex items-center gap-2">
-                        <span class="w-6 h-6 sm:w-8 sm:h-8 rounded-lg sm:rounded-xl bg-white border border-slate-300 group-hover:border-brand-500 flex items-center justify-center text-xs font-black text-slate-700 group-hover:text-brand-600 transition shadow-sm shrink-0">
-                            ${idx + 1}
-                        </span>
-                        <span class="break-words text-xs sm:text-base">${choice}</span>
+                        <span class="w-7 h-7 rounded-lg bg-white border border-slate-300 flex items-center justify-center text-xs font-black text-slate-700">${idx + 1}</span>
+                        <span class="text-xs sm:text-base">${choice}</span>
                     </span>
-                    <i class="fa-regular fa-circle text-slate-300 group-hover:text-brand-500 transition text-sm sm:text-lg shrink-0 ml-1"></i>
                 </button>
             `).join('');
         }
@@ -1543,35 +1961,13 @@ x² - 5x + 6 を因数分解しなさい。,(x-2)(x-3),(x+2)(x-3),(x-1)(x-6),(x+
             buttons.forEach((btn, idx) => {
                 btn.onclick = null;
                 if (idx === parseInt(q.correctIndex)) {
-                    btn.classList.remove('bg-slate-50', 'border-slate-200');
                     btn.classList.add('bg-emerald-50', 'border-emerald-500', 'text-emerald-900');
                 } else if (idx === selectedIndex && !isCorrect) {
-                    btn.classList.remove('bg-slate-50', 'border-slate-200');
                     btn.classList.add('bg-rose-50', 'border-rose-500', 'text-rose-900');
-                } else {
-                    btn.classList.add('opacity-50');
                 }
             });
 
-            if (isCorrect) {
-                window.appState.quizScore++;
-                window.appState.wrongQuestionIds = window.appState.wrongQuestionIds.filter(id => id !== q.id);
-            } else {
-                if (!window.appState.wrongQuestionIds.includes(q.id)) {
-                    window.appState.wrongQuestionIds.push(q.id);
-                }
-            }
-            window.saveLocalState();
-
-            const header = document.getElementById('quiz-result-header');
-            if (isCorrect) {
-                header.className = "flex items-center gap-2 font-black text-sm sm:text-lg text-emerald-600";
-                header.innerHTML = '<i class="fa-solid fa-circle-check text-lg sm:text-2xl"></i> 正解！';
-            } else {
-                header.className = "flex items-center gap-2 font-black text-sm sm:text-lg text-rose-600";
-                header.innerHTML = '<i class="fa-solid fa-circle-xmark text-lg sm:text-2xl"></i> 不正解... (正解: ' + (parseInt(q.correctIndex) + 1) + ')';
-            }
-
+            if (isCorrect) window.appState.quizScore++;
             document.getElementById('quiz-explanation-text').innerText = q.explanation || '解説はありません。';
             document.getElementById('quiz-explanation-box').classList.remove('hidden');
             document.getElementById('btn-next-question').classList.remove('hidden');
@@ -1588,729 +1984,12 @@ x² - 5x + 6 を因数分解しなさい。,(x-2)(x-3),(x+2)(x-3),(x-1)(x-6),(x+
 
         function finishQuiz() {
             if (window.appState.mockTimer) clearInterval(window.appState.mockTimer);
-
-            const total = window.appState.currentQuizSet.length;
-            const score = window.appState.quizScore;
-            const percentage = Math.round((score / total) * 100);
-            const endTime = new Date();
-            const durationSec = Math.max(1, Math.round((endTime - window.appState.quizStartTime) / 1000));
-
-            const historyEntry = {
-                id: 'hist_' + Date.now(),
-                userName: window.appState.userName,
-                timestamp: new Date().toISOString(),
-                mode: window.appState.isMockExam ? '模擬試験' : '科目クイズ',
-                subjectId: window.appState.isMockExam ? 'all' : window.appState.currentQuizSet[0]?.subjectId || 'mixed',
-                total: total,
-                score: score,
-                percentage: percentage,
-                durationSec: durationSec
-            };
-
-            window.appState.history.unshift(historyEntry);
-            window.appState.allUserResults.unshift(historyEntry);
-
-            window.saveLocalState();
-            if (window.syncUserHistoryCloud) window.syncUserHistoryCloud(historyEntry);
-
-            document.getElementById('result-score').innerText = score;
-            document.getElementById('result-total').innerText = total;
+            document.getElementById('result-score').innerText = window.appState.quizScore;
+            document.getElementById('result-total').innerText = window.appState.currentQuizSet.length;
+            const percentage = Math.round((window.appState.quizScore / window.appState.currentQuizSet.length) * 100);
             document.getElementById('result-percentage').innerText = percentage + '%';
-
-            const passStatus = document.getElementById('result-pass-status');
-            if (percentage >= 60) {
-                passStatus.className = "p-3 sm:p-4 rounded-xl font-bold text-xs sm:text-sm bg-emerald-100 text-emerald-900 border border-emerald-200";
-                passStatus.innerHTML = '<i class="fa-solid fa-award mr-1"></i> 合格ライン達成！本番に備えましょう！';
-                try { confetti({ particleCount: 80, spread: 60, origin: { y: 0.6 } }); } catch(e){}
-            } else {
-                passStatus.className = "p-3 sm:p-4 rounded-xl font-bold text-xs sm:text-sm bg-amber-100 text-amber-900 border border-amber-200";
-                passStatus.innerHTML = '<i class="fa-solid fa-fire mr-1"></i> もう一息！間違えた問題を復習ノートで解き直そう！';
-            }
-
             showView('result');
         }
-
-        window.confirmExitQuiz = function() {
-            showConfirmModal('クイズの中断', '途中の経過は記録されません。中断して戻りますか？', () => {
-                showView('dashboard');
-            });
-        };
-
-        let currentFlashcardList = [];
-        let flashcardIndex = 0;
-        let isCardFlipped = false;
-
-        function initFlashcardsView() {
-            filterFlashcards();
-        }
-
-        window.filterFlashcards = function() {
-            const subjectId = document.getElementById('flashcard-subject-select').value;
-            if (subjectId === 'all') {
-                currentFlashcardList = [...window.appState.flashcards];
-            } else {
-                currentFlashcardList = window.appState.flashcards.filter(c => c.subjectId === subjectId);
-            }
-            flashcardIndex = 0;
-            isCardFlipped = false;
-            renderFlashcard();
-        };
-
-        function renderFlashcard() {
-            const inner = document.getElementById('flashcard-inner');
-            inner.classList.remove('rotate-y-180');
-            isCardFlipped = false;
-
-            if (currentFlashcardList.length === 0) {
-                document.getElementById('fc-front-text').innerText = "暗記カードがありません。";
-                document.getElementById('fc-back-text').innerText = "-";
-                document.getElementById('flashcard-counter-text').innerText = "0 / 0 枚目";
-                return;
-            }
-
-            const card = currentFlashcardList[flashcardIndex];
-            const subject = SUBJECTS.find(s => s.id === card.subjectId);
-
-            document.getElementById('fc-subject').innerText = subject ? subject.name : '共通';
-            document.getElementById('fc-front-text').innerText = card.front;
-            document.getElementById('fc-back-text').innerText = card.back;
-            document.getElementById('flashcard-counter-text').innerText = `${flashcardIndex + 1} / ${currentFlashcardList.length} 枚目`;
-        }
-
-        window.flipFlashcard = function() {
-            if (currentFlashcardList.length === 0) return;
-            const inner = document.getElementById('flashcard-inner');
-            isCardFlipped = !isCardFlipped;
-            if (isCardFlipped) {
-                inner.classList.add('rotate-y-180');
-            } else {
-                inner.classList.remove('rotate-y-180');
-            }
-        };
-
-        window.nextFlashcard = function() {
-            if (currentFlashcardList.length === 0) return;
-            flashcardIndex = (flashcardIndex + 1) % currentFlashcardList.length;
-            renderFlashcard();
-        };
-
-        window.prevFlashcard = function() {
-            if (currentFlashcardList.length === 0) return;
-            flashcardIndex = (flashcardIndex - 1 + currentFlashcardList.length) % currentFlashcardList.length;
-            renderFlashcard();
-        };
-
-        window.markFlashcardStatus = function(isMastered) {
-            if (currentFlashcardList.length === 0) return;
-            const card = currentFlashcardList[flashcardIndex];
-            window.appState.flashcardStatus[card.id] = isMastered ? 'mastered' : 'review';
-            window.saveLocalState();
-            showToast(isMastered ? '「覚えた！」にマークしました' : '「要復習」に保存しました', 'info');
-            window.nextFlashcard();
-        };
-
-        function renderMistakesList() {
-            const container = document.getElementById('mistakes-list');
-            const wrongQuestions = window.appState.questions.filter(q => window.appState.wrongQuestionIds.includes(q.id));
-
-            if (wrongQuestions.length === 0) {
-                container.innerHTML = `
-                    <div class="bg-white rounded-2xl p-6 text-center border border-slate-200">
-                        <i class="fa-solid fa-circle-check text-3xl text-emerald-500 mb-2"></i>
-                        <h3 class="font-bold text-slate-900 text-sm sm:text-base">要復習の問題はありません！</h3>
-                        <p class="text-xs text-slate-500 mt-1">素晴らしい成績です。科目別クイズで高得点を維持しましょう。</p>
-                    </div>
-                `;
-                document.getElementById('btn-start-mistake-quiz').disabled = true;
-                document.getElementById('btn-start-mistake-quiz').classList.add('opacity-50');
-                return;
-            }
-
-            document.getElementById('btn-start-mistake-quiz').disabled = false;
-            document.getElementById('btn-start-mistake-quiz').classList.remove('opacity-50');
-
-            container.innerHTML = wrongQuestions.map(q => {
-                const subject = SUBJECTS.find(s => s.id === q.subjectId);
-                return `
-                    <div class="bg-white p-3.5 sm:p-4 rounded-2xl border border-slate-200 shadow-sm space-y-2">
-                        <div class="flex items-center justify-between">
-                            <span class="bg-rose-100 text-rose-800 text-[10px] sm:text-[11px] font-bold px-2 py-0.5 rounded-full">
-                                ${subject ? subject.name : '科目'} - ${q.topic || '基本'}
-                            </span>
-                            <button onclick="removeMistake('${q.id}')" class="text-xs text-slate-400 hover:text-rose-600 font-bold flex items-center gap-1 p-1">
-                                <i class="fa-solid fa-trash"></i> 削除
-                            </button>
-                        </div>
-                        <p class="font-bold text-slate-900 text-xs sm:text-sm leading-relaxed break-words">${q.question}</p>
-                        <div class="bg-slate-50 p-2 sm:p-2.5 rounded-xl text-xs text-slate-700 border border-slate-200">
-                            <span class="font-bold text-emerald-700">正解:</span> ${q.choices[parseInt(q.correctIndex)]}
-                        </div>
-                    </div>
-                `;
-            }).join('');
-        }
-
-        window.removeMistake = function(qId) {
-            window.appState.wrongQuestionIds = window.appState.wrongQuestionIds.filter(id => id !== qId);
-            window.saveLocalState();
-            renderMistakesList();
-            showToast('復習ノートから削除しました', 'info');
-        };
-
-        window.startMistakeQuiz = function() {
-            const wrongQuestions = window.appState.questions.filter(q => window.appState.wrongQuestionIds.includes(q.id));
-            if (wrongQuestions.length === 0) return;
-
-            window.appState.currentQuizSet = [...wrongQuestions].sort(() => Math.random() - 0.5);
-            window.appState.currentQuizIndex = 0;
-            window.appState.quizScore = 0;
-            window.appState.quizStartTime = new Date();
-            window.appState.isMockExam = false;
-
-            document.getElementById('mock-timer-bar').classList.add('hidden');
-            showView('quiz');
-            loadCurrentQuestion();
-        };
-
-        function renderStampsView() {
-            document.getElementById('stamp-streak-display').innerText = window.appState.streak;
-            const container = document.getElementById('stamp-grid-container');
-            container.innerHTML = '';
-
-            const now = new Date();
-            const daysInMonth = new Date(now.getFullYear(), now.getMonth() + 1, 0).getDate();
-
-            for (let day = 1; day <= daysInMonth; day++) {
-                const dayStr = `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, '0')}-${String(day).padStart(2, '0')}`;
-                const isStamped = window.appState.stamps.includes(dayStr);
-
-                container.innerHTML += `
-                    <div class="aspect-square rounded-xl border ${isStamped ? 'border-amber-400 bg-amber-50 shadow-sm' : 'border-slate-200 bg-slate-50'} flex flex-col items-center justify-center p-1 relative">
-                        <span class="text-[9px] sm:text-xs font-bold text-slate-400 absolute top-0.5 left-1">${day}</span>
-                        ${isStamped ? '<i class="fa-solid fa-award text-amber-500 text-base sm:text-2xl animate-bounce"></i>' : ''}
-                    </div>
-                `;
-            }
-        }
-
-        function renderHistoryAndAnalytics() {
-            const history = window.appState.history;
-
-            const tbody = document.getElementById('history-table-body');
-            document.getElementById('history-total-count').innerText = `全 ${history.length} 件`;
-
-            if (history.length === 0) {
-                tbody.innerHTML = `<tr><td colspan="5" class="text-center py-6 text-slate-400 text-xs">学習履歴がまだありません。</td></tr>`;
-            } else {
-                tbody.innerHTML = history.map(h => {
-                    const dateStr = new Date(h.timestamp).toLocaleString('ja-JP', { month: 'numeric', day: 'numeric', hour: '2-digit', minute: '2-digit' });
-                    const subject = SUBJECTS.find(s => s.id === h.subjectId);
-                    const isPassed = h.percentage >= 60;
-                    return `
-                        <tr class="hover:bg-slate-50 border-b border-slate-100">
-                            <td class="px-3 py-2 font-mono text-[10px] sm:text-xs text-slate-600">${dateStr}</td>
-                            <td class="px-3 py-2 font-bold text-slate-900 text-xs">${h.mode} (${subject ? subject.name : '全科目'})</td>
-                            <td class="px-3 py-2 font-bold text-xs">${h.score} / ${h.total}</td>
-                            <td class="px-3 py-2 font-black text-brand-600 text-xs">${h.percentage}%</td>
-                            <td class="px-3 py-2">
-                                <span class="px-2 py-0.5 rounded-full text-[10px] font-bold ${isPassed ? 'bg-emerald-100 text-emerald-800' : 'bg-rose-100 text-rose-800'}">
-                                    ${isPassed ? '合格' : '要復習'}
-                                </span>
-                            </td>
-                        </tr>
-                    `;
-                }).join('');
-            }
-
-            const analyticsContainer = document.getElementById('analytics-subjects-container');
-            analyticsContainer.innerHTML = SUBJECTS.map(s => {
-                const subjectLogs = history.filter(h => h.subjectId === s.id || h.subjectId === 'all');
-                let totalQ = 0, correctQ = 0;
-                subjectLogs.forEach(l => { totalQ += l.total; correctQ += l.score; });
-                const rate = totalQ > 0 ? Math.round((correctQ / totalQ) * 100) : 0;
-
-                return `
-                    <div class="space-y-1">
-                        <div class="flex justify-between text-xs font-bold">
-                            <span class="text-slate-800 flex items-center gap-1.5"><i class="fa-solid ${s.icon} text-slate-500"></i> ${s.name}</span>
-                            <span class="text-slate-600">${rate}% (${correctQ}/${totalQ}問)</span>
-                        </div>
-                        <div class="w-full bg-slate-100 rounded-full h-2 overflow-hidden">
-                            <div class="bg-gradient-to-r ${s.color} h-2 rounded-full transition-all duration-500" style="width: ${rate}%"></div>
-                        </div>
-                    </div>
-                `;
-            }).join('');
-        }
-
-        window.exportHistoryCSV = function() {
-            if (window.appState.history.length === 0) {
-                showToast('出力可能な学習履歴がありません', 'warning');
-                return;
-            }
-            let csv = '日時,モード,科目,正解数,総問題数,正答率,所要時間(秒)\n';
-            window.appState.history.forEach(h => {
-                csv += `"${h.timestamp}","${h.mode}","${h.subjectId}",${h.score},${h.total},${h.percentage},${h.durationSec || 0}\n`;
-            });
-
-            const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
-            const url = URL.createObjectURL(blob);
-            const a = document.createElement('a');
-            a.href = url;
-            a.download = `my_history_${new Date().toISOString().slice(0,10)}.csv`;
-            a.click();
-            showToast('学習履歴をCSVダウンロードしました', 'success');
-        };
-
-        window.clearHistoryPrompt = function() {
-            showConfirmModal('履歴消去の確認', '全ての学習履歴ログを消去しますか？', () => {
-                window.appState.history = [];
-                window.saveLocalState();
-                renderHistoryAndAnalytics();
-                showToast('学習履歴を消去しました', 'info');
-            });
-        };
-
-        function renderAdminDashboard() {
-            renderAdminQuestionsTable();
-            renderAdminUserResultsTable();
-            renderAdminCardsTable();
-        }
-
-        window.switchAdminSubTab = function(tabName) {
-            window.appState.adminSubTab = tabName;
-            const quizBtn = document.getElementById('admin-tab-quiz');
-            const bulkBtn = document.getElementById('admin-tab-bulk');
-            const usersBtn = document.getElementById('admin-tab-users');
-            const cardBtn = document.getElementById('admin-tab-card');
-
-            const quizSec = document.getElementById('admin-subtab-quiz');
-            const bulkSec = document.getElementById('admin-subtab-bulk');
-            const usersSec = document.getElementById('admin-subtab-users');
-            const cardSec = document.getElementById('admin-subtab-card');
-
-            [quizBtn, bulkBtn, usersBtn, cardBtn].forEach(btn => {
-                btn.className = "py-2 px-2.5 text-xs sm:text-sm font-bold border-b-2 border-transparent text-slate-500 hover:text-slate-800 transition flex items-center gap-1.5 whitespace-nowrap";
-            });
-            [quizSec, bulkSec, usersSec, cardSec].forEach(sec => sec.classList.add('hidden'));
-
-            if (tabName === 'quiz') {
-                quizBtn.className = "py-2 px-2.5 text-xs sm:text-sm font-bold border-b-2 border-brand-600 text-brand-600 transition flex items-center gap-1.5 whitespace-nowrap";
-                quizSec.classList.remove('hidden');
-                renderAdminQuestionsTable();
-            } else if (tabName === 'bulk') {
-                bulkBtn.className = "py-2 px-2.5 text-xs sm:text-sm font-bold border-b-2 border-amber-500 text-amber-600 transition flex items-center gap-1.5 whitespace-nowrap";
-                bulkSec.classList.remove('hidden');
-            } else if (tabName === 'users') {
-                usersBtn.className = "py-2 px-2.5 text-xs sm:text-sm font-bold border-b-2 border-indigo-600 text-indigo-600 transition flex items-center gap-1.5 whitespace-nowrap";
-                usersSec.classList.remove('hidden');
-                renderAdminUserResultsTable();
-            } else {
-                cardBtn.className = "py-2 px-2.5 text-xs sm:text-sm font-bold border-b-2 border-indigo-600 text-indigo-600 transition flex items-center gap-1.5 whitespace-nowrap";
-                cardSec.classList.remove('hidden');
-            }
-        };
-
-        function renderAdminQuestionsTable() {
-            const tbody = document.getElementById('admin-questions-tbody');
-            const countEl = document.getElementById('admin-q-count');
-            if (countEl) countEl.innerText = window.appState.questions.length;
-
-            tbody.innerHTML = window.appState.questions.map(q => {
-                const subject = SUBJECTS.find(s => s.id === q.subjectId);
-                return `
-                    <tr class="hover:bg-slate-50 border-b border-slate-100 text-slate-800">
-                        <td class="px-3 py-2 font-bold text-xs">
-                            <span class="bg-slate-100 text-slate-800 px-2 py-0.5 rounded-full text-[10px]">${subject ? subject.name : q.subjectId}</span>
-                            <div class="text-[10px] text-slate-400 mt-0.5">${q.topic || '-'}</div>
-                        </td>
-                        <td class="px-3 py-2 font-bold text-xs max-w-[130px] sm:max-w-xs truncate" title="${q.question}">${q.question}</td>
-                        <td class="px-3 py-2 text-xs font-bold text-emerald-700">肢 ${parseInt(q.correctIndex) + 1}</td>
-                        <td class="px-3 py-2 text-right space-x-1 whitespace-nowrap">
-                            <button onclick="duplicateQuestionItem('${q.id}')" class="p-1 text-emerald-600 hover:text-emerald-700" title="複製して新規作成"><i class="fa-solid fa-copy"></i></button>
-                            <button onclick="editQuestionItem('${q.id}')" class="p-1 text-brand-600 hover:text-brand-700" title="編集"><i class="fa-solid fa-pen-to-square"></i></button>
-                            <button onclick="deleteQuestionItem('${q.id}')" class="p-1 text-rose-600 hover:text-rose-700" title="削除"><i class="fa-solid fa-trash"></i></button>
-                        </td>
-                    </tr>
-                `;
-            }).join('');
-        }
-
-        window.renderAdminUserResultsTable = function() {
-            const tbody = document.getElementById('admin-user-results-tbody');
-            const results = window.appState.allUserResults || [];
-
-            if (results.length === 0) {
-                tbody.innerHTML = `<tr><td colspan="6" class="text-center py-6 text-slate-400 text-xs">まだ全ユーザーの解答記録がありません。</td></tr>`;
-                return;
-            }
-
-            tbody.innerHTML = results.map(r => {
-                const dateStr = new Date(r.timestamp).toLocaleString('ja-JP', { month: 'numeric', day: 'numeric', hour: '2-digit', minute: '2-digit' });
-                const subject = SUBJECTS.find(s => s.id === r.subjectId);
-                const isPassed = r.percentage >= 60;
-
-                return `
-                    <tr class="hover:bg-slate-50 border-b border-slate-100 text-slate-800">
-                        <td class="px-3 py-2 font-mono text-[10px] sm:text-xs text-slate-500">${dateStr}</td>
-                        <td class="px-3 py-2 font-black text-xs text-brand-600">
-                            <i class="fa-solid fa-user-tag text-slate-400 mr-1"></i>${r.userName || '匿名'}
-                        </td>
-                        <td class="px-3 py-2 font-bold text-xs">
-                            ${r.mode} (${subject ? subject.name : '全科目'})
-                        </td>
-                        <td class="px-3 py-2 font-bold text-xs">${r.score} / ${r.total}</td>
-                        <td class="px-3 py-2 font-black text-xs text-brand-600">${r.percentage}%</td>
-                        <td class="px-3 py-2">
-                            <span class="px-2 py-0.5 rounded-full text-[10px] font-bold ${isPassed ? 'bg-emerald-100 text-emerald-800' : 'bg-rose-100 text-rose-800'}">
-                                ${isPassed ? '合格' : '要復習'}
-                            </span>
-                        </td>
-                    </tr>
-                `;
-            }).join('');
-        };
-
-        window.exportAllUserLogsCSV = function() {
-            const results = window.appState.allUserResults || [];
-            if (results.length === 0) {
-                showToast('全ユーザーの成績ログがありません', 'warning');
-                return;
-            }
-            let csv = '日時,ユーザー名,モード,科目,正解数,総問題数,正答率,所要時間(秒)\n';
-            results.forEach(r => {
-                csv += `"${r.timestamp}","${r.userName || '匿名'}","${r.mode}","${r.subjectId}",${r.score},${r.total},${r.percentage},${r.durationSec || 0}\n`;
-            });
-
-            const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
-            const url = URL.createObjectURL(blob);
-            const a = document.createElement('a');
-            a.href = url;
-            a.download = `kousotsu_all_users_results_${new Date().toISOString().slice(0,10)}.csv`;
-            a.click();
-            showToast('全員の成績ログをCSV出力しました', 'success');
-        };
-
-        window.clearAllUserLogsPrompt = function() {
-            showConfirmModal('全成績ログ消去', '友達の全テスト結果ログを削除しますか？', () => {
-                window.appState.allUserResults = [];
-                window.saveLocalState();
-                renderAdminUserResultsTable();
-                showToast('全成績ログを消去しました', 'info');
-            });
-        };
-
-        function renderAdminCardsTable() {
-            const tbody = document.getElementById('admin-cards-tbody');
-            tbody.innerHTML = window.appState.flashcards.map(c => {
-                const subject = SUBJECTS.find(s => s.id === c.subjectId);
-                return `
-                    <tr class="hover:bg-slate-50 border-b border-slate-100 text-slate-800">
-                        <td class="px-3 py-2 font-bold text-xs">${subject ? subject.name : c.subjectId}</td>
-                        <td class="px-3 py-2 font-bold text-xs max-w-[120px] truncate">${c.front}</td>
-                        <td class="px-3 py-2 text-xs max-w-[150px] truncate text-slate-600">${c.back}</td>
-                        <td class="px-3 py-2 text-right space-x-1 whitespace-nowrap">
-                            <button onclick="editCardItem('${c.id}')" class="p-1 text-indigo-600 hover:text-indigo-700"><i class="fa-solid fa-pen-to-square"></i></button>
-                            <button onclick="deleteCardItem('${c.id}')" class="p-1 text-rose-600 hover:text-rose-700"><i class="fa-solid fa-trash"></i></button>
-                        </td>
-                    </tr>
-                `;
-            }).join('');
-        }
-
-        window.openQuestionModal = function(qId = null) {
-            document.getElementById('edit-q-id').value = qId || '';
-            document.getElementById('modal-question-title').innerText = qId ? 'クイズ問題の編集' : '新規クイズ問題の作成';
-            
-            if (qId) {
-                const q = window.appState.questions.find(item => item.id === qId);
-                if (q) {
-                    document.getElementById('edit-q-subject').value = q.subjectId;
-                    document.getElementById('edit-q-topic').value = q.topic || '';
-                    document.getElementById('edit-q-text').value = q.question;
-                    document.getElementById('edit-q-c0').value = q.choices[0] || '';
-                    document.getElementById('edit-q-c1').value = q.choices[1] || '';
-                    document.getElementById('edit-q-c2').value = q.choices[2] || '';
-                    document.getElementById('edit-q-c3').value = q.choices[3] || '';
-                    document.getElementById('edit-q-correct').value = q.correctIndex;
-                    document.getElementById('edit-q-explanation').value = q.explanation || '';
-                }
-            } else {
-                document.getElementById('edit-q-topic').value = '';
-                document.getElementById('edit-q-text').value = '';
-                document.getElementById('edit-q-c0').value = '';
-                document.getElementById('edit-q-c1').value = '';
-                document.getElementById('edit-q-c2').value = '';
-                document.getElementById('edit-q-c3').value = '';
-                document.getElementById('edit-q-correct').value = '0';
-                document.getElementById('edit-q-explanation').value = '';
-            }
-            openModal('modal-question-editor');
-        };
-
-        window.duplicateQuestionItem = function(qId) {
-            const q = window.appState.questions.find(item => item.id === qId);
-            if (!q) return;
-
-            document.getElementById('edit-q-id').value = '';
-            document.getElementById('modal-question-title').innerText = '問題の複製作成';
-            document.getElementById('edit-q-subject').value = q.subjectId;
-            document.getElementById('edit-q-topic').value = (q.topic || '') + ' (コピー)';
-            document.getElementById('edit-q-text').value = q.question;
-            document.getElementById('edit-q-c0').value = q.choices[0] || '';
-            document.getElementById('edit-q-c1').value = q.choices[1] || '';
-            document.getElementById('edit-q-c2').value = q.choices[2] || '';
-            document.getElementById('edit-q-c3').value = q.choices[3] || '';
-            document.getElementById('edit-q-correct').value = q.correctIndex;
-            document.getElementById('edit-q-explanation').value = q.explanation || '';
-
-            openModal('modal-question-editor');
-            showToast('問題内容をコピーしました。編集して保存してください。', 'info');
-        };
-
-        window.editQuestionItem = function(qId) { window.openQuestionModal(qId); };
-
-        window.saveQuestionItem = function() {
-            const qId = document.getElementById('edit-q-id').value;
-            const subjectId = document.getElementById('edit-q-subject').value;
-            const topic = document.getElementById('edit-q-topic').value;
-            const questionText = document.getElementById('edit-q-text').value.trim();
-            const c0 = document.getElementById('edit-q-c0').value.trim();
-            const c1 = document.getElementById('edit-q-c1').value.trim();
-            const c2 = document.getElementById('edit-q-c2').value.trim();
-            const c3 = document.getElementById('edit-q-c3').value.trim();
-            const correctIndex = parseInt(document.getElementById('edit-q-correct').value);
-            const explanation = document.getElementById('edit-q-explanation').value.trim();
-
-            if (!questionText || !c0 || !c1) {
-                showToast('問題文と少なくとも2つの選択肢を入力してください', 'warning');
-                return;
-            }
-
-            const newQ = {
-                id: qId || 'q_' + Date.now(),
-                subjectId,
-                topic,
-                question: questionText,
-                choices: [c0, c1, c2 || 'なし', c3 || 'なし'],
-                correctIndex,
-                explanation
-            };
-
-            if (qId) {
-                const idx = window.appState.questions.findIndex(q => q.id === qId);
-                if (idx !== -1) window.appState.questions[idx] = newQ;
-            } else {
-                window.appState.questions.unshift(newQ);
-            }
-
-            window.saveLocalState();
-            if (window.syncQuestionCloud) window.syncQuestionCloud(newQ);
-
-            closeModal('modal-question-editor');
-            renderAdminQuestionsTable();
-            showToast('問題データを保存しました', 'success');
-        };
-
-        window.deleteQuestionItem = function(qId) {
-            showConfirmModal('問題の削除', 'この問題をデータベースから削除しますか？', () => {
-                window.appState.questions = window.appState.questions.filter(q => q.id !== qId);
-                window.saveLocalState();
-                if (window.deleteQuestionCloud) window.deleteQuestionCloud(qId);
-                renderAdminQuestionsTable();
-                showToast('問題を削除しました', 'info');
-            });
-        };
-
-        window.fillBulkSampleText = function() {
-            const sample = `大化の改新（645年）を中心となって進めた人物の組み合わせとして正しいものを選びなさい。,中大兄皇子と中臣鎌足,聖徳太子と蘇我馬子,織田信長と豊臣秀吉,坂本龍馬と西郷隆盛,1,中大兄皇子と中臣鎌足が蘇我氏を倒して政治改革を開始しました。,history,飛鳥時代\n` +
-            `英文「I have to clean my room today.」の日本語訳として正しいものを選択しなさい。,私は今日部屋を掃除しなければならない。,私は昨日部屋を掃除した。,私は明日部屋を掃除する予定だ。,私は部屋を掃除する必要はない。,1,have to ～ は「～しなければならない」という意味を表します。,english,助動詞表現`;
-            
-            document.getElementById('bulk-questions-input').value = sample;
-            showToast('サンプルフォーマットを入力しました', 'info');
-        };
-
-        window.bulkImportQuestionsText = function() {
-            const text = document.getElementById('bulk-questions-input').value.trim();
-            if (!text) {
-                showToast('登録するテキストを入力してください', 'warning');
-                return;
-            }
-
-            const lines = text.split('\n');
-            let addedCount = 0;
-
-            lines.forEach((line, lineIdx) => {
-                if (!line.trim()) return;
-
-                let parts = line.includes('\t') ? line.split('\t') : line.split(',');
-                parts = parts.map(p => p.trim());
-
-                if (parts.length >= 6) {
-                    const qText = parts[0];
-                    const c0 = parts[1];
-                    const c1 = parts[2];
-                    const c2 = parts[3] || 'なし';
-                    const c3 = parts[4] || 'なし';
-                    let correctVal = parseInt(parts[5]);
-                    if (isNaN(correctVal) || correctVal < 1) correctVal = 1;
-                    if (correctVal > 4) correctVal = 4;
-
-                    const explanation = parts[6] || '';
-                    const subjectId = parts[7] || 'japanese';
-                    const topic = parts[8] || '一括追加';
-
-                    const newQ = {
-                        id: 'q_bulk_' + Date.now() + '_' + lineIdx,
-                        subjectId,
-                        topic,
-                        question: qText,
-                        choices: [c0, c1, c2, c3],
-                        correctIndex: correctVal - 1,
-                        explanation
-                    };
-
-                    window.appState.questions.unshift(newQ);
-                    if (window.syncQuestionCloud) window.syncQuestionCloud(newQ);
-                    addedCount++;
-                }
-            });
-
-            if (addedCount > 0) {
-                window.saveLocalState();
-                document.getElementById('bulk-questions-input').value = '';
-                switchAdminSubTab('quiz');
-                showToast(`${addedCount}件の問題を一括登録しました！`, 'success');
-            } else {
-                showToast('有効な問題データを検出できませんでした。フォーマットをご確認ください。', 'danger');
-            }
-        };
-
-        window.openCardModal = function(cId = null) {
-            document.getElementById('edit-c-id').value = cId || '';
-            document.getElementById('modal-card-title').innerText = cId ? '暗記カードの編集' : '新規暗記カードの作成';
-
-            if (cId) {
-                const c = window.appState.flashcards.find(item => item.id === cId);
-                if (c) {
-                    document.getElementById('edit-c-subject').value = c.subjectId;
-                    document.getElementById('edit-c-front').value = c.front;
-                    document.getElementById('edit-c-back').value = c.back;
-                }
-            } else {
-                document.getElementById('edit-c-front').value = '';
-                document.getElementById('edit-c-back').value = '';
-            }
-            openModal('modal-card-editor');
-        };
-
-        window.editCardItem = function(cId) { window.openCardModal(cId); };
-
-        window.saveCardItem = function() {
-            const cId = document.getElementById('edit-c-id').value;
-            const subjectId = document.getElementById('edit-c-subject').value;
-            const front = document.getElementById('edit-c-front').value.trim();
-            const back = document.getElementById('edit-c-back').value.trim();
-
-            if (!front || !back) {
-                showToast('表面と裏面の両方を入力してください', 'warning');
-                return;
-            }
-
-            const newCard = {
-                id: cId || 'fc_' + Date.now(),
-                subjectId,
-                front,
-                back
-            };
-
-            if (cId) {
-                const idx = window.appState.flashcards.findIndex(c => c.id === cId);
-                if (idx !== -1) window.appState.flashcards[idx] = newCard;
-            } else {
-                window.appState.flashcards.unshift(newCard);
-            }
-
-            window.saveLocalState();
-            if (window.syncCardCloud) window.syncCardCloud(newCard);
-
-            closeModal('modal-card-editor');
-            renderAdminCardsTable();
-            showToast('暗記カードを保存しました', 'success');
-        };
-
-        window.deleteCardItem = function(cId) {
-            showConfirmModal('カードの削除', 'この暗記カードを削除しますか？', () => {
-                window.appState.flashcards = window.appState.flashcards.filter(c => c.id !== cId);
-                window.saveLocalState();
-                if (window.deleteCardCloud) window.deleteCardCloud(cId);
-                renderAdminCardsTable();
-                showToast('暗記カードを削除しました', 'info');
-            });
-        };
-
-        window.exportAllDataJSON = function() {
-            const dataStr = JSON.stringify({
-                questions: window.appState.questions,
-                flashcards: window.appState.flashcards
-            }, null, 2);
-
-            const blob = new Blob([dataStr], { type: 'application/json' });
-            const url = URL.createObjectURL(blob);
-            const a = document.createElement('a');
-            a.href = url;
-            a.download = `kousotsu_data_backup_${new Date().toISOString().slice(0,10)}.json`;
-            a.click();
-            showToast('問題・暗記カードデータをJSON出力しました', 'success');
-        };
-
-        window.importDataFile = function(event) {
-            const file = event.target.files[0];
-            if (!file) return;
-
-            const reader = new FileReader();
-            reader.onload = function(e) {
-                try {
-                    const imported = JSON.parse(e.target.result);
-                    if (imported.questions && Array.isArray(imported.questions)) {
-                        window.appState.questions = imported.questions;
-                        imported.questions.forEach(q => {
-                            if (window.syncQuestionCloud) window.syncQuestionCloud(q);
-                        });
-                    }
-                    if (imported.flashcards && Array.isArray(imported.flashcards)) {
-                        window.appState.flashcards = imported.flashcards;
-                        imported.flashcards.forEach(c => {
-                            if (window.syncCardCloud) window.syncCardCloud(c);
-                        });
-                    }
-                    window.saveLocalState();
-                    renderAdminDashboard();
-                    showToast('インポートおよびクラウド保存が完了しました！', 'success');
-                } catch(err) {
-                    showToast('JSONファイルの形式が正しくありません。', 'danger');
-                }
-            };
-            reader.readAsText(file);
-        };
-
-        window.resetToDefaultDataPrompt = function() {
-            showConfirmModal('初期化の確認', '全てのクイズ問題と暗記カードを初期状態にリセットしますか？', () => {
-                window.appState.questions = [...DEFAULT_QUESTIONS];
-                window.appState.flashcards = [...DEFAULT_FLASHCARDS];
-                window.saveLocalState();
-                
-                DEFAULT_QUESTIONS.forEach(q => {
-                    if (window.syncQuestionCloud) window.syncQuestionCloud(q);
-                });
-                DEFAULT_FLASHCARDS.forEach(c => {
-                    if (window.syncCardCloud) window.syncCardCloud(c);
-                });
-
-                renderAdminDashboard();
-                showToast('デフォルトデータへ初期化しました', 'info');
-            });
-        };
 
         function openModal(id) { document.getElementById(id)?.classList.remove('hidden'); }
         window.closeModal = function(id) { document.getElementById(id)?.classList.add('hidden'); };
@@ -2323,39 +2002,27 @@ x² - 5x + 6 を因数分解しなさい。,(x-2)(x-3),(x+2)(x-3),(x-1)(x-6),(x+
             const btnCancel = document.getElementById('btn-confirm-cancel');
             const btnOk = document.getElementById('btn-confirm-ok');
 
-            const cleanup = () => {
-                btnCancel.onclick = null;
-                btnOk.onclick = null;
-                closeModal('modal-confirm');
-            };
-
+            const cleanup = () => { btnCancel.onclick = null; btnOk.onclick = null; closeModal('modal-confirm'); };
             btnCancel.onclick = cleanup;
-            btnOk.onclick = () => {
-                cleanup();
-                if (onOk) onOk();
-            };
+            btnOk.onclick = () => { cleanup(); if (onOk) onOk(); };
         }
 
         function showToast(message, type = 'info') {
             const container = document.getElementById('toast-container');
             const toast = document.createElement('div');
-
             let bgClass = 'bg-slate-900 text-white';
             if (type === 'success') bgClass = 'bg-emerald-600 text-white';
             if (type === 'danger') bgClass = 'bg-rose-600 text-white';
             if (type === 'warning') bgClass = 'bg-amber-600 text-white';
 
-            toast.className = `${bgClass} text-xs font-bold px-3.5 py-2.5 rounded-2xl shadow-xl transition-all duration-300 transform translate-y-2 opacity-0 flex items-center gap-2 max-w-[280px] sm:max-w-none`;
-            toast.innerHTML = `<i class="fa-solid fa-circle-info shrink-0"></i> <span>${message}</span>`;
-
+            toast.className = `${bgClass} text-xs font-bold px-3.5 py-2.5 rounded-2xl shadow-xl transition-all duration-300 flex items-center gap-2`;
+            toast.innerHTML = `<i class="fa-solid fa-circle-info"></i> <span>${message}</span>`;
             container.appendChild(toast);
-            setTimeout(() => { toast.classList.remove('translate-y-2', 'opacity-0'); }, 10);
-            setTimeout(() => { toast.classList.add('opacity-0'); setTimeout(() => toast.remove(), 300); }, 3000);
+            setTimeout(() => toast.remove(), 3000);
         }
 
         window.onload = function() {
             loadLocalState();
-            checkDailyLoginStamp();
             renderDashboardSubjects();
         };
     </script>
