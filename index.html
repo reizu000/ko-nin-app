@@ -3,16 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <!-- 検索エンジンに登録させない設定 -->
     <meta name="robots" content="noindex,nofollow">
     <title>高卒認定試験 サポートナビ - 高認パスポート</title>
-    <!-- Tailwind CSS CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
-    <!-- FontAwesome Icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <!-- Google Fonts (Noto Sans JP) -->
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700;900&display=swap" rel="stylesheet">
-    <!-- Canvas Confetti -->
     <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
     
     <script>
@@ -63,7 +58,6 @@
     <header class="bg-white border-b border-slate-200 sticky top-0 z-30 shadow-sm">
         <div class="max-w-7xl mx-auto px-2.5 sm:px-6 h-14 sm:h-16 flex items-center justify-between gap-1.5 sm:gap-2">
             
-            <!-- App Logo -->
             <div class="flex items-center space-x-2 cursor-pointer shrink-0" onclick="showView('dashboard')">
                 <div class="w-8 h-8 sm:w-10 sm:h-10 rounded-xl bg-gradient-to-tr from-brand-600 to-indigo-600 flex items-center justify-center text-white shadow-md">
                     <i class="fa-solid font-bold fa-graduation-cap text-base sm:text-xl"></i>
@@ -74,7 +68,6 @@
                 </div>
             </div>
 
-            <!-- Desktop Navigation Bar -->
             <nav class="hidden lg:flex items-center space-x-1 xl:space-x-1.5 overflow-x-auto custom-scrollbar py-2">
                 <button onclick="showView('dashboard')" id="nav-dashboard" class="nav-btn px-2.5 py-1.5 rounded-xl text-xs xl:text-sm font-bold text-slate-700 hover:text-brand-600 hover:bg-slate-100 transition flex items-center gap-1.5 whitespace-nowrap shrink-0">
                     <i class="fa-solid fa-house text-slate-400"></i> ホーム
@@ -105,7 +98,6 @@
                 </button>
             </nav>
 
-            <!-- User Name, Google Login & Admin Area -->
             <div class="flex items-center gap-1 sm:gap-2 shrink-0">
                 <button onclick="checkAdminAuth()" id="nav-admin" class="hidden items-center gap-1 px-2.5 py-1.5 rounded-xl text-xs font-bold text-indigo-700 hover:bg-indigo-100 bg-indigo-50 border border-indigo-200 transition whitespace-nowrap">
                     <i class="fa-solid fa-user-gear"></i> <span class="hidden lg:inline">管理者モード</span>
@@ -139,7 +131,6 @@
             </div>
         </div>
 
-        <!-- Mobile Drawer Navigation -->
         <div id="mobile-menu" class="hidden lg:hidden border-t border-slate-200 bg-white px-4 py-2 space-y-1 shadow-md">
             <button onclick="showView('materials'); toggleMobileMenu()" class="w-full text-left px-3 py-2 rounded-xl font-bold text-xs sm:text-sm text-slate-800 hover:bg-slate-100 flex items-center gap-2.5 active:bg-slate-100">
                 <i class="fa-solid fa-book w-4 text-emerald-600"></i> 教科書・資料一覧
@@ -159,7 +150,6 @@
         </div>
     </header>
 
-    <!-- MOBILE BOTTOM NAVIGATION BAR -->
     <nav class="lg:hidden fixed bottom-0 left-0 right-0 bg-white/95 backdrop-blur-md border-t border-slate-200 z-40 px-1 py-1 flex justify-around items-center shadow-lg pb-safe">
         <button onclick="showView('dashboard')" id="bnav-dashboard" class="bnav-btn flex-1 flex flex-col items-center justify-center py-1 px-1 text-brand-600 font-bold active:scale-95 transition">
             <i class="fa-solid fa-house text-base mb-0.5"></i>
@@ -183,7 +173,6 @@
         </button>
     </nav>
 
-    <!-- Main Content Container -->
     <main class="flex-1 max-w-7xl w-full mx-auto px-2.5 sm:px-6 py-3 sm:py-6">
 
         <!-- VIEW: DASHBOARD -->
@@ -209,7 +198,6 @@
                 <i class="fa-solid fa-graduation-cap absolute -bottom-6 -right-6 text-white/10 text-7xl sm:text-9xl pointer-events-none"></i>
             </div>
 
-            <!-- Stats Overview Bar -->
             <div class="grid grid-cols-2 md:grid-cols-4 gap-2 sm:gap-4">
                 <div class="bg-white p-3 sm:p-5 rounded-xl sm:rounded-2xl border border-slate-200 shadow-sm flex flex-col justify-between">
                     <div class="text-slate-500 text-[10px] sm:text-xs font-bold flex items-center justify-between mb-0.5">
@@ -256,7 +244,6 @@
                 </div>
             </div>
 
-            <!-- Subject Cards Overview Grid -->
             <div>
                 <div class="flex items-center justify-between mb-2.5">
                     <h3 class="text-sm sm:text-lg font-bold text-slate-900 flex items-center gap-1.5">
@@ -266,12 +253,11 @@
                         全表示 <i class="fa-solid fa-chevron-right text-[10px]"></i>
                     </button>
                 </div>
-                
                 <div id="dashboard-subjects-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-2.5 sm:gap-3"></div>
             </div>
         </section>
 
-        <!-- VIEW: MATERIALS (教科書・教材資料画面) -->
+        <!-- VIEW: MATERIALS -->
         <section id="view-materials" class="hidden space-y-3 sm:space-y-6 animate-fade-in">
             <div class="bg-white p-3.5 sm:p-6 rounded-2xl border border-slate-200 shadow-sm flex flex-col sm:flex-row items-start sm:items-center justify-between gap-2.5">
                 <div>
@@ -296,7 +282,6 @@
                     <option value="info">情報</option>
                 </select>
             </div>
-
             <div id="user-materials-grid" class="grid grid-cols-1 md:grid-cols-2 gap-3 sm:gap-4"></div>
         </section>
 
@@ -311,7 +296,6 @@
                     <i class="fa-solid fa-chart-pie"></i> 成績分析を見る
                 </button>
             </div>
-
             <div id="full-subjects-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-2.5 sm:gap-4"></div>
         </section>
 
@@ -325,7 +309,6 @@
                     <p class="text-xs text-slate-500 mt-0.5">タップすると詳細と画像がポップアップで確認できます。</p>
                 </div>
             </div>
-
             <div id="user-homework-list" class="grid grid-cols-1 md:grid-cols-2 gap-3 sm:gap-4"></div>
         </section>
 
@@ -339,11 +322,6 @@
                 <button onclick="confirmExitQuiz()" class="text-slate-400 hover:text-slate-600 text-xs font-bold flex items-center gap-1 bg-slate-100 px-2.5 py-1 rounded-lg transition active:bg-slate-200">
                     <i class="fa-solid fa-xmark"></i> 中断
                 </button>
-            </div>
-
-            <div id="mock-timer-bar" class="hidden bg-slate-900 text-white px-3.5 py-2 rounded-xl flex items-center justify-between font-mono">
-                <span class="text-xs font-sans font-bold text-slate-300"><i class="fa-solid fa-clock text-amber-400 mr-1"></i> 残り時間</span>
-                <span id="mock-timer-display" class="text-base sm:text-xl font-bold text-amber-400">15:00</span>
             </div>
 
             <div class="bg-white rounded-2xl sm:rounded-3xl border border-slate-200 shadow-md p-4 sm:p-8 space-y-4 sm:space-y-5">
@@ -390,8 +368,6 @@
                         <div id="result-percentage" class="text-xl sm:text-3xl font-black text-brand-600">0%</div>
                     </div>
                 </div>
-
-                <div id="result-pass-status" class="p-3 sm:p-3.5 rounded-xl font-bold text-xs sm:text-sm"></div>
 
                 <div class="flex flex-col sm:flex-row gap-2 sm:gap-2.5 justify-center pt-1">
                     <button onclick="retryCurrentQuiz()" class="bg-emerald-600 hover:bg-emerald-700 text-white font-bold px-4 py-2.5 sm:py-3 rounded-xl shadow-md transition flex items-center justify-center gap-2 text-xs sm:text-sm">
@@ -534,11 +510,10 @@
                         <i class="fa-solid fa-shield-halved"></i> 管理者ダッシュボード
                     </div>
                     <h2 class="text-base sm:text-2xl font-black">高認アプリ 管理・統括モード</h2>
-                    <p class="text-[11px] sm:text-xs text-slate-300 mt-0.5">教科書資料・問題・宿題管理および全ユーザーのリアルタイム監視・間違えた問題の分析ができます。</p>
+                    <p class="text-[11px] sm:text-xs text-slate-300 mt-0.5">全ユーザーのリアルタイム監視・成績分析ができます。</p>
                 </div>
             </div>
 
-            <!-- Admin Sub-tabs -->
             <div class="flex border-b border-slate-200 space-x-1 sm:space-x-3 overflow-x-auto custom-scrollbar">
                 <button id="admin-tab-users" onclick="switchAdminSubTab('users')" class="py-2 px-2.5 text-xs sm:text-sm font-bold border-b-2 border-indigo-600 text-indigo-600 transition flex items-center gap-1.5 whitespace-nowrap">
                     <i class="fa-solid fa-users text-indigo-500"></i> ユーザー監視・個人成績
@@ -557,14 +532,13 @@
                 </button>
             </div>
 
-            <!-- ADMIN SUB-TAB 1: USER MONITORING & WRONG QUESTIONS ANALYTICS -->
             <div id="admin-subtab-users" class="space-y-4">
                 <div class="bg-white p-3.5 sm:p-4 rounded-2xl border border-slate-200 shadow-sm flex flex-col sm:flex-row items-start sm:items-center justify-between gap-2.5">
                     <div>
                         <h3 class="font-bold text-slate-900 text-sm sm:text-base flex items-center gap-2">
                             <i class="fa-solid fa-users text-indigo-600"></i> ユーザーアクセス監視 (リアルタイム)
                         </h3>
-                        <p class="text-[11px] text-slate-500 mt-0.5">オンライン状態を監視。「成績ログを見る」からその人が「間違えた問題」も確認できます。</p>
+                        <p class="text-[11px] text-slate-500 mt-0.5">オンライン状態を監視。「成績ログを見る」から間違い問題も確認できます。</p>
                     </div>
                     <div class="flex gap-2">
                         <select id="admin-user-status-filter" onchange="renderAdminActiveUsersTable()" class="bg-slate-100 font-bold text-slate-800 text-xs rounded-xl px-2.5 py-1.5 border border-slate-300">
@@ -591,7 +565,6 @@
                     </div>
                 </div>
 
-                <!-- 全成績ログ（人別ドロップダウン付き） -->
                 <div class="bg-white rounded-2xl border border-slate-200 p-4 space-y-3 shadow-sm">
                     <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-2 border-b border-slate-200 pb-2">
                         <div>
@@ -624,7 +597,6 @@
                 </div>
             </div>
 
-            <!-- ADMIN SUB-TAB 2: MATERIAL (教科書・資料管理) -->
             <div id="admin-subtab-material" class="hidden space-y-3">
                 <div class="flex justify-between items-center bg-white p-3.5 rounded-2xl border border-slate-200">
                     <div>
@@ -638,7 +610,6 @@
                 <div id="admin-materials-grid" class="grid grid-cols-1 md:grid-cols-2 gap-3"></div>
             </div>
 
-            <!-- ADMIN SUB-TAB 3: QUIZ MANAGEMENT -->
             <div id="admin-subtab-quiz" class="hidden space-y-3">
                 <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-2 bg-white p-3.5 rounded-2xl border border-slate-200">
                     <div class="flex flex-wrap items-center gap-2">
@@ -691,7 +662,6 @@
                 </div>
             </div>
 
-            <!-- ADMIN SUB-TAB 4: HOMEWORK MANAGEMENT -->
             <div id="admin-subtab-homework" class="hidden space-y-3">
                 <div class="flex justify-between items-center bg-white p-3.5 rounded-2xl border border-slate-200">
                     <div>
@@ -705,7 +675,6 @@
                 <div id="admin-homework-grid" class="grid grid-cols-1 md:grid-cols-2 gap-3"></div>
             </div>
 
-            <!-- ADMIN SUB-TAB 5: FLASHCARD MANAGEMENT -->
             <div id="admin-subtab-card" class="hidden space-y-3">
                 <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-2 bg-white p-3.5 rounded-2xl border border-slate-200">
                     <div class="flex items-center gap-2">
@@ -760,7 +729,7 @@
 
     </main>
 
-    <!-- モーダル: 単元・テーマ選択モーダル -->
+    <!-- MODALS -->
     <div id="modal-topic-select" class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-50 flex items-center justify-center p-3 hidden animate-fade-in">
         <div class="bg-white w-full max-w-md rounded-3xl p-5 shadow-2xl border border-slate-100 space-y-4 max-h-[90vh] overflow-y-auto custom-scrollbar">
             <div class="flex justify-between items-center border-b pb-2">
@@ -772,7 +741,6 @@
         </div>
     </div>
 
-    <!-- モーダル: 教科書・資料追加モーダル -->
     <div id="modal-material" class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-50 flex items-center justify-center p-3 hidden animate-fade-in">
         <div class="bg-white w-full max-w-lg rounded-3xl p-5 shadow-2xl border border-slate-100 space-y-3 max-h-[90vh] overflow-y-auto custom-scrollbar">
             <div class="flex justify-between items-center border-b pb-2">
@@ -817,7 +785,6 @@
         </div>
     </div>
 
-    <!-- モーダル: 問題追加モーダル (HTML) -->
     <div id="modal-question" class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-50 flex items-center justify-center p-3 hidden animate-fade-in">
         <div class="bg-white w-full max-w-lg rounded-3xl p-5 shadow-2xl border border-slate-100 space-y-3 max-h-[90vh] overflow-y-auto custom-scrollbar">
             <div class="flex justify-between items-center border-b pb-2">
@@ -888,7 +855,6 @@
         </div>
     </div>
 
-    <!-- モーダル: 宿題追加モーダル (HTML) -->
     <div id="modal-homework" class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-50 flex items-center justify-center p-3 hidden animate-fade-in">
         <div class="bg-white w-full max-w-md rounded-3xl p-5 shadow-2xl border border-slate-100 space-y-3 max-h-[90vh] overflow-y-auto custom-scrollbar">
             <div class="flex justify-between items-center border-b pb-2">
@@ -937,7 +903,6 @@
         </div>
     </div>
 
-    <!-- モーダル: 暗記カード追加モーダル (HTML) -->
     <div id="modal-card" class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-50 flex items-center justify-center p-3 hidden animate-fade-in">
         <div class="bg-white w-full max-w-md rounded-3xl p-5 shadow-2xl border border-slate-100 space-y-3 max-h-[90vh] overflow-y-auto custom-scrollbar">
             <div class="flex justify-between items-center border-b pb-2">
@@ -978,7 +943,6 @@
         </div>
     </div>
 
-    <!-- MODAL: INDIVIDUAL USER STATS & WRONG QUESTIONS -->
     <div id="modal-user-detail" class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-50 flex items-center justify-center p-3 hidden animate-fade-in">
         <div class="bg-white w-full max-w-2xl rounded-3xl p-5 sm:p-6 shadow-2xl border border-slate-100 space-y-4 max-h-[90vh] overflow-y-auto custom-scrollbar">
             <div class="flex justify-between items-start border-b border-slate-200 pb-3">
@@ -1001,7 +965,6 @@
                 </div>
             </div>
 
-            <!-- 間違えた問題一覧（リアルタイム抽出） -->
             <div class="space-y-2">
                 <h4 class="font-bold text-xs text-rose-600 flex items-center gap-1.5">
                     <i class="fa-solid fa-triangle-exclamation"></i> この人が間違えた問題一覧（弱点箇所）
@@ -1009,7 +972,6 @@
                 <div id="user-detail-wrong-questions-list" class="space-y-2 max-h-56 overflow-y-auto custom-scrollbar pr-1"></div>
             </div>
 
-            <!-- 直近解答ログ -->
             <div class="space-y-1.5">
                 <h4 class="font-bold text-xs text-slate-900 flex items-center gap-1.5">
                     <i class="fa-solid fa-clock-rotate-left"></i> 直近のテスト解答結果
@@ -1025,7 +987,6 @@
         </div>
     </div>
 
-    <!-- MODAL: HOMEWORK DETAIL VIEW -->
     <div id="modal-homework-detail" class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-50 flex items-center justify-center p-3 hidden animate-fade-in">
         <div class="bg-white w-full max-w-lg rounded-3xl p-5 shadow-2xl border border-slate-100 space-y-4 max-h-[90vh] overflow-y-auto custom-scrollbar">
             <div class="flex justify-between items-start border-b border-slate-200 pb-3">
@@ -1052,13 +1013,13 @@
         </div>
     </div>
 
-    <!-- MODAL: USER NAME EDIT -->
+    <!-- USER NAME EDIT -->
     <div id="modal-user-name" class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-50 flex items-center justify-center p-3 hidden animate-fade-in">
         <div class="bg-white w-full max-w-sm rounded-3xl p-5 shadow-2xl border border-slate-100 space-y-4">
             <div class="w-10 h-10 bg-brand-100 text-brand-600 rounded-2xl flex items-center justify-center text-lg"><i class="fa-solid fa-user-pen"></i></div>
             <div>
                 <h3 class="text-base font-black text-slate-900">表示名（ニックネーム）設定</h3>
-                <p class="text-xs text-slate-500 mt-0.5">成績ログで識別するための名前です。</p>
+                <p class="text-xs text-slate-500 mt-0.5">成績ログや管理者画面で識別するための名前です。</p>
             </div>
             <input type="text" id="user-name-input" placeholder="例: たくや" class="w-full bg-slate-50 border border-slate-300 rounded-xl px-3.5 py-2.5 font-bold text-sm text-slate-900 focus:ring-2 focus:ring-brand-500 focus:outline-none">
             <div class="flex gap-2 pt-1">
@@ -1068,7 +1029,6 @@
         </div>
     </div>
 
-    <!-- MODAL: IMAGE FULL VIEW -->
     <div id="modal-image-view" class="fixed inset-0 bg-slate-950/90 backdrop-blur-md z-50 flex items-center justify-center p-3 hidden animate-fade-in" onclick="closeModal('modal-image-view')">
         <div class="max-w-3xl max-h-[90vh] relative p-2">
             <img id="modal-full-image" src="" class="max-h-[85vh] max-w-full rounded-2xl shadow-2xl object-contain mx-auto">
@@ -1076,7 +1036,6 @@
         </div>
     </div>
 
-    <!-- GENERAL CONFIRM MODAL -->
     <div id="modal-confirm" class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-50 flex items-center justify-center p-3 hidden animate-fade-in">
         <div class="bg-white w-full max-w-xs rounded-3xl p-5 shadow-2xl border border-slate-100 text-center space-y-3">
             <div class="w-10 h-10 bg-amber-100 text-amber-600 rounded-full flex items-center justify-center text-lg mx-auto"><i class="fa-solid fa-triangle-exclamation"></i></div>
@@ -1089,10 +1048,9 @@
         </div>
     </div>
 
-    <!-- TOAST NOTIFICATION -->
     <div id="toast-container" class="fixed bottom-16 sm:bottom-5 right-3 sm:right-5 z-50 flex flex-col gap-1.5 pointer-events-none"></div>
 
-    <!-- FIREBASE MODULE & APPLICATION LOGIC -->
+    <!-- FIREBASE APP MODULE LOGIC -->
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
         import { 
@@ -1140,7 +1098,7 @@
                         try {
                             const blockDoc = await getDoc(doc(db, 'artifacts', appId, 'public', 'data', 'blocked_users', user.uid));
                             if (blockDoc.exists() && blockDoc.data().blocked) {
-                                alert('あなたのアカウントは管理者によってアクセスがブロックされています。');
+                                alert('あなたのアカウントはアクセスが制限されています。');
                                 await signOut(auth);
                                 location.reload();
                                 return;
@@ -1149,24 +1107,28 @@
 
                         document.getElementById('sync-indicator').classList.remove('hidden');
 
-                        // --- ニックネーム復元ロジック (カスタム設定名を絶対優先) ---
-                        let savedName = localStorage.getItem('ko_ninsiken_user_name_' + user.uid);
-                        if (!savedName) {
-                            try {
-                                const userDoc = await getDoc(doc(db, 'artifacts', appId, 'public', 'data', 'active_users', user.uid));
-                                if (userDoc.exists() && userDoc.data().userName && userDoc.data().userName !== 'Googleユーザー' && userDoc.data().userName !== '学習者') {
-                                    savedName = userDoc.data().userName;
-                                }
-                            } catch(e) {}
+                        // --- ニックネーム復元（Firestoreユーザー専用プロファイル優先） ---
+                        let activeName = '';
+                        
+                        try {
+                            // 1. ユーザー専用永久保存ドキュメントを参照
+                            const profileDoc = await getDoc(doc(db, 'artifacts', appId, 'public', 'data', 'user_profiles', user.uid));
+                            if (profileDoc.exists() && profileDoc.data().userName) {
+                                activeName = profileDoc.data().userName;
+                            }
+                        } catch(e) { console.warn('Profile read error:', e); }
+
+                        if (!activeName) {
+                            activeName = localStorage.getItem('ko_ninsiken_custom_name_' + user.uid) || localStorage.getItem('ko_ninsiken_user_name_fixed');
                         }
 
-                        if (!savedName && !user.isAnonymous) {
-                            savedName = user.displayName || 'Googleユーザー';
+                        if (!activeName && !user.isAnonymous) {
+                            activeName = user.displayName || 'Googleユーザー';
                         }
 
-                        const finalName = savedName || '学習者';
+                        const finalName = activeName || '学習者';
                         window.appState.userName = finalName;
-                        localStorage.setItem('ko_ninsiken_user_name_' + user.uid, finalName);
+                        localStorage.setItem('ko_ninsiken_custom_name_' + user.uid, finalName);
                         localStorage.setItem('ko_ninsiken_user_name_fixed', finalName);
                         document.getElementById('header-user-name').innerText = finalName;
 
@@ -1195,7 +1157,8 @@
                             if (mobileAdminBtn) mobileAdminBtn.classList.add('hidden');
                         }
 
-                        window.syncUserProfileCloud(window.appState.userName, true);
+                        // クラウド同期
+                        window.syncUserProfileCloud(finalName, true);
                         subscribeCloudData();
                     } else {
                         if (navAdminBtn) navAdminBtn.classList.add('hidden');
@@ -1209,20 +1172,19 @@
                         }
                     }
                 });
-            } catch(e) { console.warn('Firebase sync fallback'); }
+            } catch(e) { console.warn('Firebase init error', e); }
         }
 
+        // 定期的なオンライン更新（ハートビート: 10秒おき）
         setInterval(() => {
             if (auth && auth.currentUser) {
                 window.syncUserProfileCloud(window.appState.userName, true);
             }
-        }, 15000);
+        }, 10000);
 
         window.addEventListener('visibilitychange', () => {
-            if (document.visibilityState === 'hidden' && auth && auth.currentUser) {
-                window.syncUserProfileCloud(window.appState.userName, false);
-            } else if (document.visibilityState === 'visible' && auth && auth.currentUser) {
-                window.syncUserProfileCloud(window.appState.userName, true);
+            if (auth && auth.currentUser) {
+                window.syncUserProfileCloud(window.appState.userName, document.visibilityState === 'visible');
             }
         });
 
@@ -1243,7 +1205,7 @@
                 showView('admin');
                 showToast('管理者として認証されました', 'success');
             } else {
-                showToast('管理者権限がありません（指定のGoogleアカウントでログインしてください）', 'danger');
+                showToast('管理者権限がありません', 'danger');
             }
         };
 
@@ -1254,23 +1216,23 @@
                 const result = await signInWithPopup(auth, provider);
                 const user = result.user;
                 
-                let savedName = localStorage.getItem('ko_ninsiken_user_name_' + user.uid);
+                let savedName = localStorage.getItem('ko_ninsiken_custom_name_' + user.uid);
                 if (!savedName) {
                     try {
-                        const userDoc = await getDoc(doc(db, 'artifacts', appId, 'public', 'data', 'active_users', user.uid));
-                        if (userDoc.exists() && userDoc.data().userName && userDoc.data().userName !== 'Googleユーザー' && userDoc.data().userName !== '学習者') {
-                            savedName = userDoc.data().userName;
+                        const pDoc = await getDoc(doc(db, 'artifacts', appId, 'public', 'data', 'user_profiles', user.uid));
+                        if (pDoc.exists() && pDoc.data().userName) {
+                            savedName = pDoc.data().userName;
                         }
                     } catch(e){}
                 }
 
                 const name = savedName || user.displayName || 'Googleユーザー';
                 window.appState.userName = name;
-                localStorage.setItem('ko_ninsiken_user_name_' + user.uid, name);
+                localStorage.setItem('ko_ninsiken_custom_name_' + user.uid, name);
                 localStorage.setItem('ko_ninsiken_user_name_fixed', name);
                 document.getElementById('header-user-name').innerText = name;
                 
-                if (window.syncUserProfileCloud) await window.syncUserProfileCloud(name, true);
+                await window.syncUserProfileCloud(name, true);
                 showToast(`${name} としてログインしました`, 'success');
             } catch (error) {
                 showToast('Googleログインがキャンセルされました', 'warning');
@@ -1348,20 +1310,34 @@
             });
         }
 
+        // オンライン情報 & ニックネームのクラウド書き込み関数
         window.syncUserProfileCloud = async function(userName, isOnline = true) {
             if (!db || !auth || !auth.currentUser) return;
             try {
                 const u = auth.currentUser;
+                const nowIso = new Date().toISOString();
+                
+                // 1. ユーザープロファイル専用領域へ永久保存
+                await setDoc(doc(db, 'artifacts', appId, 'public', 'data', 'user_profiles', u.uid), {
+                    uid: u.uid,
+                    userName: userName,
+                    email: u.email || '匿名',
+                    updatedAt: nowIso
+                }, { merge: true });
+
+                // 2. アクティブユーザーリスト（オンライン監視）へ状態保存
                 const activeData = {
                     uid: u.uid,
                     userName: userName || (u.isAnonymous ? 'ゲスト学習者' : 'ユーザー'),
                     email: u.email || (u.isAnonymous ? '匿名アクセス' : 'メアドなし'),
-                    lastActive: new Date().toISOString(),
+                    lastActive: nowIso,
                     isOnline: isOnline,
                     isAnonymous: u.isAnonymous
                 };
                 await setDoc(doc(db, 'artifacts', appId, 'public', 'data', 'active_users', u.uid), activeData);
-            } catch(e){}
+            } catch(e){
+                console.error('Firebase write blocked/failed:', e);
+            }
         };
 
         window.saveQuizResultCloud = async function(resultData) {
@@ -1390,7 +1366,7 @@
         window.deleteHomeworkCloud = async function(hwId) { if (db) await deleteDoc(doc(db, 'artifacts', appId, 'public', 'data', 'homeworks', hwId)); };
     </script>
 
-    <!-- MAIN APP JAVASCRIPT LOGIC -->
+    <!-- JAVASCRIPT LOGIC -->
     <script>
         const SUBJECTS = [
             { id: 'japanese', name: '国語', icon: 'fa-book', color: 'from-rose-500 to-pink-600' },
@@ -1498,7 +1474,6 @@
             }).join('');
         }
 
-        // 教科書・学習資料表示 (受講生画面)
         window.renderMaterialsView = function() {
             const container = document.getElementById('user-materials-grid');
             if (!container) return;
@@ -1551,7 +1526,6 @@
             }).join('');
         }
 
-        // 単元・テーマ選択モーダルを開く
         window.openTopicSelectModal = function(subjectId) {
             const subject = SUBJECTS.find(s => s.id === subjectId);
             if (!subject) return;
@@ -1594,7 +1568,6 @@
             openModal('modal-topic-select');
         };
 
-        // ニックネーム設定（確実に一元保存）
         window.openUserNameModal = function() {
             document.getElementById('user-name-input').value = window.appState.userName || '';
             openModal('modal-user-name');
@@ -1610,7 +1583,7 @@
 
             if (typeof auth !== 'undefined' && auth && auth.currentUser) {
                 const u = auth.currentUser;
-                localStorage.setItem('ko_ninsiken_user_name_' + u.uid, input);
+                localStorage.setItem('ko_ninsiken_custom_name_' + u.uid, input);
                 localStorage.setItem('ko_ninsiken_user_name_fixed', input);
 
                 if (window.syncUserProfileCloud) {
@@ -1620,10 +1593,9 @@
                 localStorage.setItem('ko_ninsiken_user_name_fixed', input);
             }
 
-            showToast('ユーザー名を保存しました', 'success');
+            showToast('ニックネームを保存しました', 'success');
         };
 
-        // 暗記カード
         function initFlashcardsView() { filterFlashcards(); }
 
         window.filterFlashcards = function() {
@@ -1684,7 +1656,6 @@
             window.nextFlashcard();
         };
 
-        // 復習ノート (間違い問題再テスト機能)
         function renderMistakesNotebook() {
             const container = document.getElementById('mistakes-list');
             if (!container) return;
@@ -1749,7 +1720,6 @@
             loadCurrentQuestion();
         };
 
-        // 実効型ログインスタンプ機能
         function checkInTodayStamp() {
             const today = getTodayStr();
             let stamps = window.appState.userStamps || [];
@@ -1824,7 +1794,6 @@
             container.innerHTML = html;
         }
 
-        // 分析ビュー
         function renderAnalyticsView() {
             const container = document.getElementById('analytics-subjects-container');
             if (!container) return;
@@ -1851,7 +1820,6 @@
             }).join('');
         }
 
-        // クイズ進行
         window.startSubjectQuiz = function(subjectId, topicFilter = 'all') {
             closeModal('modal-topic-select');
             let questions = window.appState.questions.filter(q => q.subjectId === subjectId && q.isPublished !== false);
@@ -1997,7 +1965,6 @@
             showView('result');
         }
 
-        // 宿題表示・詳細
         window.renderHomeworkView = function() {
             const container = document.getElementById('user-homework-list');
             if (!container) return;
@@ -2042,7 +2009,6 @@
             openModal('modal-image-view');
         };
 
-        // --- 管理者教科書・資料追加・削除 ---
         window.openMaterialModal = function() { openModal('modal-material'); };
         window.saveMaterial = function() {
             const item = {
@@ -2090,7 +2056,6 @@
             `).join('');
         };
 
-        // --- 管理者問題追加・削除・公開非公開切替 ---
         window.openQuestionModal = function() { openModal('modal-question'); };
         window.saveQuestion = function() {
             const qItem = {
@@ -2148,7 +2113,6 @@
             });
         };
 
-        // --- 管理者宿題追加・削除 ---
         window.openHomeworkModal = function() { openModal('modal-homework'); };
         window.saveHomework = function() {
             const hwItem = {
@@ -2175,7 +2139,6 @@
             });
         };
 
-        // --- 管理者カード追加・削除 ---
         window.openCardModal = function() { openModal('modal-card'); };
         window.saveCard = function() {
             const cItem = {
@@ -2220,7 +2183,6 @@
             });
         };
 
-        // --- 管理者ダッシュボード描画 ---
         window.switchAdminSubTab = function(tabName) {
             window.appState.adminSubTab = tabName;
             ['users', 'material', 'quiz', 'homework', 'card'].forEach(t => {
@@ -2258,7 +2220,7 @@
 
             let filteredUsers = users.filter(u => {
                 const diffSec = Math.floor((now - new Date(u.lastActive)) / 1000);
-                const isOnline = u.isOnline && diffSec < 45;
+                const isOnline = u.isOnline && diffSec < 35; // 35秒以内に応答があればオンライン判定
                 if (filter === 'online') return isOnline;
                 if (filter === 'offline') return !isOnline;
                 return true;
@@ -2271,7 +2233,7 @@
 
             tbody.innerHTML = filteredUsers.map(u => {
                 const diffSec = Math.floor((now - new Date(u.lastActive)) / 1000);
-                const isOnline = u.isOnline && diffSec < 45;
+                const isOnline = u.isOnline && diffSec < 35;
                 const timeStr = new Date(u.lastActive).toLocaleString('ja-JP', { month: 'numeric', day: 'numeric', hour: '2-digit', minute: '2-digit' });
 
                 return `
@@ -2389,7 +2351,6 @@
             openModal('modal-user-detail');
         };
 
-        // 人別絞り込みドロップダウン
         window.populateUserLogSelectOptions = function() {
             const select = document.getElementById('admin-user-log-select');
             if (!select) return;
