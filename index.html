@@ -87,14 +87,12 @@
                 </button>
                 <button onclick="showView('homework')" id="nav-homework" class="nav-btn px-2.5 py-1.5 rounded-xl text-xs xl:text-sm font-bold text-slate-700 hover:text-brand-600 hover:bg-slate-100 transition flex items-center gap-1.5 whitespace-nowrap shrink-0 relative">
                     <i class="fa-solid fa-pen-ruler text-slate-400"></i> 宿題
-                    <span id="homework-badge" class="hidden bg-amber-500 text-white text-[10px] px-1.5 py-0.2 rounded-full font-bold ml-0.5">0</span>
                 </button>
                 <button onclick="showView('mock-exam')" id="nav-mock-exam" class="nav-btn px-2.5 py-1.5 rounded-xl text-xs xl:text-sm font-bold text-slate-700 hover:text-brand-600 hover:bg-slate-100 transition flex items-center gap-1.5 whitespace-nowrap shrink-0">
                     <i class="fa-solid fa-stopwatch text-slate-400"></i> 模擬試験
                 </button>
                 <button onclick="showView('mistakes')" id="nav-mistakes" class="nav-btn px-2.5 py-1.5 rounded-xl text-xs xl:text-sm font-bold text-slate-700 hover:text-brand-600 hover:bg-slate-100 transition flex items-center gap-1.5 whitespace-nowrap shrink-0 relative">
                     <i class="fa-solid fa-bookmark text-slate-400"></i> 復習ノート
-                    <span id="mistake-count-badge" class="bg-rose-500 text-white text-[10px] px-1.5 py-0.2 rounded-full font-bold ml-0.5">0</span>
                 </button>
                 <button onclick="showView('stamps')" id="nav-stamps" class="nav-btn px-2.5 py-1.5 rounded-xl text-xs xl:text-sm font-bold text-slate-700 hover:text-brand-600 hover:bg-slate-100 transition flex items-center gap-1.5 whitespace-nowrap shrink-0">
                     <i class="fa-solid fa-calendar-check text-slate-400"></i> スタンプ
@@ -521,7 +519,7 @@
                 </button>
             </div>
 
-            <!-- ADMIN SUB-TAB: USER MONITORING & WRONG QUESTIONS ANALYTICS -->
+            <!-- ADMIN SUB-TAB 1: USER MONITORING & WRONG QUESTIONS ANALYTICS -->
             <div id="admin-subtab-users" class="space-y-4">
                 <div class="bg-white p-3.5 sm:p-4 rounded-2xl border border-slate-200 shadow-sm flex flex-col sm:flex-row items-start sm:items-center justify-between gap-2.5">
                     <div>
@@ -710,7 +708,162 @@
 
     </main>
 
-    <!-- MODAL: INDIVIDUAL USER STATS & WRONG QUESTIONS (個人別成績＆間違えた問題表示モーダル) -->
+    <!-- 復活モーダル: 問題追加モーダル (HTML) -->
+    <div id="modal-question" class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-50 flex items-center justify-center p-3 hidden animate-fade-in">
+        <div class="bg-white w-full max-w-lg rounded-3xl p-5 shadow-2xl border border-slate-100 space-y-3 max-h-[90vh] overflow-y-auto custom-scrollbar">
+            <div class="flex justify-between items-center border-b pb-2">
+                <h3 class="text-base font-black text-slate-900">クイズ問題の追加・編集</h3>
+                <button onclick="closeModal('modal-question')" class="text-slate-400 hover:text-slate-600"><i class="fa-solid fa-xmark text-lg"></i></button>
+            </div>
+            <div class="space-y-2 text-xs font-bold">
+                <div>
+                    <label class="block text-slate-500 mb-1">科目</label>
+                    <select id="q-input-subject" class="w-full bg-slate-50 border border-slate-300 rounded-xl p-2 font-bold">
+                        <option value="japanese">国語</option>
+                        <option value="math">数学I</option>
+                        <option value="english">英語</option>
+                        <option value="history">歴史</option>
+                        <option value="geography">地理</option>
+                        <option value="civics">公共</option>
+                        <option value="science">科学と人間生活</option>
+                        <option value="physics">物理基礎</option>
+                        <option value="chemistry">化学基礎</option>
+                        <option value="biology">生物基礎</option>
+                        <option value="earth_science">地学基礎</option>
+                        <option value="info">情報</option>
+                    </select>
+                </div>
+                <div>
+                    <label class="block text-slate-500 mb-1">単元・テーマ</label>
+                    <input type="text" id="q-input-topic" placeholder="例: 現代文 / 三角比" class="w-full bg-slate-50 border border-slate-300 rounded-xl p-2">
+                </div>
+                <div>
+                    <label class="block text-slate-500 mb-1">問題文</label>
+                    <textarea id="q-input-text" rows="3" class="w-full bg-slate-50 border border-slate-300 rounded-xl p-2"></textarea>
+                </div>
+                <div class="space-y-1">
+                    <label class="block text-slate-500">選択肢 (4つ)</label>
+                    <input type="text" id="q-input-c0" placeholder="選択肢 1" class="w-full bg-slate-50 border border-slate-300 rounded-xl p-2 mb-1">
+                    <input type="text" id="q-input-c1" placeholder="選択肢 2" class="w-full bg-slate-50 border border-slate-300 rounded-xl p-2 mb-1">
+                    <input type="text" id="q-input-c2" placeholder="選択肢 3" class="w-full bg-slate-50 border border-slate-300 rounded-xl p-2 mb-1">
+                    <input type="text" id="q-input-c3" placeholder="選択肢 4" class="w-full bg-slate-50 border border-slate-300 rounded-xl p-2">
+                </div>
+                <div>
+                    <label class="block text-slate-500 mb-1">正解の番号 (1〜4)</label>
+                    <select id="q-input-correct" class="w-full bg-slate-50 border border-slate-300 rounded-xl p-2 font-bold">
+                        <option value="0">1番目が正解</option>
+                        <option value="1">2番目が正解</option>
+                        <option value="2">3番目が正解</option>
+                        <option value="3">4番目が正解</option>
+                    </select>
+                </div>
+                <div>
+                    <label class="block text-slate-500 mb-1">解説文</label>
+                    <textarea id="q-input-explanation" rows="2" class="w-full bg-slate-50 border border-slate-300 rounded-xl p-2"></textarea>
+                </div>
+                <div class="flex items-center gap-2 pt-1">
+                    <input type="checkbox" id="q-input-ismock" class="rounded text-brand-600">
+                    <label for="q-input-ismock" class="text-slate-700">模擬試験の出題対象に含める</label>
+                </div>
+            </div>
+            <div class="flex gap-2 pt-2">
+                <button onclick="closeModal('modal-question')" class="w-1/2 bg-slate-100 text-slate-700 font-bold py-2 rounded-xl text-xs">キャンセル</button>
+                <button onclick="saveQuestion()" class="w-1/2 bg-brand-600 text-white font-bold py-2 rounded-xl text-xs shadow-md">クラウドへ保存</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- 復活モーダル: 宿題追加モーダル (HTML) -->
+    <div id="modal-homework" class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-50 flex items-center justify-center p-3 hidden animate-fade-in">
+        <div class="bg-white w-full max-w-md rounded-3xl p-5 shadow-2xl border border-slate-100 space-y-3 max-h-[90vh] overflow-y-auto custom-scrollbar">
+            <div class="flex justify-between items-center border-b pb-2">
+                <h3 class="text-base font-black text-slate-900">新しい宿題を作成</h3>
+                <button onclick="closeModal('modal-homework')" class="text-slate-400 hover:text-slate-600"><i class="fa-solid fa-xmark text-lg"></i></button>
+            </div>
+            <div class="space-y-2 text-xs font-bold">
+                <div>
+                    <label class="block text-slate-500 mb-1">科目</label>
+                    <select id="hw-input-subject" class="w-full bg-slate-50 border border-slate-300 rounded-xl p-2 font-bold">
+                        <option value="japanese">国語</option>
+                        <option value="math">数学I</option>
+                        <option value="english">英語</option>
+                        <option value="history">歴史</option>
+                        <option value="geography">地理</option>
+                        <option value="civics">公共</option>
+                        <option value="science">科学と人間生活</option>
+                        <option value="physics">物理基礎</option>
+                        <option value="chemistry">化学基礎</option>
+                        <option value="biology">生物基礎</option>
+                        <option value="earth_science">地学基礎</option>
+                        <option value="info">情報</option>
+                    </select>
+                </div>
+                <div>
+                    <label class="block text-slate-500 mb-1">宿題タイトル</label>
+                    <input type="text" id="hw-input-title" placeholder="例: 現代文 漢字演習プリント" class="w-full bg-slate-50 border border-slate-300 rounded-xl p-2">
+                </div>
+                <div>
+                    <label class="block text-slate-500 mb-1">提出期限</label>
+                    <input type="date" id="hw-input-duedate" class="w-full bg-slate-50 border border-slate-300 rounded-xl p-2">
+                </div>
+                <div>
+                    <label class="block text-slate-500 mb-1">指示・説明内容</label>
+                    <textarea id="hw-input-desc" rows="3" class="w-full bg-slate-50 border border-slate-300 rounded-xl p-2"></textarea>
+                </div>
+                <div>
+                    <label class="block text-slate-500 mb-1">参考画像URL (任意)</label>
+                    <input type="text" id="hw-input-imageurl" placeholder="https://..." class="w-full bg-slate-50 border border-slate-300 rounded-xl p-2 font-mono">
+                </div>
+            </div>
+            <div class="flex gap-2 pt-2">
+                <button onclick="closeModal('modal-homework')" class="w-1/2 bg-slate-100 text-slate-700 font-bold py-2 rounded-xl text-xs">キャンセル</button>
+                <button onclick="saveHomework()" class="w-1/2 bg-amber-500 text-slate-950 font-black py-2 rounded-xl text-xs shadow-md">宿題を配信</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- 復活モーダル: 暗記カード追加モーダル (HTML) -->
+    <div id="modal-card" class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-50 flex items-center justify-center p-3 hidden animate-fade-in">
+        <div class="bg-white w-full max-w-md rounded-3xl p-5 shadow-2xl border border-slate-100 space-y-3 max-h-[90vh] overflow-y-auto custom-scrollbar">
+            <div class="flex justify-between items-center border-b pb-2">
+                <h3 class="text-base font-black text-slate-900">暗記カードの追加</h3>
+                <button onclick="closeModal('modal-card')" class="text-slate-400 hover:text-slate-600"><i class="fa-solid fa-xmark text-lg"></i></button>
+            </div>
+            <div class="space-y-2 text-xs font-bold">
+                <div>
+                    <label class="block text-slate-500 mb-1">科目</label>
+                    <select id="card-input-subject" class="w-full bg-slate-50 border border-slate-300 rounded-xl p-2 font-bold">
+                        <option value="japanese">国語</option>
+                        <option value="math">数学I</option>
+                        <option value="english">英語</option>
+                        <option value="history">歴史</option>
+                        <option value="geography">地理</option>
+                        <option value="civics">公共</option>
+                        <option value="science">科学と人間生活</option>
+                        <option value="physics">物理基礎</option>
+                        <option value="chemistry">化学基礎</option>
+                        <option value="biology">生物基礎</option>
+                        <option value="earth_science">地学基礎</option>
+                        <option value="info">情報</option>
+                    </select>
+                </div>
+                <div>
+                    <label class="block text-slate-500 mb-1">表面 (問題・用語)</label>
+                    <textarea id="card-input-front" rows="2" class="w-full bg-slate-50 border border-slate-300 rounded-xl p-2"></textarea>
+                </div>
+                <div>
+                    <label class="block text-slate-500 mb-1">裏面 (解答・意味)</label>
+                    <textarea id="card-input-back" rows="3" class="w-full bg-slate-50 border border-slate-300 rounded-xl p-2"></textarea>
+                </div>
+            </div>
+            <div class="flex gap-2 pt-2">
+                <button onclick="closeModal('modal-card')" class="w-1/2 bg-slate-100 text-slate-700 font-bold py-2 rounded-xl text-xs">キャンセル</button>
+                <button onclick="saveCard()" class="w-1/2 bg-indigo-600 text-white font-bold py-2 rounded-xl text-xs shadow-md">カードを追加</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- MODAL: INDIVIDUAL USER STATS & WRONG QUESTIONS -->
     <div id="modal-user-detail" class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-50 flex items-center justify-center p-3 hidden animate-fade-in">
         <div class="bg-white w-full max-w-2xl rounded-3xl p-5 sm:p-6 shadow-2xl border border-slate-100 space-y-4 max-h-[90vh] overflow-y-auto custom-scrollbar">
             <div class="flex justify-between items-start border-b border-slate-200 pb-3">
@@ -870,7 +1023,7 @@
 
                     if (user) {
                         try {
-                            const blockDoc = await getDoc(doc(db, 'artifacts', appId, 'public', 'data', 'blocked_users', user.uid));
+                            const blockDoc = await getDoc(doc(doc(db, 'artifacts', appId, 'public', 'data', 'blocked_users', user.uid)));
                             if (blockDoc.exists() && blockDoc.data().blocked) {
                                 alert('あなたのアカウントは管理者によってアクセスがブロックされています。');
                                 await signOut(auth);
@@ -1081,7 +1234,7 @@
         window.deleteHomeworkCloud = async function(hwId) { if (db) await deleteDoc(doc(db, 'artifacts', appId, 'public', 'data', 'homeworks', hwId)); };
     </script>
 
-    <!-- MAIN APP JAVASCRIPT LOGIC (全機能ロジック完全収録) -->
+    <!-- MAIN APP JAVASCRIPT LOGIC (全機能・全復元ロジック) -->
     <script>
         const SUBJECTS = [
             { id: 'japanese', name: '国語', icon: 'fa-book', color: 'from-rose-500 to-pink-600' },
@@ -1125,9 +1278,14 @@
         }
 
         window.saveLocalState = function() {
-            localStorage.setItem('kousotsu_app_master_v14', JSON.stringify({
+            localStorage.setItem('kousotsu_app_master_v15', JSON.stringify({
                 userName: window.appState.userName
             }));
+        };
+
+        window.toggleMobileMenu = function() {
+            const menu = document.getElementById('mobile-menu');
+            if (menu) menu.classList.toggle('hidden');
         };
 
         window.showView = function(viewName) {
@@ -1142,7 +1300,9 @@
             if (viewName === 'subjects') renderFullSubjects();
             if (viewName === 'homework') renderHomeworkView();
             if (viewName === 'flashcards') initFlashcardsView();
+            if (viewName === 'mistakes') renderMistakesNotebook();
             if (viewName === 'stamps') renderStampsView();
+            if (viewName === 'history') renderAnalyticsView();
             if (viewName === 'admin') renderAdminDashboard();
         };
 
@@ -1184,10 +1344,25 @@
             }).join('');
         }
 
-        // --- 暗記カード機能（完全復元） ---
-        function initFlashcardsView() {
-            filterFlashcards();
-        }
+        // ニックネーム設定
+        window.openUserNameModal = function() {
+            document.getElementById('user-name-input').value = window.appState.userName || '';
+            openModal('modal-user-name');
+        };
+
+        window.saveUserName = function() {
+            const input = document.getElementById('user-name-input').value.trim();
+            if (!input) return;
+            window.appState.userName = input;
+            localStorage.setItem('ko_ninsiken_user_name_fixed', input);
+            document.getElementById('header-user-name').innerText = input;
+            closeModal('modal-user-name');
+            if (window.syncUserProfileCloud) window.syncUserProfileCloud(input, true);
+            showToast('ユーザー名を変更しました', 'success');
+        };
+
+        // 暗記カード
+        function initFlashcardsView() { filterFlashcards(); }
 
         window.filterFlashcards = function() {
             const selSubject = document.getElementById('flashcard-subject-select').value;
@@ -1227,11 +1402,7 @@
         window.flipFlashcard = function() {
             const inner = document.getElementById('flashcard-inner');
             if (!inner) return;
-            if (inner.style.transform === 'rotateY(180deg)') {
-                inner.style.transform = 'rotateY(0deg)';
-            } else {
-                inner.style.transform = 'rotateY(180deg)';
-            }
+            inner.style.transform = (inner.style.transform === 'rotateY(180deg)') ? 'rotateY(0deg)' : 'rotateY(180deg)';
         };
 
         window.nextFlashcard = function() {
@@ -1251,14 +1422,79 @@
             window.nextFlashcard();
         };
 
-        // --- ログインスタンプ表示機能 ---
+        // 復習ノート (間違い問題再テスト機能)
+        function renderMistakesNotebook() {
+            const container = document.getElementById('mistakes-list');
+            if (!container) return;
+            
+            // 自分の過去ミス問題抽出
+            const myLogs = (window.appState.allUserResults || []).filter(r => r.userName === window.appState.userName);
+            const wrongMap = new Map();
+
+            myLogs.forEach(l => {
+                if (l.wrongQuestions) {
+                    l.wrongQuestions.forEach(wq => {
+                        wrongMap.set(wq.questionId || wq.question, wq);
+                    });
+                }
+            });
+
+            const wrongList = Array.from(wrongMap.values());
+
+            if (wrongList.length === 0) {
+                container.innerHTML = `<div class="bg-white p-8 text-center rounded-2xl border border-slate-200"><i class="fa-solid fa-circle-check text-4xl text-emerald-500 mb-2"></i><h3 class="font-bold text-slate-900">復習が必要な間違えた問題はありません！</h3></div>`;
+                document.getElementById('btn-start-mistake-quiz').classList.add('hidden');
+                return;
+            }
+
+            document.getElementById('btn-start-mistake-quiz').classList.remove('hidden');
+            container.innerHTML = wrongList.map(wq => {
+                const subject = SUBJECTS.find(s => s.id === wq.subjectId);
+                return `
+                    <div class="bg-white p-4 rounded-2xl border border-slate-200 shadow-sm space-y-2">
+                        <div class="flex justify-between items-center">
+                            <span class="bg-rose-100 text-rose-800 text-[10px] font-bold px-2.5 py-0.5 rounded-full">${subject ? subject.name : '科目'}</span>
+                            <span class="text-[10px] text-slate-400 font-bold">要復習</span>
+                        </div>
+                        <h4 class="font-bold text-slate-900 text-sm leading-snug">${wq.question}</h4>
+                        <div class="bg-emerald-50 p-2.5 rounded-xl border border-emerald-200 text-xs text-emerald-900 font-bold">
+                            正解: ${wq.correctAnswer}
+                        </div>
+                    </div>
+                `;
+            }).join('');
+        }
+
+        window.startMistakeQuiz = function() {
+            const myLogs = (window.appState.allUserResults || []).filter(r => r.userName === window.appState.userName);
+            const wrongIds = new Set();
+            myLogs.forEach(l => {
+                if (l.wrongQuestions) l.wrongQuestions.forEach(wq => { if (wq.questionId) wrongIds.add(wq.questionId); });
+            });
+
+            const mistakeQuestions = window.appState.questions.filter(q => wrongIds.has(q.id));
+            if (mistakeQuestions.length === 0) {
+                showToast('再テストできる元データがありません', 'info');
+                return;
+            }
+
+            window.appState.currentQuizSet = [...mistakeQuestions].sort(() => Math.random() - 0.5);
+            window.appState.currentQuizAnswers = [];
+            window.appState.currentQuizIndex = 0;
+            window.appState.quizScore = 0;
+            window.appState.isMockExam = false;
+
+            showView('quiz');
+            loadCurrentQuestion();
+        };
+
+        // ログインスタンプ
         function renderStampsView() {
             const container = document.getElementById('stamp-grid-container');
             if (!container) return;
-            const daysInMonth = 31;
             let html = '';
-            for (let i = 1; i <= daysInMonth; i++) {
-                const isStamped = i <= 5; // ダミー表示例
+            for (let i = 1; i <= 31; i++) {
+                const isStamped = i <= 3; 
                 html += `
                     <div class="p-3 rounded-2xl border flex flex-col items-center justify-center ${isStamped ? 'bg-amber-50 border-amber-300' : 'bg-slate-50 border-slate-200'}">
                         <span class="text-[10px] font-bold text-slate-400 mb-1">${i}日</span>
@@ -1269,7 +1505,34 @@
             container.innerHTML = html;
         }
 
-        // --- クイズ進行・解答保存 ---
+        // 分析ビュー (画面)
+        function renderAnalyticsView() {
+            const container = document.getElementById('analytics-subjects-container');
+            if (!container) return;
+
+            const myLogs = (window.appState.allUserResults || []).filter(r => r.userName === window.appState.userName);
+
+            container.innerHTML = SUBJECTS.map(s => {
+                const subjectLogs = myLogs.filter(l => l.mode === s.name);
+                let qTotal = 0, qCorrect = 0;
+                subjectLogs.forEach(l => { qTotal += l.total; qCorrect += l.score; });
+                const acc = qTotal > 0 ? Math.round((qCorrect / qTotal) * 100) : 0;
+
+                return `
+                    <div class="space-y-1">
+                        <div class="flex justify-between text-xs font-bold">
+                            <span class="text-slate-800">${s.name}</span>
+                            <span class="text-brand-600">${acc}% (${qCorrect}/${qTotal}問)</span>
+                        </div>
+                        <div class="w-full bg-slate-100 h-2 rounded-full overflow-hidden">
+                            <div class="bg-brand-600 h-full rounded-full transition-all duration-500" style="width: ${acc}%"></div>
+                        </div>
+                    </div>
+                `;
+            }).join('');
+        }
+
+        // クイズ進行
         window.startSubjectQuiz = function(subjectId) {
             const questions = window.appState.questions.filter(q => q.subjectId === subjectId);
             if (questions.length === 0) { showToast('この科目にはまだ問題がありません', 'info'); return; }
@@ -1295,6 +1558,12 @@
 
             showView('quiz');
             loadCurrentQuestion();
+        };
+
+        window.confirmExitQuiz = function() {
+            showConfirmModal('中断確認', 'クイズを途中で終了しますか？成績は保存されません。', () => {
+                showView('subjects');
+            });
         };
 
         function loadCurrentQuestion() {
@@ -1386,7 +1655,7 @@
             showView('result');
         }
 
-        // --- 宿題描画・モダール ---
+        // 宿題表示・詳細
         window.renderHomeworkView = function() {
             const container = document.getElementById('user-homework-list');
             if (!container) return;
@@ -1431,7 +1700,125 @@
             openModal('modal-image-view');
         };
 
-        // --- 管理者画面タブ切替・描画 ---
+        // --- 管理者追加・削除ロジック (復活) ---
+        window.openQuestionModal = function() { openModal('modal-question'); };
+        window.saveQuestion = function() {
+            const qItem = {
+                id: 'q_' + Date.now(),
+                subjectId: document.getElementById('q-input-subject').value,
+                topic: document.getElementById('q-input-topic').value || '基本',
+                question: document.getElementById('q-input-text').value,
+                choices: [
+                    document.getElementById('q-input-c0').value,
+                    document.getElementById('q-input-c1').value,
+                    document.getElementById('q-input-c2').value,
+                    document.getElementById('q-input-c3').value
+                ],
+                correctIndex: document.getElementById('q-input-correct').value,
+                explanation: document.getElementById('q-input-explanation').value,
+                isMock: document.getElementById('q-input-ismock').checked
+            };
+
+            if (!qItem.question || !qItem.choices[0]) { showToast('問題文と選択肢を入力してください', 'warning'); return; }
+
+            if (window.syncQuestionCloud) window.syncQuestionCloud(qItem);
+            closeModal('modal-question');
+            showToast('問題を追加しました', 'success');
+        };
+
+        window.deleteQuestionItem = function(qId) {
+            showConfirmModal('削除確認', 'この問題を削除しますか？', () => {
+                if (window.deleteQuestionCloud) window.deleteQuestionCloud(qId);
+                showToast('削除しました', 'info');
+            });
+        };
+
+        window.toggleSelectAllQuestions = function(masterEl) {
+            const checkboxes = document.querySelectorAll('.q-select-checkbox');
+            checkboxes.forEach(cb => cb.checked = masterEl.checked);
+        };
+
+        window.deleteSelectedQuestions = function() {
+            const checkedList = document.querySelectorAll('.q-select-checkbox:checked');
+            if (checkedList.length === 0) { showToast('一括削除する項目を選択してください', 'warning'); return; }
+
+            showConfirmModal('一括削除確認', `選択した ${checkedList.length} 件の問題を削除しますか？`, () => {
+                checkedList.forEach(cb => { if (window.deleteQuestionCloud) window.deleteQuestionCloud(cb.value); });
+                showToast('一括削除しました', 'success');
+            });
+        };
+
+        window.openHomeworkModal = function() { openModal('modal-homework'); };
+        window.saveHomework = function() {
+            const hwItem = {
+                id: 'hw_' + Date.now(),
+                subjectId: document.getElementById('hw-input-subject').value,
+                title: document.getElementById('hw-input-title').value,
+                dueDate: document.getElementById('hw-input-duedate').value,
+                description: document.getElementById('hw-input-desc').value,
+                imageUrl: document.getElementById('hw-input-imageurl').value,
+                createdAt: new Date().toISOString()
+            };
+
+            if (!hwItem.title) { showToast('宿題タイトルを入力してください', 'warning'); return; }
+
+            if (window.syncHomeworkCloud) window.syncHomeworkCloud(hwItem);
+            closeModal('modal-homework');
+            showToast('宿題を配信しました', 'success');
+        };
+
+        window.deleteHomeworkItem = function(hwId) {
+            showConfirmModal('削除確認', 'この宿題を削除しますか？', () => {
+                if (window.deleteHomeworkCloud) window.deleteHomeworkCloud(hwId);
+                showToast('宿題を削除しました', 'info');
+            });
+        };
+
+        window.openCardModal = function() { openModal('modal-card'); };
+        window.saveCard = function() {
+            const cItem = {
+                id: 'c_' + Date.now(),
+                subjectId: document.getElementById('card-input-subject').value,
+                front: document.getElementById('card-input-front').value,
+                back: document.getElementById('card-input-back').value
+            };
+
+            if (!cItem.front || !cItem.back) { showToast('表面と裏面を入力してください', 'warning'); return; }
+
+            if (window.syncCardCloud) window.syncCardCloud(cItem);
+            closeModal('modal-card');
+            showToast('暗記カードを追加しました', 'success');
+        };
+
+        window.deleteCardItem = function(cId) {
+            showConfirmModal('削除確認', 'この暗記カードを削除しますか？', () => {
+                if (window.deleteCardCloud) window.deleteCardCloud(cId);
+                showToast('カードを削除しました', 'info');
+            });
+        };
+
+        window.toggleSelectAllCards = function(masterEl) {
+            const checkboxes = document.querySelectorAll('.c-select-checkbox');
+            checkboxes.forEach(cb => cb.checked = masterEl.checked);
+        };
+
+        window.deleteSelectedCards = function() {
+            const checkedList = document.querySelectorAll('.c-select-checkbox:checked');
+            if (checkedList.length === 0) { showToast('一括削除するカードを選択してください', 'warning'); return; }
+
+            showConfirmModal('一括削除確認', `選択した ${checkedList.length} 件のカードを削除しますか？`, () => {
+                checkedList.forEach(cb => { if (window.deleteCardCloud) window.deleteCardCloud(cb.value); });
+                showToast('一括削除しました', 'success');
+            });
+        };
+
+        window.blockUserConfirm = function(uid, userName) {
+            showConfirmModal('ユーザー追放確認', `${userName} をアクセスブロック（追放）しますか？`, () => {
+                if (window.blockUserCloud) window.blockUserCloud(uid);
+            });
+        };
+
+        // --- 管理者ダッシュボード描画 ---
         window.switchAdminSubTab = function(tabName) {
             window.appState.adminSubTab = tabName;
             ['users', 'quiz', 'homework', 'card'].forEach(t => {
