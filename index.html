@@ -282,7 +282,7 @@
             <div id="full-subjects-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-2.5 sm:gap-4"></div>
         </section>
 
-        <!-- VIEW: HOMEWORK (宿題) -->
+        <!-- VIEW: HOMEWORK -->
         <section id="view-homework" class="hidden space-y-3 sm:space-y-6 animate-fade-in">
             <div class="bg-white p-3.5 sm:p-6 rounded-2xl border border-slate-200 shadow-sm flex flex-col sm:flex-row items-start sm:items-center justify-between gap-2.5">
                 <div>
@@ -300,9 +300,7 @@
         <section id="view-quiz" class="hidden max-w-3xl mx-auto space-y-3 sm:space-y-6 animate-fade-in">
             <div class="bg-white p-3 sm:p-5 rounded-2xl border border-slate-200 shadow-sm flex items-center justify-between">
                 <div class="flex items-center gap-2">
-                    <span id="quiz-subject-badge" class="bg-brand-100 text-brand-700 text-[11px] sm:text-xs font-black px-2.5 py-1 rounded-full">
-                        国語
-                    </span>
+                    <span id="quiz-subject-badge" class="bg-brand-100 text-brand-700 text-[11px] sm:text-xs font-black px-2.5 py-1 rounded-full">国語</span>
                     <span id="quiz-progress-text" class="text-xs sm:text-sm font-bold text-slate-700">第 1 / 5 問</span>
                 </div>
                 <button onclick="confirmExitQuiz()" class="text-slate-400 hover:text-slate-600 text-xs font-bold flex items-center gap-1 bg-slate-100 px-2.5 py-1 rounded-lg transition active:bg-slate-200">
@@ -318,18 +316,14 @@
             <div class="bg-white rounded-2xl sm:rounded-3xl border border-slate-200 shadow-md p-4 sm:p-8 space-y-4 sm:space-y-5">
                 <div>
                     <span id="quiz-topic-tag" class="text-[10px] sm:text-[11px] font-bold text-slate-400 uppercase tracking-wider block mb-1">テーマ: 現代文</span>
-                    <h3 id="quiz-question-text" class="text-sm sm:text-xl font-bold text-slate-900 leading-relaxed break-words">
-                        問題文がここに読み込まれます...
-                    </h3>
+                    <h3 id="quiz-question-text" class="text-sm sm:text-xl font-bold text-slate-900 leading-relaxed break-words">問題文がここに読み込まれます...</h3>
                 </div>
 
                 <div id="quiz-choices-container" class="space-y-2"></div>
 
                 <div id="quiz-explanation-box" class="hidden bg-slate-50 border-2 border-slate-200 rounded-2xl p-3.5 sm:p-5 space-y-2 animate-fade-in">
                     <div id="quiz-result-header" class="flex items-center gap-2 font-black text-sm sm:text-lg"></div>
-                    <div id="quiz-explanation-text" class="text-xs sm:text-sm text-slate-800 leading-relaxed whitespace-pre-line break-words">
-                        ここに解説文が表示されます。
-                    </div>
+                    <div id="quiz-explanation-text" class="text-xs sm:text-sm text-slate-800 leading-relaxed whitespace-pre-line break-words">ここに解説文が表示されます。</div>
                 </div>
 
                 <div id="quiz-action-area" class="pt-1 flex justify-end">
@@ -406,30 +400,24 @@
 
             <div id="flashcard-container" class="perspective-1000 w-full min-h-[220px] h-[250px] sm:h-[320px] cursor-pointer" onclick="flipFlashcard()">
                 <div id="flashcard-inner" class="relative w-full h-full duration-500 transform-style-3d bg-white border-2 border-slate-200 rounded-2xl sm:rounded-3xl shadow-lg">
-                    <!-- Front View -->
                     <div class="absolute inset-0 p-4 sm:p-8 flex flex-col justify-between items-center backface-hidden bg-white rounded-2xl sm:rounded-3xl overflow-hidden">
                         <div class="flex items-center justify-between w-full">
                             <span id="fc-subject" class="bg-indigo-100 text-indigo-800 text-[10px] sm:text-xs font-bold px-2 py-0.5 rounded-full">数学I</span>
                             <span class="text-[10px] sm:text-[11px] text-slate-400 font-medium"><i class="fa-solid fa-hand-pointer mr-1"></i> タップで裏返し</span>
                         </div>
                         <div class="w-full my-auto overflow-y-auto max-h-[140px] sm:max-h-[180px] custom-scrollbar text-center px-1">
-                            <div id="fc-front-text" class="text-base sm:text-2xl font-black text-slate-900 break-words whitespace-pre-line leading-relaxed">
-                                2次関数の頂点の公式
-                            </div>
+                            <div id="fc-front-text" class="text-base sm:text-2xl font-black text-slate-900 break-words whitespace-pre-line leading-relaxed">2次関数の頂点の公式</div>
                         </div>
                         <div class="text-[9px] sm:text-[10px] text-slate-400 font-bold uppercase tracking-widest">FRONT (表面)</div>
                     </div>
 
-                    <!-- Back View -->
                     <div class="absolute inset-0 p-4 sm:p-8 flex flex-col justify-between items-center backface-hidden rotate-y-180 bg-slate-900 text-white rounded-2xl sm:rounded-3xl overflow-hidden">
                         <div class="flex items-center justify-between w-full">
                             <span class="bg-emerald-500/20 text-emerald-300 text-[10px] sm:text-xs font-bold px-2 py-0.5 rounded-full border border-emerald-500/30">解答・解説</span>
                             <span class="text-[10px] sm:text-[11px] text-slate-400 font-medium"><i class="fa-solid fa-hand-pointer mr-1"></i> タップで戻る</span>
                         </div>
                         <div class="w-full my-auto overflow-y-auto max-h-[140px] sm:max-h-[180px] custom-scrollbar text-center px-1">
-                            <div id="fc-back-text" class="text-sm sm:text-xl font-bold text-emerald-300 break-words whitespace-pre-line leading-relaxed">
-                                y = a(x - p)² + q <br><span class="text-xs sm:text-sm font-normal text-slate-200">頂点 (p, q)</span>
-                            </div>
+                            <div id="fc-back-text" class="text-sm sm:text-xl font-bold text-emerald-300 break-words whitespace-pre-line leading-relaxed">y = a(x - p)² + q</div>
                         </div>
                         <div class="text-[9px] sm:text-[10px] text-slate-400 font-bold uppercase tracking-widest">BACK (裏面)</div>
                     </div>
@@ -437,49 +425,25 @@
             </div>
 
             <div class="flex items-center justify-between gap-1.5 sm:gap-2">
-                <button onclick="prevFlashcard()" class="bg-white border border-slate-200 text-slate-700 font-bold px-2.5 sm:px-4 py-2 rounded-xl hover:bg-slate-50 transition text-xs sm:text-sm active:bg-slate-100">
-                    <i class="fa-solid fa-chevron-left"></i> 前へ
-                </button>
-
+                <button onclick="prevFlashcard()" class="bg-white border border-slate-200 text-slate-700 font-bold px-2.5 sm:px-4 py-2 rounded-xl hover:bg-slate-50 transition text-xs sm:text-sm"><i class="fa-solid fa-chevron-left"></i> 前へ</button>
                 <div class="flex gap-1 sm:gap-2">
-                    <button onclick="markFlashcardStatus(false)" class="bg-rose-50 border border-rose-200 text-rose-700 font-bold px-2.5 sm:px-4 py-2 rounded-xl hover:bg-rose-100 transition flex items-center gap-1 text-xs sm:text-sm active:bg-rose-100">
-                        <i class="fa-solid fa-xmark"></i> 要復習
-                    </button>
-                    <button onclick="markFlashcardStatus(true)" class="bg-emerald-50 border border-emerald-200 text-emerald-700 font-bold px-2.5 sm:px-4 py-2 rounded-xl hover:bg-emerald-100 transition flex items-center gap-1 text-xs sm:text-sm active:bg-emerald-100">
-                        <i class="fa-solid fa-check"></i> 覚えた！
-                    </button>
+                    <button onclick="markFlashcardStatus(false)" class="bg-rose-50 border border-rose-200 text-rose-700 font-bold px-2.5 sm:px-4 py-2 rounded-xl hover:bg-rose-100 transition flex items-center gap-1 text-xs sm:text-sm"><i class="fa-solid fa-xmark"></i> 要復習</button>
+                    <button onclick="markFlashcardStatus(true)" class="bg-emerald-50 border border-emerald-200 text-emerald-700 font-bold px-2.5 sm:px-4 py-2 rounded-xl hover:bg-emerald-100 transition flex items-center gap-1 text-xs sm:text-sm"><i class="fa-solid fa-check"></i> 覚えた！</button>
                 </div>
-
-                <button onclick="nextFlashcard()" class="bg-white border border-slate-200 text-slate-700 font-bold px-2.5 sm:px-4 py-2 rounded-xl hover:bg-slate-50 transition text-xs sm:text-sm active:bg-slate-100">
-                    次へ <i class="fa-solid fa-chevron-right"></i>
-                </button>
+                <button onclick="nextFlashcard()" class="bg-white border border-slate-200 text-slate-700 font-bold px-2.5 sm:px-4 py-2 rounded-xl hover:bg-slate-50 transition text-xs sm:text-sm">次へ <i class="fa-solid fa-chevron-right"></i></button>
             </div>
-
-            <div class="text-center text-xs text-slate-500 font-bold" id="flashcard-counter-text">
-                1 / 10 枚目
-            </div>
+            <div class="text-center text-xs text-slate-500 font-bold" id="flashcard-counter-text">1 / 10 枚目</div>
         </section>
 
         <!-- VIEW: MOCK EXAM INTRO -->
         <section id="view-mock-exam" class="hidden max-w-3xl mx-auto space-y-3 sm:space-y-6 animate-fade-in">
             <div class="bg-gradient-to-r from-slate-900 via-slate-800 to-indigo-950 text-white p-5 sm:p-8 rounded-2xl sm:rounded-3xl shadow-xl space-y-3.5 sm:space-y-5">
-                <div class="inline-block bg-amber-400 text-slate-950 font-black text-[10px] sm:text-[11px] px-2.5 py-0.5 rounded-full uppercase">
-                    本番シミュレーション
-                </div>
+                <div class="inline-block bg-amber-400 text-slate-950 font-black text-[10px] sm:text-[11px] px-2.5 py-0.5 rounded-full uppercase">本番シミュレーション</div>
                 <h2 class="text-lg sm:text-3xl font-black">高卒認定 総合模擬試験</h2>
-                <p class="text-xs sm:text-sm text-slate-300 leading-relaxed">
-                    全12科目データベースからランダムに10問を選出して実施する15分間の模擬テストです。60%（6問以上）正解で合格判定となります。
-                </p>
-                <div class="bg-white/10 p-3 sm:p-3.5 rounded-xl border border-white/10 text-xs text-slate-300 space-y-1">
-                    <p><i class="fa-solid fa-check text-emerald-400 mr-1.5"></i>制限時間：15分（自動カウントダウン）</p>
-                    <p><i class="fa-solid fa-check text-emerald-400 mr-1.5"></i>全12科目ミックス出題</p>
-                    <p><i class="fa-solid fa-check text-emerald-400 mr-1.5"></i>終了後、結果が履歴へ自動記録</p>
-                </div>
-                <div class="pt-1">
-                    <button onclick="startMockExam()" class="w-full sm:w-auto bg-emerald-500 hover:bg-emerald-600 active:bg-emerald-700 text-white font-bold px-8 py-3 rounded-xl shadow-lg transition flex items-center justify-center gap-2 text-xs sm:text-base">
-                        <i class="fa-solid fa-play"></i> 模擬試験を開始する
-                    </button>
-                </div>
+                <p class="text-xs sm:text-sm text-slate-300 leading-relaxed">全12科目データベースからランダムに10問を選出して実施する15分間の模擬テストです。</p>
+                <button onclick="startMockExam()" class="w-full sm:w-auto bg-emerald-500 hover:bg-emerald-600 text-white font-bold px-8 py-3 rounded-xl shadow-lg transition flex items-center justify-center gap-2 text-xs sm:text-base">
+                    <i class="fa-solid fa-play"></i> 模擬試験を開始する
+                </button>
             </div>
         </section>
 
@@ -490,11 +454,10 @@
                     <h2 class="text-base sm:text-xl font-black text-slate-900">復習ノート</h2>
                     <p class="text-xs text-slate-500">過去にミスした問題が自動でまとめられています。</p>
                 </div>
-                <button id="btn-start-mistake-quiz" onclick="startMistakeQuiz()" class="w-full sm:w-auto bg-rose-600 hover:bg-rose-700 active:bg-rose-800 text-white font-bold px-4 py-2 rounded-xl text-xs sm:text-sm shadow-md transition flex items-center justify-center gap-2">
+                <button id="btn-start-mistake-quiz" onclick="startMistakeQuiz()" class="w-full sm:w-auto bg-rose-600 hover:bg-rose-700 text-white font-bold px-4 py-2 rounded-xl text-xs sm:text-sm shadow-md transition flex items-center justify-center gap-2">
                     <i class="fa-solid fa-rotate-right"></i> 間違いだけを再テスト
                 </button>
             </div>
-
             <div id="mistakes-list" class="space-y-2.5 sm:space-y-3"></div>
         </section>
 
@@ -503,61 +466,30 @@
             <div class="bg-white p-3.5 sm:p-6 rounded-2xl border border-slate-200 shadow-sm flex flex-col sm:flex-row items-start sm:items-center justify-between gap-2.5">
                 <div>
                     <h2 class="text-base sm:text-xl font-black text-slate-900">今月のログインスタンプ</h2>
-                    <p class="text-xs text-slate-500">1日1回開くと自動スタンプ！習慣化で合格を目指しましょう。</p>
+                    <p class="text-xs text-slate-500">1日1回開くと自動スタンプ！</p>
                 </div>
                 <div class="bg-amber-50 border border-amber-200 text-amber-900 font-black text-xs sm:text-sm px-3 py-1.5 rounded-xl flex items-center gap-1.5">
                     <i class="fa-solid fa-fire text-amber-500"></i> 現在 <span id="stamp-streak-display" class="text-sm sm:text-base text-brand-600">1</span> 日連続学習中！
                 </div>
             </div>
-
             <div class="bg-white p-3.5 sm:p-6 rounded-2xl border border-slate-200 shadow-sm">
                 <div id="stamp-grid-container" class="grid grid-cols-5 sm:grid-cols-7 gap-1.5 sm:gap-3"></div>
             </div>
         </section>
 
-        <!-- VIEW: LEARNING HISTORY & ANALYTICS -->
+        <!-- VIEW: LEARNING HISTORY -->
         <section id="view-history" class="hidden space-y-3 sm:space-y-6 animate-fade-in">
             <div class="bg-white p-3.5 sm:p-6 rounded-2xl border border-slate-200 shadow-sm flex flex-col sm:flex-row items-start sm:items-center justify-between gap-2.5">
                 <div>
                     <h2 class="text-base sm:text-xl font-black text-slate-900">自分の学習履歴 & 弱点分析</h2>
                     <p class="text-xs text-slate-500">これまでの演習履歴と科目ごとの傾向です。</p>
                 </div>
-                <div class="flex gap-2 w-full sm:w-auto">
-                    <button onclick="exportHistoryCSV()" class="flex-1 sm:flex-none bg-slate-100 hover:bg-slate-200 text-slate-800 text-xs font-bold px-3 py-2 rounded-xl border border-slate-200 transition">
-                        <i class="fa-solid fa-file-csv mr-1"></i> CSV出力
-                    </button>
-                    <button onclick="clearHistoryPrompt()" class="flex-1 sm:flex-none bg-rose-50 hover:bg-rose-100 text-rose-700 text-xs font-bold px-3 py-2 rounded-xl border border-rose-200 transition">
-                        <i class="fa-solid fa-trash-can mr-1"></i> 履歴消去
-                    </button>
-                </div>
             </div>
-
             <div class="bg-white p-3.5 sm:p-6 rounded-2xl border border-slate-200 shadow-sm space-y-3">
                 <h3 class="text-xs sm:text-base font-bold text-slate-900 flex items-center gap-2">
                     <i class="fa-solid fa-chart-pie text-brand-600"></i> 科目別 正答率分析
                 </h3>
                 <div id="analytics-subjects-container" class="space-y-2.5"></div>
-            </div>
-
-            <div class="bg-white rounded-2xl border border-slate-200 shadow-sm overflow-hidden">
-                <div class="p-3 sm:p-4 border-b border-slate-200 flex justify-between items-center">
-                    <h3 class="font-bold text-slate-900 text-xs sm:text-sm">演習ログ（最新順）</h3>
-                    <span id="history-total-count" class="text-[11px] font-bold text-slate-500">全 0 件</span>
-                </div>
-                <div class="overflow-x-auto custom-scrollbar">
-                    <table class="w-full text-left text-xs sm:text-sm text-slate-700 min-w-[450px]">
-                        <thead class="bg-slate-50 text-[10px] sm:text-[11px] uppercase font-bold text-slate-500 border-b border-slate-200">
-                            <tr>
-                                <th class="px-3 py-2">日時</th>
-                                <th class="px-3 py-2">モード / 科目</th>
-                                <th class="px-3 py-2">正解数</th>
-                                <th class="px-3 py-2">正答率</th>
-                                <th class="px-3 py-2">判定</th>
-                            </tr>
-                        </thead>
-                        <tbody id="history-table-body" class="divide-y divide-slate-200"></tbody>
-                    </table>
-                </div>
             </div>
         </section>
 
@@ -569,50 +501,95 @@
                         <i class="fa-solid fa-shield-halved"></i> 管理者ダッシュボード
                     </div>
                     <h2 class="text-base sm:text-2xl font-black">高認アプリ 管理・統括モード</h2>
-                    <p class="text-[11px] sm:text-xs text-slate-300 mt-0.5">問題・カード・宿題の追加・削除・一括処理、および不審ユーザーの閲覧・ブロック管理ができます。</p>
-                </div>
-                <div class="flex flex-wrap gap-1.5 w-full md:w-auto">
-                    <button onclick="resetToDefaultDataPrompt()" class="flex-1 md:flex-none bg-rose-900/60 hover:bg-rose-800 text-rose-200 text-xs font-bold px-3 py-2 rounded-xl border border-rose-700/50 transition flex items-center justify-center gap-1">
-                        <i class="fa-solid fa-rotate-left"></i> 初期状態にリセット
-                    </button>
-                </div>
-            </div>
-
-            <!-- クラウド自動バックアップ履歴パネル -->
-            <div class="bg-indigo-950/80 border border-indigo-800/80 rounded-2xl p-3.5 sm:p-5 text-white space-y-2.5 shadow-md">
-                <div class="flex items-center justify-between">
-                    <h3 class="font-bold text-xs sm:text-sm text-indigo-200 flex items-center gap-2">
-                        <i class="fa-solid fa-cloud-arrow-up text-emerald-400"></i> クラウド自動バックアップ履歴 (最新10件)
-                    </h3>
-                    <span class="text-[10px] text-slate-400">※全変更は即時クラウドへ自動保存されます</span>
-                </div>
-                <div id="admin-backups-list" class="space-y-1.5 max-h-44 overflow-y-auto custom-scrollbar pr-1">
-                    <div class="text-xs text-slate-400 py-2 text-center">バックアップ履歴を読み込んでいます...</div>
+                    <p class="text-[11px] sm:text-xs text-slate-300 mt-0.5">問題・宿題管理および全ユーザーのリアルタイム監視・間違えた問題の分析ができます。</p>
                 </div>
             </div>
 
             <!-- Admin Sub-tabs -->
             <div class="flex border-b border-slate-200 space-x-1 sm:space-x-3 overflow-x-auto custom-scrollbar">
-                <button id="admin-tab-quiz" onclick="switchAdminSubTab('quiz')" class="py-2 px-2.5 text-xs sm:text-sm font-bold border-b-2 border-brand-600 text-brand-600 transition flex items-center gap-1.5 whitespace-nowrap">
+                <button id="admin-tab-users" onclick="switchAdminSubTab('users')" class="py-2 px-2.5 text-xs sm:text-sm font-bold border-b-2 border-indigo-600 text-indigo-600 transition flex items-center gap-1.5 whitespace-nowrap">
+                    <i class="fa-solid fa-users text-indigo-500"></i> ユーザー監視・個人成績
+                </button>
+                <button id="admin-tab-quiz" onclick="switchAdminSubTab('quiz')" class="py-2 px-2.5 text-xs sm:text-sm font-bold border-b-2 border-transparent text-slate-500 hover:text-slate-800 transition flex items-center gap-1.5 whitespace-nowrap">
                     <i class="fa-solid fa-pen-to-square"></i> クイズ問題管理
                 </button>
-                <button id="admin-tab-bulk" onclick="switchAdminSubTab('bulk')" class="py-2 px-2.5 text-xs sm:text-sm font-bold border-b-2 border-transparent text-slate-500 hover:text-slate-800 transition flex items-center gap-1.5 whitespace-nowrap">
-                    <i class="fa-solid fa-bolt text-amber-500"></i> テキスト一括登録
-                </button>
-
                 <button id="admin-tab-homework" onclick="switchAdminSubTab('homework')" class="py-2 px-2.5 text-xs sm:text-sm font-bold border-b-2 border-transparent text-slate-500 hover:text-slate-800 transition flex items-center gap-1.5 whitespace-nowrap">
                     <i class="fa-solid fa-pen-ruler text-amber-600"></i> 宿題管理
-                </button>
-                <button id="admin-tab-users" onclick="switchAdminSubTab('users')" class="py-2 px-2.5 text-xs sm:text-sm font-bold border-b-2 border-transparent text-slate-500 hover:text-slate-800 transition flex items-center gap-1.5 whitespace-nowrap">
-                    <i class="fa-solid fa-users text-indigo-500"></i> ユーザー監視・ブロック
                 </button>
                 <button id="admin-tab-card" onclick="switchAdminSubTab('card')" class="py-2 px-2.5 text-xs sm:text-sm font-bold border-b-2 border-transparent text-slate-500 hover:text-slate-800 transition flex items-center gap-1.5 whitespace-nowrap">
                     <i class="fa-solid fa-layer-group"></i> カード管理
                 </button>
             </div>
 
-            <!-- ADMIN SUB-TAB 1: QUIZ MANAGEMENT -->
-            <div id="admin-subtab-quiz" class="space-y-3">
+            <!-- ADMIN SUB-TAB: USER MONITORING & WRONG QUESTIONS ANALYTICS -->
+            <div id="admin-subtab-users" class="space-y-4">
+                <div class="bg-white p-3.5 sm:p-4 rounded-2xl border border-slate-200 shadow-sm flex flex-col sm:flex-row items-start sm:items-center justify-between gap-2.5">
+                    <div>
+                        <h3 class="font-bold text-slate-900 text-sm sm:text-base flex items-center gap-2">
+                            <i class="fa-solid fa-users text-indigo-600"></i> ユーザーアクセス監視 (リアルタイム)
+                        </h3>
+                        <p class="text-[11px] text-slate-500 mt-0.5">オンライン状態を監視。「成績ログを見る」からその人が「間違えた問題」も確認できます。</p>
+                    </div>
+                    <div class="flex gap-2">
+                        <select id="admin-user-status-filter" onchange="renderAdminActiveUsersTable()" class="bg-slate-100 font-bold text-slate-800 text-xs rounded-xl px-2.5 py-1.5 border border-slate-300">
+                            <option value="all">全員を表示</option>
+                            <option value="online">🟢 オンラインのみ</option>
+                            <option value="offline">⚪ オフラインのみ</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="bg-white rounded-2xl border border-slate-200 overflow-hidden shadow-sm">
+                    <div class="overflow-x-auto custom-scrollbar">
+                        <table class="w-full text-left text-xs sm:text-sm min-w-[550px]">
+                            <thead class="bg-slate-50 text-[10px] sm:text-[11px] font-bold text-slate-500 uppercase border-b border-slate-200">
+                                <tr>
+                                    <th class="px-3 py-2.5">ユーザー名 / メール</th>
+                                    <th class="px-3 py-2.5">最終アクティブ</th>
+                                    <th class="px-3 py-2.5">ステータス</th>
+                                    <th class="px-3 py-2.5 text-right">個人分析</th>
+                                </tr>
+                            </thead>
+                            <tbody id="admin-active-users-tbody" class="divide-y divide-slate-200"></tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <!-- 全成績ログ（人別ドロップダウン付き） -->
+                <div class="bg-white rounded-2xl border border-slate-200 p-4 space-y-3 shadow-sm">
+                    <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-2 border-b border-slate-200 pb-2">
+                        <div>
+                            <h3 class="font-bold text-slate-900 text-sm">全テスト成績ログ (人別絞り込み)</h3>
+                            <p class="text-[11px] text-slate-500">受講生を選択して個人の演習履歴を閲覧できます。</p>
+                        </div>
+                        <div class="flex items-center gap-2">
+                            <span class="text-xs font-bold text-slate-700">絞り込み:</span>
+                            <select id="admin-user-log-select" onchange="renderAdminUserResultsTable()" class="bg-slate-100 font-bold text-slate-800 text-xs rounded-xl px-2.5 py-1.5 border border-slate-300">
+                                <option value="all">全員のログを表示</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="overflow-x-auto custom-scrollbar">
+                        <table class="w-full text-left text-xs sm:text-sm min-w-[500px]">
+                            <thead class="bg-slate-50 text-[10px] sm:text-[11px] font-bold text-slate-500 uppercase border-b border-slate-200">
+                                <tr>
+                                    <th class="px-3 py-2">日時</th>
+                                    <th class="px-3 py-2">名前</th>
+                                    <th class="px-3 py-2">モード / 科目</th>
+                                    <th class="px-3 py-2">スコア</th>
+                                    <th class="px-3 py-2">正答率</th>
+                                    <th class="px-3 py-2">判定</th>
+                                </tr>
+                            </thead>
+                            <tbody id="admin-user-results-tbody" class="divide-y divide-slate-200"></tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ADMIN SUB-TAB 2: QUIZ MANAGEMENT -->
+            <div id="admin-subtab-quiz" class="hidden space-y-3">
                 <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-2 bg-white p-3.5 rounded-2xl border border-slate-200">
                     <div class="flex flex-wrap items-center gap-2">
                         <span class="font-bold text-slate-900 text-xs sm:text-sm">科目フィルター:</span>
@@ -664,41 +641,6 @@
                 </div>
             </div>
 
-            <!-- ADMIN SUB-TAB 2: BULK TEXT ADDITION -->
-            <div id="admin-subtab-bulk" class="hidden space-y-3">
-                <div class="bg-white p-4 sm:p-6 rounded-2xl border border-slate-200 shadow-sm space-y-3">
-                    <div class="flex items-center justify-between">
-                        <div>
-                            <h3 class="font-black text-slate-900 text-sm sm:text-base flex items-center gap-1.5">
-                                <i class="fa-solid fa-bolt text-amber-500"></i> テキスト・CSV貼り付けで一括追加
-                            </h3>
-                            <p class="text-xs text-slate-500 mt-0.5">以下のフォーマットで1行に1問ずつ入力して一括登録できます。</p>
-                        </div>
-                        <button onclick="fillBulkSampleText()" class="text-xs font-bold text-brand-600 hover:text-brand-700 bg-brand-50 px-2.5 py-1.5 rounded-lg border border-brand-200 transition">
-                            <i class="fa-solid fa-magic mr-1"></i> 例文挿入
-                        </button>
-                    </div>
-
-                    <div class="bg-slate-50 p-3 rounded-xl border border-slate-200 text-[11px] text-slate-600 font-mono space-y-1">
-                        <div class="font-bold text-slate-800">フォーマット:</div>
-                        <div class="text-brand-700">問題文, 選択肢1, 選択肢2, 選択肢3, 選択肢4, 正解番号(1~4), 解説, 科目ID, テーマ</div>
-                    </div>
-
-                    <div>
-                        <textarea id="bulk-questions-input" rows="8" placeholder="例:
-x² - 5x + 6 を因数分解しなさい。,(x-2)(x-3),(x+2)(x-3),(x-1)(x-6),(x+1)(x+6),1,展開して元に戻るか確認しましょう。,math,因数分解
-1871年に藩を廃止して府県を置いた政治改革は？,大政奉還,廃藩置県,地租改正,殖産興業,2,中央集権化の目的で行われました。,history,明治維新" class="w-full bg-slate-50 border border-slate-300 rounded-xl p-3 text-xs font-mono text-slate-900 focus:ring-2 focus:ring-brand-500 focus:outline-none custom-scrollbar"></textarea>
-                    </div>
-
-                    <div class="flex justify-between items-center pt-1">
-                        <span class="text-[11px] text-slate-500">※科目ID例: japanese, math, english, history, geography, civics, science, physics, chemistry, biology, earth_science, info</span>
-                        <button onclick="bulkImportQuestionsText()" class="bg-amber-500 hover:bg-amber-600 active:bg-amber-700 text-slate-950 font-black px-5 py-2.5 rounded-xl shadow transition text-xs sm:text-sm flex items-center gap-1.5">
-                            <i class="fa-solid fa-upload"></i> 一括登録を実行する
-                        </button>
-                    </div>
-                </div>
-            </div>
-
             <!-- ADMIN SUB-TAB 3: HOMEWORK MANAGEMENT -->
             <div id="admin-subtab-homework" class="hidden space-y-3">
                 <div class="flex justify-between items-center bg-white p-3.5 rounded-2xl border border-slate-200">
@@ -710,40 +652,10 @@ x² - 5x + 6 を因数分解しなさい。,(x-2)(x-3),(x+2)(x-3),(x-1)(x-6),(x+
                         <i class="fa-solid fa-plus"></i> 新しい宿題を追加
                     </button>
                 </div>
-
                 <div id="admin-homework-grid" class="grid grid-cols-1 md:grid-cols-2 gap-3"></div>
             </div>
 
-            <!-- ADMIN SUB-TAB 4: USER MONITORING & BLOCK -->
-            <div id="admin-subtab-users" class="hidden space-y-3">
-                <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-2">
-                    <div>
-                        <h3 class="font-bold text-slate-900 text-sm sm:text-base">ログインユーザー監視 & 不審者ブロック</h3>
-                        <p class="text-[11px] text-slate-500">アプリを利用中の全アカウント一覧です。不審な利用者はワンクリックで強制ログアウト・アクセス拒否できます。</p>
-                    </div>
-                    <button onclick="exportAllUserLogsCSV()" class="bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-xs px-3 py-1.5 rounded-xl transition flex items-center justify-center gap-1 shadow-sm">
-                        <i class="fa-solid fa-file-csv"></i> 全成績ログCSV
-                    </button>
-                </div>
-
-                <div class="bg-white rounded-2xl border border-slate-200 overflow-hidden shadow-sm">
-                    <div class="overflow-x-auto custom-scrollbar">
-                        <table class="w-full text-left text-xs sm:text-sm min-w-[500px]">
-                            <thead class="bg-slate-50 text-[10px] sm:text-[11px] font-bold text-slate-500 uppercase border-b border-slate-200">
-                                <tr>
-                                    <th class="px-3 py-2.5">ユーザー名 / メール</th>
-                                    <th class="px-3 py-2.5">最終アクセス</th>
-                                    <th class="px-3 py-2.5">アクセス状態</th>
-                                    <th class="px-3 py-2.5 text-right">セキュリティ操作</th>
-                                </tr>
-                            </thead>
-                            <tbody id="admin-active-users-tbody" class="divide-y divide-slate-200"></tbody>
-                        </table>
-                    </div>
-                </div>
-            </div>
-
-            <!-- ADMIN SUB-TAB 5: FLASHCARD MANAGEMENT -->
+            <!-- ADMIN SUB-TAB 4: FLASHCARD MANAGEMENT -->
             <div id="admin-subtab-card" class="hidden space-y-3">
                 <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-2 bg-white p-3.5 rounded-2xl border border-slate-200">
                     <div class="flex items-center gap-2">
@@ -798,7 +710,54 @@ x² - 5x + 6 を因数分解しなさい。,(x-2)(x-3),(x+2)(x-3),(x-1)(x-6),(x+
 
     </main>
 
-    <!-- MODAL: HOMEWORK DETAIL VIEW (ポップアップ表示) -->
+    <!-- MODAL: INDIVIDUAL USER STATS & WRONG QUESTIONS (個人別成績＆間違えた問題表示モーダル) -->
+    <div id="modal-user-detail" class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-50 flex items-center justify-center p-3 hidden animate-fade-in">
+        <div class="bg-white w-full max-w-2xl rounded-3xl p-5 sm:p-6 shadow-2xl border border-slate-100 space-y-4 max-h-[90vh] overflow-y-auto custom-scrollbar">
+            <div class="flex justify-between items-start border-b border-slate-200 pb-3">
+                <div>
+                    <span class="bg-indigo-100 text-indigo-800 font-bold text-xs px-2.5 py-0.5 rounded-full"><i class="fa-solid fa-user-gear mr-1"></i>受講生・個人成績詳細</span>
+                    <h3 id="user-detail-name" class="text-base sm:text-xl font-black text-slate-900 mt-1">ユーザー名</h3>
+                    <p id="user-detail-email" class="text-xs text-slate-400 font-mono"></p>
+                </div>
+                <button onclick="closeModal('modal-user-detail')" class="text-slate-400 p-1 hover:text-slate-600"><i class="fa-solid fa-xmark text-xl"></i></button>
+            </div>
+
+            <div class="grid grid-cols-2 gap-2">
+                <div class="bg-slate-50 p-3 rounded-2xl border border-slate-200 text-center">
+                    <div class="text-[10px] text-slate-400 font-bold">通算テスト回数</div>
+                    <div id="user-detail-total-tests" class="text-xl font-black text-slate-900">0 回</div>
+                </div>
+                <div class="bg-slate-50 p-3 rounded-2xl border border-slate-200 text-center">
+                    <div class="text-[10px] text-slate-400 font-bold">平均正答率</div>
+                    <div id="user-detail-avg-accuracy" class="text-xl font-black text-brand-600">0%</div>
+                </div>
+            </div>
+
+            <!-- 間違えた問題一覧（リアルタイム抽出） -->
+            <div class="space-y-2">
+                <h4 class="font-bold text-xs text-rose-600 flex items-center gap-1.5">
+                    <i class="fa-solid fa-triangle-exclamation"></i> この人が間違えた問題一覧（弱点箇所）
+                </h4>
+                <div id="user-detail-wrong-questions-list" class="space-y-2 max-h-56 overflow-y-auto custom-scrollbar pr-1"></div>
+            </div>
+
+            <!-- 直近解答ログ -->
+            <div class="space-y-1.5">
+                <h4 class="font-bold text-xs text-slate-900 flex items-center gap-1.5">
+                    <i class="fa-solid fa-clock-rotate-left"></i> 直近のテスト解答結果
+                </h4>
+                <div id="user-detail-history-list" class="space-y-1.5 max-h-40 overflow-y-auto custom-scrollbar pr-1"></div>
+            </div>
+
+            <div class="pt-2">
+                <button onclick="closeModal('modal-user-detail')" class="w-full bg-slate-900 text-white font-bold py-2.5 rounded-xl text-xs">
+                    閉じる
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- MODAL: HOMEWORK DETAIL VIEW -->
     <div id="modal-homework-detail" class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-50 flex items-center justify-center p-3 hidden animate-fade-in">
         <div class="bg-white w-full max-w-lg rounded-3xl p-5 shadow-2xl border border-slate-100 space-y-4 max-h-[90vh] overflow-y-auto custom-scrollbar">
             <div class="flex justify-between items-start border-b border-slate-200 pb-3">
@@ -808,27 +767,19 @@ x² - 5x + 6 を因数分解しなさい。,(x-2)(x-3),(x+2)(x-3),(x-1)(x-6),(x+
                 </div>
                 <button onclick="closeModal('modal-homework-detail')" class="text-slate-400 p-1 hover:text-slate-600"><i class="fa-solid fa-xmark text-xl"></i></button>
             </div>
-
-            <div class="text-xs font-bold text-rose-600 bg-rose-50 p-2.5 rounded-xl border border-rose-200" id="hw-detail-duedate">
-                期限: 2026-10-20
-            </div>
-
+            <div class="text-xs font-bold text-rose-600 bg-rose-50 p-2.5 rounded-xl border border-rose-200" id="hw-detail-duedate">期限: 2026-10-20</div>
             <div class="space-y-1">
                 <label class="block text-[11px] font-bold text-slate-400 uppercase">説明・指示内容</label>
                 <p id="hw-detail-desc" class="text-xs sm:text-sm text-slate-800 leading-relaxed whitespace-pre-line bg-slate-50 p-3 rounded-xl border border-slate-200"></p>
             </div>
-
             <div id="hw-detail-image-container" class="space-y-1 hidden">
-                <label class="block text-[11px] font-bold text-slate-400 uppercase"><i class="fa-solid fa-image mr-1"></i> 添付写真 (タップで全画面表示)</label>
+                <label class="block text-[11px] font-bold text-slate-400 uppercase"><i class="fa-solid fa-image mr-1"></i> 添付写真 (タップで拡大)</label>
                 <div class="bg-slate-900 p-1 rounded-2xl overflow-hidden flex justify-center cursor-pointer">
                     <img id="hw-detail-image" src="" onclick="openImageModal(this.src)" class="max-h-60 rounded-xl object-contain hover:opacity-90 transition">
                 </div>
             </div>
-
             <div class="pt-2">
-                <button onclick="closeModal('modal-homework-detail')" class="w-full bg-slate-900 hover:bg-slate-800 text-white font-bold py-2.5 rounded-xl text-xs">
-                    閉じる
-                </button>
+                <button onclick="closeModal('modal-homework-detail')" class="w-full bg-slate-900 text-white font-bold py-2.5 rounded-xl text-xs">閉じる</button>
             </div>
         </div>
     </div>
@@ -836,219 +787,15 @@ x² - 5x + 6 を因数分解しなさい。,(x-2)(x-3),(x+2)(x-3),(x-1)(x-6),(x+
     <!-- MODAL: USER NAME EDIT -->
     <div id="modal-user-name" class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-50 flex items-center justify-center p-3 hidden animate-fade-in">
         <div class="bg-white w-full max-w-sm rounded-3xl p-5 shadow-2xl border border-slate-100 space-y-4">
-            <div class="w-10 h-10 bg-brand-100 text-brand-600 rounded-2xl flex items-center justify-center text-lg">
-                <i class="fa-solid fa-user-pen"></i>
-            </div>
+            <div class="w-10 h-10 bg-brand-100 text-brand-600 rounded-2xl flex items-center justify-center text-lg"><i class="fa-solid fa-user-pen"></i></div>
             <div>
                 <h3 class="text-base font-black text-slate-900">表示名（ニックネーム）設定</h3>
                 <p class="text-xs text-slate-500 mt-0.5">成績ログで識別するための名前です。</p>
             </div>
-            <div>
-                <input type="text" id="user-name-input" placeholder="例: たくや" class="w-full bg-slate-50 border border-slate-300 rounded-xl px-3.5 py-2.5 font-bold text-sm text-slate-900 focus:ring-2 focus:ring-brand-500 focus:outline-none">
-            </div>
+            <input type="text" id="user-name-input" placeholder="例: たくや" class="w-full bg-slate-50 border border-slate-300 rounded-xl px-3.5 py-2.5 font-bold text-sm text-slate-900 focus:ring-2 focus:ring-brand-500 focus:outline-none">
             <div class="flex gap-2 pt-1">
                 <button onclick="closeModal('modal-user-name')" class="w-1/2 bg-slate-100 text-slate-700 font-bold py-2.5 rounded-xl text-xs">キャンセル</button>
                 <button onclick="saveUserName()" class="w-1/2 bg-brand-600 text-white font-bold py-2.5 rounded-xl text-xs shadow-md">保存する</button>
-            </div>
-        </div>
-    </div>
-
-    <!-- MODAL: LOGIN STAMP AUTO POPUP -->
-    <div id="modal-stamp" class="fixed inset-0 bg-slate-900/70 backdrop-blur-sm z-50 flex items-center justify-center p-3 hidden animate-fade-in">
-        <div class="bg-white w-full max-w-xs rounded-3xl p-5 text-center space-y-3.5 shadow-2xl border border-slate-100">
-            <div class="w-12 h-12 bg-amber-100 text-amber-500 rounded-full flex items-center justify-center text-xl mx-auto shadow-inner">
-                <i class="fa-solid fa-award"></i>
-            </div>
-            <div>
-                <span class="bg-amber-400 text-slate-950 font-black text-[10px] px-2.5 py-0.5 rounded-full uppercase">Daily Bonus</span>
-                <h3 class="text-lg font-black text-slate-900 mt-1">本日のスタンプGET!</h3>
-            </div>
-            <div class="bg-amber-50 border-2 border-dashed border-amber-300 p-3 rounded-2xl flex items-center justify-center min-h-[70px]">
-                <div class="text-amber-600 text-3xl font-black tracking-widest border-4 border-amber-600 px-3 py-0.5 rounded-xl uppercase transform -rotate-12 bg-white/90">
-                    済
-                </div>
-            </div>
-            <p class="text-xs font-bold text-slate-800">
-                連続学習記録: <span id="modal-streak-count" class="text-lg font-black text-brand-600">1</span> 日目
-            </p>
-            <button onclick="closeModal('modal-stamp')" class="w-full bg-brand-600 hover:bg-brand-700 text-white font-bold py-2.5 rounded-xl shadow-md transition text-xs">
-                学習を開始する！
-            </button>
-        </div>
-    </div>
-
-    <!-- MODAL: CREATE / EDIT QUESTION -->
-    <div id="modal-question-editor" class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-50 flex items-center justify-center p-2.5 sm:p-4 hidden animate-fade-in">
-        <div class="bg-white w-full max-w-2xl rounded-3xl p-4 sm:p-7 shadow-2xl border border-slate-100 space-y-3 max-h-[90vh] overflow-y-auto custom-scrollbar">
-            <div class="flex justify-between items-center border-b border-slate-200 pb-2">
-                <h3 id="modal-question-title" class="text-sm sm:text-base font-black text-slate-900">クイズ問題の編集</h3>
-                <button onclick="closeModal('modal-question-editor')" class="text-slate-400 p-1"><i class="fa-solid fa-xmark text-lg"></i></button>
-            </div>
-            <input type="hidden" id="edit-q-id">
-
-            <div class="grid grid-cols-1 sm:grid-cols-2 gap-2">
-                <div>
-                    <label class="block text-[11px] font-bold text-slate-700 mb-0.5">科目</label>
-                    <select id="edit-q-subject" class="w-full bg-slate-50 border border-slate-300 rounded-xl px-2.5 py-1.5 text-xs font-bold text-slate-900">
-                        <option value="japanese">国語</option>
-                        <option value="math">数学I</option>
-                        <option value="english">英語</option>
-                        <option value="history">歴史</option>
-                        <option value="geography">地理</option>
-                        <option value="civics">公共</option>
-                        <option value="science">科学と人間生活</option>
-                        <option value="physics">物理基礎</option>
-                        <option value="chemistry">化学基礎</option>
-                        <option value="biology">生物基礎</option>
-                        <option value="earth_science">地学基礎</option>
-                        <option value="info">情報</option>
-                    </select>
-                </div>
-                <div>
-                    <label class="block text-[11px] font-bold text-slate-700 mb-0.5">分野・テーマ</label>
-                    <input type="text" id="edit-q-topic" placeholder="例: 過去問改" class="w-full bg-slate-50 border border-slate-300 rounded-xl px-2.5 py-1.5 text-xs text-slate-900">
-                </div>
-            </div>
-
-            <div>
-                <label class="block text-[11px] font-bold text-slate-700 mb-0.5">問題文</label>
-                <textarea id="edit-q-text" rows="3" placeholder="問題文を入力" class="w-full bg-slate-50 border border-slate-300 rounded-xl p-2 text-xs text-slate-900"></textarea>
-            </div>
-
-            <div class="space-y-1">
-                <label class="block text-[11px] font-bold text-slate-700">選択肢 (1〜4)</label>
-                <div class="grid grid-cols-1 gap-1">
-                    <input type="text" id="edit-q-c0" placeholder="選択肢 1" class="bg-slate-50 border border-slate-300 rounded-xl px-2.5 py-1.5 text-xs text-slate-900">
-                    <input type="text" id="edit-q-c1" placeholder="選択肢 2" class="bg-slate-50 border border-slate-300 rounded-xl px-2.5 py-1.5 text-xs text-slate-900">
-                    <input type="text" id="edit-q-c2" placeholder="選択肢 3" class="bg-slate-50 border border-slate-300 rounded-xl px-2.5 py-1.5 text-xs text-slate-900">
-                    <input type="text" id="edit-q-c3" placeholder="選択肢 4" class="bg-slate-50 border border-slate-300 rounded-xl px-2.5 py-1.5 text-xs text-slate-900">
-                </div>
-            </div>
-
-            <div class="grid grid-cols-1 sm:grid-cols-2 gap-2">
-                <div>
-                    <label class="block text-[11px] font-bold text-slate-700 mb-0.5">正解の番号</label>
-                    <select id="edit-q-correct" class="w-full bg-slate-50 border border-slate-300 rounded-xl px-2.5 py-1.5 text-xs font-bold text-emerald-700">
-                        <option value="0">選択肢 1 が正解</option>
-                        <option value="1">選択肢 2 が正解</option>
-                        <option value="2">選択肢 3 が正解</option>
-                        <option value="3">選択肢 4 が正解</option>
-                    </select>
-                </div>
-                <div class="flex items-center pt-3">
-                    <label class="flex items-center space-x-2 cursor-pointer font-bold text-xs text-indigo-700">
-                        <input type="checkbox" id="edit-q-ismock" class="rounded text-indigo-600 w-4 h-4">
-                        <span><i class="fa-solid fa-stopwatch mr-1"></i> 模擬試験の対象問題にする</span>
-                    </label>
-                </div>
-            </div>
-
-            <div>
-                <label class="block text-[11px] font-bold text-slate-700 mb-0.5">解説文</label>
-                <textarea id="edit-q-explanation" rows="2" placeholder="解説を入力" class="w-full bg-slate-50 border border-slate-300 rounded-xl p-2 text-xs text-slate-900"></textarea>
-            </div>
-
-            <div class="flex justify-end gap-2 pt-1">
-                <button onclick="closeModal('modal-question-editor')" class="bg-slate-100 text-slate-700 font-bold px-4 py-2 rounded-xl text-xs">キャンセル</button>
-                <button onclick="saveQuestionItem()" class="bg-brand-600 text-white font-bold px-5 py-2 rounded-xl text-xs shadow-md">保存する</button>
-            </div>
-        </div>
-    </div>
-
-    <!-- MODAL: CREATE / EDIT HOMEWORK -->
-    <div id="modal-homework-editor" class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-50 flex items-center justify-center p-3 hidden animate-fade-in">
-        <div class="bg-white w-full max-w-lg rounded-3xl p-5 shadow-2xl border border-slate-100 space-y-3 max-h-[90vh] overflow-y-auto custom-scrollbar">
-            <div class="flex justify-between items-center border-b border-slate-200 pb-2">
-                <h3 id="modal-hw-title" class="text-base font-black text-slate-900">宿題の新規作成</h3>
-                <button onclick="closeModal('modal-homework-editor')" class="text-slate-400 p-1"><i class="fa-solid fa-xmark text-lg"></i></button>
-            </div>
-            <input type="hidden" id="edit-hw-id">
-
-            <div>
-                <label class="block text-[11px] font-bold text-slate-700 mb-0.5">対象科目</label>
-                <select id="edit-hw-subject" class="w-full bg-slate-50 border border-slate-300 rounded-xl px-2.5 py-1.5 text-xs font-bold text-slate-900">
-                    <option value="japanese">国語</option>
-                    <option value="math">数学I</option>
-                    <option value="english">英語</option>
-                    <option value="history">歴史</option>
-                    <option value="geography">地理</option>
-                    <option value="civics">公共</option>
-                    <option value="science">科学と人間生活</option>
-                    <option value="physics">物理基礎</option>
-                    <option value="chemistry">化学基礎</option>
-                    <option value="biology">生物基礎</option>
-                    <option value="earth_science">地学基礎</option>
-                    <option value="info">情報</option>
-                </select>
-            </div>
-
-            <div>
-                <label class="block text-[11px] font-bold text-slate-700 mb-0.5">宿題タイトル</label>
-                <input type="text" id="edit-hw-title" placeholder="例: 第1回 現代文の過去問演習プリント" class="w-full bg-slate-50 border border-slate-300 rounded-xl px-2.5 py-1.5 text-xs text-slate-900">
-            </div>
-
-            <div>
-                <label class="block text-[11px] font-bold text-slate-700 mb-0.5">提出期限 (期日)</label>
-                <input type="date" id="edit-hw-duedate" class="w-full bg-slate-50 border border-slate-300 rounded-xl px-2.5 py-1.5 text-xs font-bold text-slate-900">
-            </div>
-
-            <div>
-                <label class="block text-[11px] font-bold text-slate-700 mb-0.5">詳しい説明・指示内容</label>
-                <textarea id="edit-hw-desc" rows="3" placeholder="教科書P.24〜28の問1〜問5をノートに解いて提出してください。" class="w-full bg-slate-50 border border-slate-300 rounded-xl p-2 text-xs text-slate-900"></textarea>
-            </div>
-
-            <div>
-                <label class="block text-[11px] font-bold text-slate-700 mb-0.5">写真・イメージ画像の添付 (選択)</label>
-                <input type="file" id="edit-hw-file" accept="image/*" class="w-full text-xs text-slate-600 bg-slate-50 border border-slate-300 rounded-xl p-1.5">
-            </div>
-
-            <div class="flex justify-end gap-2 pt-1">
-                <button onclick="closeModal('modal-homework-editor')" class="bg-slate-100 text-slate-700 font-bold px-4 py-2 rounded-xl text-xs">キャンセル</button>
-                <button onclick="saveHomeworkItem()" class="bg-amber-500 hover:bg-amber-600 text-slate-950 font-black px-5 py-2 rounded-xl text-xs shadow-md">保存して出題</button>
-            </div>
-        </div>
-    </div>
-
-    <!-- MODAL: CREATE / EDIT FLASHCARD -->
-    <div id="modal-card-editor" class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-50 flex items-center justify-center p-3 hidden animate-fade-in">
-        <div class="bg-white w-full max-w-md rounded-3xl p-5 shadow-2xl border border-slate-100 space-y-3">
-            <div class="flex justify-between items-center border-b border-slate-200 pb-2">
-                <h3 id="modal-card-title" class="text-base font-black text-slate-900">暗記カードの編集</h3>
-                <button onclick="closeModal('modal-card-editor')" class="text-slate-400 p-1"><i class="fa-solid fa-xmark text-lg"></i></button>
-            </div>
-            <input type="hidden" id="edit-c-id">
-
-            <div>
-                <label class="block text-[11px] font-bold text-slate-700 mb-0.5">科目</label>
-                <select id="edit-c-subject" class="w-full bg-slate-50 border border-slate-300 rounded-xl px-2.5 py-1.5 text-xs font-bold text-slate-900">
-                    <option value="japanese">国語</option>
-                    <option value="math">数学I</option>
-                    <option value="english">英語</option>
-                    <option value="history">歴史</option>
-                    <option value="geography">地理</option>
-                    <option value="civics">公共</option>
-                    <option value="science">科学と人間生活</option>
-                    <option value="physics">物理基礎</option>
-                    <option value="chemistry">化学基礎</option>
-                    <option value="biology">生物基礎</option>
-                    <option value="earth_science">地学基礎</option>
-                    <option value="info">情報</option>
-                </select>
-            </div>
-
-            <div>
-                <label class="block text-[11px] font-bold text-slate-700 mb-0.5">表面 (単語・問題)</label>
-                <textarea id="edit-c-front" rows="2" placeholder="表面のテキストを入力" class="w-full bg-slate-50 border border-slate-300 rounded-xl p-2 text-xs text-slate-900"></textarea>
-            </div>
-
-            <div>
-                <label class="block text-[11px] font-bold text-slate-700 mb-0.5">裏面 (意味・公式)</label>
-                <textarea id="edit-c-back" rows="2" placeholder="裏面のテキストを入力" class="w-full bg-slate-50 border border-slate-300 rounded-xl p-2 text-xs text-slate-900"></textarea>
-            </div>
-
-            <div class="flex justify-end gap-2 pt-1">
-                <button onclick="closeModal('modal-card-editor')" class="bg-slate-100 text-slate-700 font-bold px-4 py-2 rounded-xl text-xs">キャンセル</button>
-                <button onclick="saveCardItem()" class="bg-indigo-600 text-white font-bold px-5 py-2 rounded-xl text-xs shadow-md">保存する</button>
             </div>
         </div>
     </div>
@@ -1064,9 +811,7 @@ x² - 5x + 6 を因数分解しなさい。,(x-2)(x-3),(x+2)(x-3),(x-1)(x-6),(x+
     <!-- GENERAL CONFIRM MODAL -->
     <div id="modal-confirm" class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-50 flex items-center justify-center p-3 hidden animate-fade-in">
         <div class="bg-white w-full max-w-xs rounded-3xl p-5 shadow-2xl border border-slate-100 text-center space-y-3">
-            <div class="w-10 h-10 bg-amber-100 text-amber-600 rounded-full flex items-center justify-center text-lg mx-auto">
-                <i class="fa-solid fa-triangle-exclamation"></i>
-            </div>
+            <div class="w-10 h-10 bg-amber-100 text-amber-600 rounded-full flex items-center justify-center text-lg mx-auto"><i class="fa-solid fa-triangle-exclamation"></i></div>
             <h3 id="confirm-title" class="text-base font-black text-slate-900">確認</h3>
             <p id="confirm-message" class="text-xs text-slate-600 leading-relaxed">処理を実行してよろしいですか？</p>
             <div class="flex gap-2 pt-1">
@@ -1110,7 +855,6 @@ x² - 5x + 6 を因数分解しなさい。,(x-2)(x-3),(x+2)(x-3),(x-1)(x-6),(x+
 
         let db = null;
         let auth = null;
-        let currentUser = null;
 
         if (firebaseConfig && firebaseConfig.apiKey) {
             try {
@@ -1125,9 +869,6 @@ x² - 5x + 6 を因数分解しなさい。,(x-2)(x-3),(x+2)(x-3),(x-1)(x-6),(x+
                     const mobileAdminBtn = document.getElementById('mobile-admin-btn');
 
                     if (user) {
-                        currentUser = user;
-
-                        // ブロックリストのリアルタイムチェック
                         try {
                             const blockDoc = await getDoc(doc(db, 'artifacts', appId, 'public', 'data', 'blocked_users', user.uid));
                             if (blockDoc.exists() && blockDoc.data().blocked) {
@@ -1170,8 +911,7 @@ x² - 5x + 6 を因数分解しなさい。,(x-2)(x-3),(x+2)(x-3),(x-1)(x-6),(x+
                             if (mobileAdminBtn) mobileAdminBtn.classList.add('hidden');
                         }
 
-                        // オンライン心拍信号を送信
-                        window.syncUserProfileCloud(window.appState.userName);
+                        window.syncUserProfileCloud(window.appState.userName, true);
                         subscribeCloudData();
                     } else {
                         if (navAdminBtn) navAdminBtn.classList.add('hidden');
@@ -1188,12 +928,25 @@ x² - 5x + 6 を因数分解しなさい。,(x-2)(x-3),(x+2)(x-3),(x-1)(x-6),(x+
             } catch(e) { console.warn('Firebase sync fallback'); }
         }
 
-        // 30秒ごとにアクセス中ユーザーのオンライン状態（心拍）を定期更新
         setInterval(() => {
             if (auth && auth.currentUser) {
-                window.syncUserProfileCloud(window.appState.userName);
+                window.syncUserProfileCloud(window.appState.userName, true);
             }
-        }, 30000);
+        }, 15000);
+
+        window.addEventListener('visibilitychange', () => {
+            if (document.visibilityState === 'hidden' && auth && auth.currentUser) {
+                window.syncUserProfileCloud(window.appState.userName, false);
+            } else if (document.visibilityState === 'visible' && auth && auth.currentUser) {
+                window.syncUserProfileCloud(window.appState.userName, true);
+            }
+        });
+
+        window.addEventListener('beforeunload', () => {
+            if (auth && auth.currentUser) {
+                window.syncUserProfileCloud(window.appState.userName, false);
+            }
+        });
 
         window.checkAdminAuth = function() {
             if (!auth || !auth.currentUser || auth.currentUser.isAnonymous) {
@@ -1222,7 +975,7 @@ x² - 5x + 6 を因数分解しなさい。,(x-2)(x-3),(x+2)(x-3),(x-1)(x-6),(x+
                 localStorage.setItem('ko_ninsiken_user_name_fixed', name);
                 document.getElementById('header-user-name').innerText = name;
                 
-                if (window.syncUserProfileCloud) window.syncUserProfileCloud(name);
+                if (window.syncUserProfileCloud) window.syncUserProfileCloud(name, true);
                 showToast(`${name} としてログインしました`, 'success');
             } catch (error) {
                 showToast('Googleログインがキャンセルされました', 'warning');
@@ -1232,6 +985,7 @@ x² - 5x + 6 を因数分解しなさい。,(x-2)(x-3),(x+2)(x-3),(x-1)(x-6),(x+
         window.signOutAuth = async function() {
             if (!auth) return;
             try {
+                if (window.syncUserProfileCloud) await window.syncUserProfileCloud(window.appState.userName, false);
                 await signOut(auth);
                 localStorage.removeItem('ko_ninsiken_user_name_fixed');
                 showToast('ログアウトしました', 'info');
@@ -1240,9 +994,8 @@ x² - 5x + 6 を因数分解しなさい。,(x-2)(x-3),(x+2)(x-3),(x-1)(x-6),(x+
         };
 
         function subscribeCloudData() {
-            if (!db || !currentUser) return;
+            if (!db || !auth || !auth.currentUser) return;
 
-            // クイズ問題リアルタイム同期
             onSnapshot(collection(db, 'artifacts', appId, 'public', 'data', 'questions'), (snapshot) => {
                 const cloudQs = [];
                 snapshot.forEach(doc => cloudQs.push(doc.data()));
@@ -1251,7 +1004,6 @@ x² - 5x + 6 を因数分解しなさい。,(x-2)(x-3),(x+2)(x-3),(x-1)(x-6),(x+
                 if (window.appState.activeView === 'admin') window.renderAdminQuestionsTable();
             });
 
-            // 暗記カードリアルタイム同期
             onSnapshot(collection(db, 'artifacts', appId, 'public', 'data', 'flashcards'), (snapshot) => {
                 const cloudCards = [];
                 snapshot.forEach(doc => cloudCards.push(doc.data()));
@@ -1260,7 +1012,6 @@ x² - 5x + 6 を因数分解しなさい。,(x-2)(x-3),(x+2)(x-3),(x-1)(x-6),(x+
                 if (window.appState.activeView === 'admin') window.renderAdminCardsTable();
             });
 
-            // 宿題リアルタイム同期
             onSnapshot(collection(db, 'artifacts', appId, 'public', 'data', 'homeworks'), (snapshot) => {
                 const list = [];
                 snapshot.forEach(doc => list.push(doc.data()));
@@ -1270,7 +1021,17 @@ x² - 5x + 6 を因数分解しなさい。,(x-2)(x-3),(x+2)(x-3),(x-1)(x-6),(x+
                 if (window.appState.activeView === 'admin') window.renderAdminHomeworkList();
             });
 
-            // アクセス中ユーザー一覧リアルタイム監視（全ユーザー）
+            onSnapshot(collection(db, 'artifacts', appId, 'public', 'data', 'all_results'), (snapshot) => {
+                const logs = [];
+                snapshot.forEach(doc => logs.push(doc.data()));
+                logs.sort((a, b) => new Date(b.timestamp) - new Date(a.timestamp));
+                window.appState.allUserResults = logs;
+                if (window.appState.activeView === 'admin') {
+                    window.populateUserLogSelectOptions();
+                    window.renderAdminUserResultsTable();
+                }
+            });
+
             onSnapshot(collection(db, 'artifacts', appId, 'public', 'data', 'active_users'), (snapshot) => {
                 const users = [];
                 snapshot.forEach(doc => users.push(doc.data()));
@@ -1278,29 +1039,28 @@ x² - 5x + 6 を因数分解しなさい。,(x-2)(x-3),(x+2)(x-3),(x-1)(x-6),(x+
                 window.appState.activeUsersList = users;
                 if (window.appState.activeView === 'admin') window.renderAdminActiveUsersTable();
             });
-
-            // バックアップ履歴同期
-            onSnapshot(collection(db, 'artifacts', appId, 'public', 'data', 'backups'), (snapshot) => {
-                const list = [];
-                snapshot.forEach(doc => list.push(doc.data()));
-                list.sort((a, b) => new Date(b.timestamp) - new Date(a.timestamp));
-                window.appState.cloudBackups = list;
-                if (window.appState.activeView === 'admin') window.renderAdminBackupsList();
-            });
         }
 
-        window.syncUserProfileCloud = async function(userName) {
+        window.syncUserProfileCloud = async function(userName, isOnline = true) {
             if (!db || !auth || !auth.currentUser) return;
             try {
                 const u = auth.currentUser;
                 const activeData = {
                     uid: u.uid,
-                    userName: userName || 'ゲストユーザー',
+                    userName: userName || (u.isAnonymous ? 'ゲスト学習者' : 'ユーザー'),
                     email: u.email || (u.isAnonymous ? '匿名アクセス' : 'メアドなし'),
                     lastActive: new Date().toISOString(),
+                    isOnline: isOnline,
                     isAnonymous: u.isAnonymous
                 };
                 await setDoc(doc(db, 'artifacts', appId, 'public', 'data', 'active_users', u.uid), activeData);
+            } catch(e){}
+        };
+
+        window.saveQuizResultCloud = async function(resultData) {
+            if (!db) return;
+            try {
+                await setDoc(doc(db, 'artifacts', appId, 'public', 'data', 'all_results', resultData.id), resultData);
             } catch(e){}
         };
 
@@ -1309,93 +1069,33 @@ x² - 5x + 6 を因数分解しなさい。,(x-2)(x-3),(x+2)(x-3),(x-1)(x-6),(x+
             try {
                 await setDoc(doc(db, 'artifacts', appId, 'public', 'data', 'blocked_users', uid), { blocked: true, blockedAt: new Date().toISOString() });
                 await deleteDoc(doc(db, 'artifacts', appId, 'public', 'data', 'active_users', uid));
-                showToast('ユーザーをブロックしました（次回操作時にアクセス遮断されます）', 'success');
+                showToast('ユーザーをブロックしました', 'success');
             } catch(e){ showToast('ブロック処理に失敗しました', 'danger'); }
         };
 
-        window.saveAutoBackupCloud = async function(actionLabel = 'データ変更') {
-            if (!db || !auth || !auth.currentUser) return;
-            if (!auth.currentUser.email || auth.currentUser.email.toLowerCase() !== ADMIN_EMAIL.toLowerCase()) return;
-
-            try {
-                const now = new Date();
-                const backupId = 'bak_' + now.getTime();
-                const backupData = {
-                    id: backupId,
-                    timestamp: now.toISOString(),
-                    formattedDate: now.toLocaleString('ja-JP', { month: 'numeric', day: 'numeric', hour: '2-digit', minute: '2-digit' }),
-                    actionLabel: actionLabel,
-                    questions: [...window.appState.questions],
-                    flashcards: [...window.appState.flashcards]
-                };
-                await setDoc(doc(db, 'artifacts', appId, 'public', 'data', 'backups', backupId), backupData);
-            } catch(e){}
-        };
-
-        window.restoreFromBackupCloud = function(backupId) {
-            const backup = (window.appState.cloudBackups || []).find(b => b.id === backupId);
-            if (!backup) return;
-
-            showConfirmModal('復元確認', `【${backup.formattedDate}】のデータに戻しますか？`, async () => {
-                if (backup.questions) {
-                    window.appState.questions = [...backup.questions];
-                    for (const q of backup.questions) await setDoc(doc(db, 'artifacts', appId, 'public', 'data', 'questions', q.id), q);
-                }
-                if (backup.flashcards) {
-                    window.appState.flashcards = [...backup.flashcards];
-                    for (const c of backup.flashcards) await setDoc(doc(db, 'artifacts', appId, 'public', 'data', 'flashcards', c.id), c);
-                }
-                window.saveLocalState();
-                window.renderAdminDashboard();
-                showToast(`復元が完了しました！`, 'success');
-            });
-        };
-
-        window.syncQuestionCloud = async function(qItem) {
-            if (!db) return;
-            await setDoc(doc(db, 'artifacts', appId, 'public', 'data', 'questions', qItem.id), qItem);
-        };
-
-        window.deleteQuestionCloud = async function(qId) {
-            if (!db) return;
-            await deleteDoc(doc(db, 'artifacts', appId, 'public', 'data', 'questions', qId));
-        };
-
-        window.syncCardCloud = async function(cItem) {
-            if (!db) return;
-            await setDoc(doc(db, 'artifacts', appId, 'public', 'data', 'flashcards', cItem.id), cItem);
-        };
-
-        window.deleteCardCloud = async function(cId) {
-            if (!db) return;
-            await deleteDoc(doc(db, 'artifacts', appId, 'public', 'data', 'flashcards', cId));
-        };
-
-        window.syncHomeworkCloud = async function(hwItem) {
-            if (!db) return;
-            await setDoc(doc(db, 'artifacts', appId, 'public', 'data', 'homeworks', hwItem.id), hwItem);
-        };
-
-        window.deleteHomeworkCloud = async function(hwId) {
-            if (!db) return;
-            await deleteDoc(doc(db, 'artifacts', appId, 'public', 'data', 'homeworks', hwId));
-        };
+        window.syncQuestionCloud = async function(qItem) { if (db) await setDoc(doc(db, 'artifacts', appId, 'public', 'data', 'questions', qItem.id), qItem); };
+        window.deleteQuestionCloud = async function(qId) { if (db) await deleteDoc(doc(db, 'artifacts', appId, 'public', 'data', 'questions', qId)); };
+        window.syncCardCloud = async function(cItem) { if (db) await setDoc(doc(db, 'artifacts', appId, 'public', 'data', 'flashcards', cItem.id), cItem); };
+        window.deleteCardCloud = async function(cId) { if (db) await deleteDoc(doc(db, 'artifacts', appId, 'public', 'data', 'flashcards', cId)); };
+        window.syncHomeworkCloud = async function(hwItem) { if (db) await setDoc(doc(db, 'artifacts', appId, 'public', 'data', 'homeworks', hwItem.id), hwItem); };
+        window.deleteHomeworkCloud = async function(hwId) { if (db) await deleteDoc(doc(db, 'artifacts', appId, 'public', 'data', 'homeworks', hwId)); };
     </script>
 
+    <!-- MAIN APP JAVASCRIPT LOGIC (全機能ロジック完全収録) -->
     <script>
         const SUBJECTS = [
-            { id: 'japanese', name: '国語', icon: 'fa-book', color: 'from-rose-500 to-pink-600', bgLight: 'bg-rose-50 text-rose-800' },
-            { id: 'math', name: '数学I', icon: 'fa-calculator', color: 'from-blue-500 to-cyan-600', bgLight: 'bg-blue-50 text-blue-800' },
-            { id: 'english', name: '英語', icon: 'fa-language', color: 'from-amber-500 to-orange-600', bgLight: 'bg-amber-50 text-amber-800' },
-            { id: 'history', name: '歴史', icon: 'fa-landmark', color: 'from-emerald-500 to-teal-600', bgLight: 'bg-emerald-50 text-emerald-800' },
-            { id: 'geography', name: '地理', icon: 'fa-earth-americas', color: 'from-teal-500 to-emerald-600', bgLight: 'bg-teal-50 text-teal-800' },
-            { id: 'civics', name: '公共', icon: 'fa-scale-balanced', color: 'from-purple-500 to-indigo-600', bgLight: 'bg-purple-50 text-purple-800' },
-            { id: 'science', name: '科学と人間生活', icon: 'fa-flask', color: 'from-sky-500 to-blue-600', bgLight: 'bg-sky-50 text-sky-800' },
-            { id: 'physics', name: '物理基礎', icon: 'fa-atom', color: 'from-indigo-500 to-violet-600', bgLight: 'bg-indigo-50 text-indigo-800' },
-            { id: 'chemistry', name: '化学基礎', icon: 'fa-vial', color: 'from-fuchsia-500 to-pink-600', bgLight: 'bg-fuchsia-50 text-fuchsia-800' },
-            { id: 'biology', name: '生物基礎', icon: 'fa-dna', color: 'from-green-500 to-emerald-600', bgLight: 'bg-green-50 text-green-800' },
-            { id: 'earth_science', name: '地学基礎', icon: 'fa-mountain-sun', color: 'from-orange-500 to-amber-600', bgLight: 'bg-orange-50 text-orange-800' },
-            { id: 'info', name: '情報', icon: 'fa-desktop', color: 'from-cyan-500 to-blue-600', bgLight: 'bg-cyan-50 text-cyan-800' }
+            { id: 'japanese', name: '国語', icon: 'fa-book', color: 'from-rose-500 to-pink-600' },
+            { id: 'math', name: '数学I', icon: 'fa-calculator', color: 'from-blue-500 to-cyan-600' },
+            { id: 'english', name: '英語', icon: 'fa-language', color: 'from-amber-500 to-orange-600' },
+            { id: 'history', name: '歴史', icon: 'fa-landmark', color: 'from-emerald-500 to-teal-600' },
+            { id: 'geography', name: '地理', icon: 'fa-earth-americas', color: 'from-teal-500 to-emerald-600' },
+            { id: 'civics', name: '公共', icon: 'fa-scale-balanced', color: 'from-purple-500 to-indigo-600' },
+            { id: 'science', name: '科学と人間生活', icon: 'fa-flask', color: 'from-sky-500 to-blue-600' },
+            { id: 'physics', name: '物理基礎', icon: 'fa-atom', color: 'from-indigo-500 to-violet-600' },
+            { id: 'chemistry', name: '化学基礎', icon: 'fa-vial', color: 'from-fuchsia-500 to-pink-600' },
+            { id: 'biology', name: '生物基礎', icon: 'fa-dna', color: 'from-green-500 to-emerald-600' },
+            { id: 'earth_science', name: '地学基礎', icon: 'fa-mountain-sun', color: 'from-orange-500 to-amber-600' },
+            { id: 'info', name: '情報', icon: 'fa-desktop', color: 'from-cyan-500 to-blue-600' }
         ];
 
         window.appState = {
@@ -1404,22 +1104,18 @@ x² - 5x + 6 を因数分解しなさい。,(x-2)(x-3),(x+2)(x-3),(x-1)(x-6),(x+
             flashcards: [],
             homeworks: [],
             activeUsersList: [],
-            history: [],
-            cloudBackups: [],
+            allUserResults: [],
             wrongQuestionIds: [],
-            flashcardStatus: {},
-            stamps: [],
-            streak: 1,
-            lastLoginDate: '',
+            currentSubjectId: '',
             currentQuizSet: [],
+            currentQuizAnswers: [],
             currentQuizIndex: 0,
             quizScore: 0,
-            quizStartTime: null,
             isMockExam: false,
-            mockTimer: null,
-            mockTimeRemaining: 900,
+            currentFlashcardIndex: 0,
+            filteredCards: [],
             activeView: 'dashboard',
-            adminSubTab: 'quiz'
+            adminSubTab: 'users'
         };
 
         function loadLocalState() {
@@ -1429,37 +1125,24 @@ x² - 5x + 6 を因数分解しなさい。,(x-2)(x-3),(x+2)(x-3),(x-1)(x-6),(x+
         }
 
         window.saveLocalState = function() {
-            localStorage.setItem('kousotsu_app_master_v11', JSON.stringify({
-                userName: window.appState.userName,
-                wrongQuestionIds: window.appState.wrongQuestionIds,
-                flashcardStatus: window.appState.flashcardStatus,
-                stamps: window.appState.stamps,
-                streak: window.appState.streak,
-                lastLoginDate: window.appState.lastLoginDate
+            localStorage.setItem('kousotsu_app_master_v14', JSON.stringify({
+                userName: window.appState.userName
             }));
-            updateStatsUI();
         };
-
-        function updateStatsUI() {
-            document.getElementById('stat-wrong-count').innerText = window.appState.wrongQuestionIds.length;
-            document.getElementById('mistake-count-badge').innerText = window.appState.wrongQuestionIds.length;
-        }
 
         window.showView = function(viewName) {
             const views = ['dashboard', 'subjects', 'homework', 'quiz', 'result', 'flashcards', 'mock-exam', 'mistakes', 'stamps', 'history', 'admin'];
-            views.forEach(v => {
-                const el = document.getElementById(`view-${v}`);
-                if (el) el.classList.add('hidden');
-            });
+            views.forEach(v => { document.getElementById(`view-${v}`)?.classList.add('hidden'); });
 
-            const target = document.getElementById(`view-${viewName}`);
-            if (target) target.classList.remove('hidden');
+            document.getElementById(`view-${viewName}`)?.classList.remove('hidden');
             window.appState.activeView = viewName;
             window.scrollTo({ top: 0, behavior: 'smooth' });
 
             if (viewName === 'dashboard') renderDashboardSubjects();
             if (viewName === 'subjects') renderFullSubjects();
             if (viewName === 'homework') renderHomeworkView();
+            if (viewName === 'flashcards') initFlashcardsView();
+            if (viewName === 'stamps') renderStampsView();
             if (viewName === 'admin') renderAdminDashboard();
         };
 
@@ -1468,11 +1151,9 @@ x² - 5x + 6 を因数分解しなさい。,(x-2)(x-3),(x+2)(x-3),(x-1)(x-6),(x+
             container.innerHTML = SUBJECTS.slice(0, 6).map(s => {
                 const qCount = window.appState.questions.filter(q => q.subjectId === s.id).length;
                 return `
-                    <div onclick="startSubjectQuiz('${s.id}')" class="bg-white p-3.5 rounded-2xl border border-slate-200 hover:border-brand-500 hover:shadow-md cursor-pointer flex items-center justify-between">
+                    <div onclick="startSubjectQuiz('${s.id}')" class="bg-white p-3.5 rounded-2xl border border-slate-200 hover:border-brand-500 cursor-pointer flex items-center justify-between">
                         <div class="flex items-center space-x-3">
-                            <div class="w-10 h-10 rounded-xl bg-gradient-to-tr ${s.color} text-white flex items-center justify-center text-lg shadow-sm">
-                                <i class="fa-solid ${s.icon}"></i>
-                            </div>
+                            <div class="w-10 h-10 rounded-xl bg-gradient-to-tr ${s.color} text-white flex items-center justify-center text-lg"><i class="fa-solid ${s.icon}"></i></div>
                             <div>
                                 <h4 class="font-bold text-slate-900 text-sm">${s.name}</h4>
                                 <span class="text-[10px] text-slate-500">${qCount} 演習問題</span>
@@ -1491,513 +1172,130 @@ x² - 5x + 6 を因数分解しなさい。,(x-2)(x-3),(x+2)(x-3),(x-1)(x-6),(x+
                 return `
                     <div class="bg-white rounded-2xl border border-slate-200 p-4 space-y-3">
                         <div class="flex items-center space-x-3">
-                            <div class="w-11 h-11 rounded-2xl bg-gradient-to-tr ${s.color} text-white flex items-center justify-center text-lg shadow-md">
-                                <i class="fa-solid ${s.icon}"></i>
-                            </div>
+                            <div class="w-11 h-11 rounded-2xl bg-gradient-to-tr ${s.color} text-white flex items-center justify-center text-lg"><i class="fa-solid ${s.icon}"></i></div>
                             <div>
                                 <h3 class="font-black text-slate-900 text-base">${s.name}</h3>
-                                <span class="inline-block ${s.bgLight} text-[10px] font-bold px-2 py-0.5 rounded-full">出題数 ${qCount} 問</span>
+                                <span class="bg-slate-100 text-[10px] font-bold px-2 py-0.5 rounded-full">出題数 ${qCount} 問</span>
                             </div>
                         </div>
-                        <button onclick="startSubjectQuiz('${s.id}')" class="w-full bg-slate-900 hover:bg-brand-600 text-white font-bold py-2 rounded-xl text-xs transition">
-                            クイズを開始
-                        </button>
+                        <button onclick="startSubjectQuiz('${s.id}')" class="w-full bg-slate-900 text-white font-bold py-2 rounded-xl text-xs">クイズを開始</button>
                     </div>
                 `;
             }).join('');
         }
 
-        // 宿題一覧の描画（タップでロードなしモーダル表示）
-        window.renderHomeworkView = function() {
-            const container = document.getElementById('user-homework-list');
-            if (!container) return;
-
-            const list = window.appState.homeworks || [];
-            const badge = document.getElementById('homework-badge');
-
-            if (list.length > 0) {
-                if (badge) { badge.innerText = list.length; badge.classList.remove('hidden'); }
-            } else {
-                if (badge) badge.classList.add('hidden');
-                container.innerHTML = `
-                    <div class="col-span-2 bg-white rounded-2xl p-8 text-center border border-slate-200">
-                        <i class="fa-solid fa-circle-check text-4xl text-emerald-500 mb-2"></i>
-                        <h3 class="font-bold text-slate-900">現在出されている宿題はありません！</h3>
-                    </div>
-                `;
-                return;
-            }
-
-            const now = new Date();
-            now.setHours(0,0,0,0);
-
-            container.innerHTML = list.map(hw => {
-                const subject = SUBJECTS.find(s => s.id === hw.subjectId);
-                let countdownHtml = '';
-                
-                if (hw.dueDate) {
-                    const due = new Date(hw.dueDate);
-                    due.setHours(0,0,0,0);
-                    const diffDays = Math.ceil((due - now) / (1000 * 60 * 60 * 24));
-
-                    if (diffDays < 0) {
-                        countdownHtml = `<span class="bg-slate-200 text-slate-700 font-black text-xs px-2.5 py-1 rounded-full"><i class="fa-solid fa-clock-rotate-left mr-1"></i> 期限切れ</span>`;
-                    } else if (diffDays === 0) {
-                        countdownHtml = `<span class="bg-rose-500 text-white font-black text-xs px-2.5 py-1 rounded-full animate-bounce"><i class="fa-solid fa-triangle-exclamation mr-1"></i> 本日まで！</span>`;
-                    } else if (diffDays <= 3) {
-                        countdownHtml = `<span class="bg-amber-500 text-white font-black text-xs px-2.5 py-1 rounded-full"><i class="fa-solid fa-stopwatch mr-1"></i> あと ${diffDays} 日！</span>`;
-                    } else {
-                        countdownHtml = `<span class="bg-brand-100 text-brand-800 font-bold text-xs px-2.5 py-1 rounded-full"><i class="fa-regular fa-calendar mr-1"></i> 残り ${diffDays} 日</span>`;
-                    }
-                }
-
-                return `
-                    <div onclick="openHomeworkDetailModal('${hw.id}')" class="bg-white rounded-2xl border border-slate-200 p-4 sm:p-5 shadow-sm space-y-3 hover:border-amber-400 hover:shadow-md transition cursor-pointer">
-                        <div class="flex items-center justify-between">
-                            <span class="bg-amber-100 text-amber-900 font-bold text-xs px-2.5 py-0.5 rounded-full">
-                                ${subject ? subject.name : '全般'}
-                            </span>
-                            ${countdownHtml}
-                        </div>
-                        <h3 class="font-black text-slate-900 text-base sm:text-lg">${hw.title}</h3>
-                        <p class="text-xs text-slate-600 line-clamp-2">${hw.description || ''}</p>
-                        <div class="flex items-center justify-between pt-1">
-                            <span class="text-[10px] text-slate-400 font-mono">出題日: ${new Date(hw.createdAt).toLocaleDateString('ja-JP')}</span>
-                            <span class="text-xs font-bold text-amber-600 flex items-center gap-1">
-                                詳細を見る <i class="fa-solid fa-chevron-right text-[10px]"></i>
-                            </span>
-                        </div>
-                    </div>
-                `;
-            }).join('');
-        };
-
-        // 宿題の詳細モーダルを開く処理
-        window.openHomeworkDetailModal = function(hwId) {
-            const hw = (window.appState.homeworks || []).find(item => item.id === hwId);
-            if (!hw) return;
-
-            const subject = SUBJECTS.find(s => s.id === hw.subjectId);
-            document.getElementById('hw-detail-subject').innerText = subject ? subject.name : '全般';
-            document.getElementById('hw-detail-title').innerText = hw.title;
-            document.getElementById('hw-detail-duedate').innerText = hw.dueDate ? `提出期限: ${hw.dueDate}` : '提出期限なし';
-            document.getElementById('hw-detail-desc').innerText = hw.description || '詳しい説明はありません。';
-
-            const imgContainer = document.getElementById('hw-detail-image-container');
-            const imgEl = document.getElementById('hw-detail-image');
-            if (hw.imageUrl) {
-                imgEl.src = hw.imageUrl;
-                imgContainer.classList.remove('hidden');
-            } else {
-                imgContainer.classList.add('hidden');
-            }
-
-            openModal('modal-homework-detail');
-        };
-
-        // 写真のタップ全画面拡大モーダル
-        window.openImageModal = function(url) {
-            document.getElementById('modal-full-image').src = url;
-            openModal('modal-image-view');
-        };
-
-        // 管理者画面のサブタブ切り替え
-        window.switchAdminSubTab = function(tabName) {
-            window.appState.adminSubTab = tabName;
-            const tabs = ['quiz', 'bulk', 'homework', 'users', 'card'];
-            tabs.forEach(t => {
-                const btn = document.getElementById(`admin-tab-${t}`);
-                const sec = document.getElementById(`admin-subtab-${t}`);
-                if (btn) btn.className = "py-2 px-2.5 text-xs sm:text-sm font-bold border-b-2 border-transparent text-slate-500 hover:text-slate-800 transition whitespace-nowrap";
-                if (sec) sec.classList.add('hidden');
-            });
-
-            const activeBtn = document.getElementById(`admin-tab-${tabName}`);
-            const activeSec = document.getElementById(`admin-subtab-${tabName}`);
-            if (activeBtn) activeBtn.className = "py-2 px-2.5 text-xs sm:text-sm font-bold border-b-2 border-brand-600 text-brand-600 transition whitespace-nowrap";
-            if (activeSec) activeSec.classList.remove('hidden');
-
-            if (tabName === 'quiz') renderAdminQuestionsTable();
-            if (tabName === 'homework') renderAdminHomeworkList();
-            if (tabName === 'users') renderAdminActiveUsersTable();
-            if (tabName === 'card') renderAdminCardsTable();
-        };
-
-        function renderAdminDashboard() {
-            renderAdminBackupsList();
-            renderAdminQuestionsTable();
-            renderAdminHomeworkList();
-            renderAdminActiveUsersTable();
-            renderAdminCardsTable();
+        // --- 暗記カード機能（完全復元） ---
+        function initFlashcardsView() {
+            filterFlashcards();
         }
 
-        // 管理者：問題一覧テーブル
-        window.renderAdminQuestionsTable = function() {
-            const tbody = document.getElementById('admin-questions-tbody');
-            const selectedSubject = document.getElementById('admin-quiz-filter-subject').value;
-
-            let filtered = window.appState.questions;
-            if (selectedSubject !== 'all') {
-                filtered = filtered.filter(q => q.subjectId === selectedSubject);
+        window.filterFlashcards = function() {
+            const selSubject = document.getElementById('flashcard-subject-select').value;
+            if (selSubject === 'all') {
+                window.appState.filteredCards = [...window.appState.flashcards];
+            } else {
+                window.appState.filteredCards = window.appState.flashcards.filter(c => c.subjectId === selSubject);
             }
-
-            document.getElementById('admin-q-count').innerText = filtered.length;
-
-            tbody.innerHTML = filtered.map(q => {
-                const subject = SUBJECTS.find(s => s.id === q.subjectId);
-                return `
-                    <tr class="hover:bg-slate-50 border-b border-slate-100 text-slate-800">
-                        <td class="px-3 py-2 text-center">
-                            <input type="checkbox" value="${q.id}" class="q-select-checkbox rounded text-brand-600">
-                        </td>
-                        <td class="px-3 py-2 font-bold text-xs">
-                            <span class="bg-slate-100 text-slate-800 px-2 py-0.5 rounded-full text-[10px]">${subject ? subject.name : q.subjectId}</span>
-                            <div class="text-[10px] text-slate-400 mt-0.5">${q.topic || '-'}</div>
-                        </td>
-                        <td class="px-3 py-2 font-bold text-xs max-w-xs truncate">${q.question}</td>
-                        <td class="px-3 py-2 text-xs">
-                            ${q.isMock ? '<span class="bg-indigo-100 text-indigo-800 text-[10px] font-bold px-2 py-0.5 rounded-full"><i class="fa-solid fa-stopwatch mr-1"></i>模試対象</span>' : '<span class="text-slate-400">通常のみ</span>'}
-                        </td>
-                        <td class="px-3 py-2 text-right space-x-1 whitespace-nowrap">
-                            <button onclick="editQuestionItem('${q.id}')" class="p-1 text-brand-600"><i class="fa-solid fa-pen-to-square"></i></button>
-                            <button onclick="deleteQuestionItem('${q.id}')" class="p-1 text-rose-600"><i class="fa-solid fa-trash"></i></button>
-                        </td>
-                    </tr>
-                `;
-            }).join('');
+            window.appState.currentFlashcardIndex = 0;
+            renderCurrentFlashcard();
         };
 
-        window.toggleSelectAllQuestions = function(master) {
-            document.querySelectorAll('.q-select-checkbox').forEach(cb => cb.checked = master.checked);
-        };
+        function renderCurrentFlashcard() {
+            const inner = document.getElementById('flashcard-inner');
+            if (inner) inner.style.transform = 'rotateY(0deg)';
 
-        window.deleteSelectedQuestions = function() {
-            const checkedBoxes = document.querySelectorAll('.q-select-checkbox:checked');
-            if (checkedBoxes.length === 0) {
-                showToast('削除する問題にチェックを入れてください', 'warning');
+            const cards = window.appState.filteredCards;
+            const counter = document.getElementById('flashcard-counter-text');
+
+            if (!cards || cards.length === 0) {
+                document.getElementById('fc-front-text').innerText = '該当する暗記カードがありません。';
+                document.getElementById('fc-back-text').innerText = '管理者画面からカードを追加してください。';
+                document.getElementById('fc-subject').innerText = '未登録';
+                if (counter) counter.innerText = '0 / 0 枚目';
                 return;
             }
 
-            showConfirmModal('一括削除', `選択された ${checkedBoxes.length} 件のクイズ問題を削除しますか？`, async () => {
-                const idsToDelete = Array.from(checkedBoxes).map(cb => cb.value);
-                for (const id of idsToDelete) {
-                    window.appState.questions = window.appState.questions.filter(q => q.id !== id);
-                    if (window.deleteQuestionCloud) await window.deleteQuestionCloud(id);
-                }
-                window.saveLocalState();
-                if (window.saveAutoBackupCloud) await window.saveAutoBackupCloud(`一括削除(${idsToDelete.length}問)`);
-                renderAdminQuestionsTable();
-                showToast(`${idsToDelete.length} 件の問題を一括削除しました`, 'success');
-            });
-        };
+            const card = cards[window.appState.currentFlashcardIndex];
+            const subject = SUBJECTS.find(s => s.id === card.subjectId);
 
-        // 管理者：暗記カード
-        window.renderAdminCardsTable = function() {
-            const tbody = document.getElementById('admin-cards-tbody');
-            const selectedSubject = document.getElementById('admin-card-filter-subject').value;
+            document.getElementById('fc-front-text').innerText = card.front;
+            document.getElementById('fc-back-text').innerText = card.back;
+            document.getElementById('fc-subject').innerText = subject ? subject.name : card.subjectId;
+            if (counter) counter.innerText = `${window.appState.currentFlashcardIndex + 1} / ${cards.length} 枚目`;
+        }
 
-            let filtered = window.appState.flashcards;
-            if (selectedSubject !== 'all') {
-                filtered = filtered.filter(c => c.subjectId === selectedSubject);
+        window.flipFlashcard = function() {
+            const inner = document.getElementById('flashcard-inner');
+            if (!inner) return;
+            if (inner.style.transform === 'rotateY(180deg)') {
+                inner.style.transform = 'rotateY(0deg)';
+            } else {
+                inner.style.transform = 'rotateY(180deg)';
             }
-
-            tbody.innerHTML = filtered.map(c => {
-                const subject = SUBJECTS.find(s => s.id === c.subjectId);
-                return `
-                    <tr class="hover:bg-slate-50 border-b border-slate-100 text-slate-800">
-                        <td class="px-3 py-2 text-center">
-                            <input type="checkbox" value="${c.id}" class="c-select-checkbox rounded text-indigo-600">
-                        </td>
-                        <td class="px-3 py-2 font-bold text-xs">${subject ? subject.name : c.subjectId}</td>
-                        <td class="px-3 py-2 font-bold text-xs max-w-[120px] truncate">${c.front}</td>
-                        <td class="px-3 py-2 text-xs max-w-[150px] truncate text-slate-600">${c.back}</td>
-                        <td class="px-3 py-2 text-right space-x-1 whitespace-nowrap">
-                            <button onclick="editCardItem('${c.id}')" class="p-1 text-indigo-600"><i class="fa-solid fa-pen-to-square"></i></button>
-                            <button onclick="deleteCardItem('${c.id}')" class="p-1 text-rose-600"><i class="fa-solid fa-trash"></i></button>
-                        </td>
-                    </tr>
-                `;
-            }).join('');
         };
 
-        window.toggleSelectAllCards = function(master) {
-            document.querySelectorAll('.c-select-checkbox').forEach(cb => cb.checked = master.checked);
+        window.nextFlashcard = function() {
+            if (!window.appState.filteredCards.length) return;
+            window.appState.currentFlashcardIndex = (window.appState.currentFlashcardIndex + 1) % window.appState.filteredCards.length;
+            renderCurrentFlashcard();
         };
 
-        window.deleteSelectedCards = function() {
-            const checkedBoxes = document.querySelectorAll('.c-select-checkbox:checked');
-            if (checkedBoxes.length === 0) {
-                showToast('削除するカードにチェックを入れてください', 'warning');
-                return;
-            }
-
-            showConfirmModal('一括削除', `選択された ${checkedBoxes.length} 件のカードを削除しますか？`, async () => {
-                const idsToDelete = Array.from(checkedBoxes).map(cb => cb.value);
-                for (const id of idsToDelete) {
-                    window.appState.flashcards = window.appState.flashcards.filter(c => c.id !== id);
-                    if (window.deleteCardCloud) await window.deleteCardCloud(id);
-                }
-                window.saveLocalState();
-                if (window.saveAutoBackupCloud) await window.saveAutoBackupCloud(`カード一括削除(${idsToDelete.length}枚)`);
-                renderAdminCardsTable();
-                showToast(`${idsToDelete.length} 件のカードを一括削除しました`, 'success');
-            });
+        window.prevFlashcard = function() {
+            if (!window.appState.filteredCards.length) return;
+            window.appState.currentFlashcardIndex = (window.appState.currentFlashcardIndex - 1 + window.appState.filteredCards.length) % window.appState.filteredCards.length;
+            renderCurrentFlashcard();
         };
 
-        // 管理者：宿題一覧
-        window.renderAdminHomeworkList = function() {
-            const container = document.getElementById('admin-homework-grid');
+        window.markFlashcardStatus = function(isMemorized) {
+            showToast(isMemorized ? '覚えた！に保存しました' : '要復習に記録しました', isMemorized ? 'success' : 'warning');
+            window.nextFlashcard();
+        };
+
+        // --- ログインスタンプ表示機能 ---
+        function renderStampsView() {
+            const container = document.getElementById('stamp-grid-container');
             if (!container) return;
-
-            const list = window.appState.homeworks || [];
-            if (list.length === 0) {
-                container.innerHTML = `<div class="col-span-2 text-center py-6 text-slate-400 text-xs">出題されている宿題はありません。</div>`;
-                return;
-            }
-
-            container.innerHTML = list.map(hw => {
-                const subject = SUBJECTS.find(s => s.id === hw.subjectId);
-                return `
-                    <div class="bg-white p-4 rounded-2xl border border-slate-200 shadow-sm space-y-2">
-                        <div class="flex justify-between items-center">
-                            <span class="bg-slate-100 text-slate-800 text-[10px] font-bold px-2 py-0.5 rounded-full">${subject ? subject.name : '全般'}</span>
-                            <button onclick="deleteHomeworkItem('${hw.id}')" class="text-rose-600 text-xs font-bold p-1"><i class="fa-solid fa-trash"></i> 削除</button>
-                        </div>
-                        <h4 class="font-bold text-slate-900 text-sm">${hw.title}</h4>
-                        <p class="text-xs text-slate-500">${hw.description || ''}</p>
-                        <div class="text-[11px] font-bold text-amber-600"><i class="fa-regular fa-calendar mr-1"></i>期限: ${hw.dueDate || 'なし'}</div>
+            const daysInMonth = 31;
+            let html = '';
+            for (let i = 1; i <= daysInMonth; i++) {
+                const isStamped = i <= 5; // ダミー表示例
+                html += `
+                    <div class="p-3 rounded-2xl border flex flex-col items-center justify-center ${isStamped ? 'bg-amber-50 border-amber-300' : 'bg-slate-50 border-slate-200'}">
+                        <span class="text-[10px] font-bold text-slate-400 mb-1">${i}日</span>
+                        ${isStamped ? '<i class="fa-solid fa-stamp text-xl text-amber-500"></i>' : '<div class="w-5 h-5 rounded-full border-2 border-slate-300"></div>'}
                     </div>
                 `;
-            }).join('');
-        };
-
-        window.openHomeworkModal = function() {
-            document.getElementById('edit-hw-id').value = '';
-            document.getElementById('edit-hw-title').value = '';
-            document.getElementById('edit-hw-desc').value = '';
-            document.getElementById('edit-hw-duedate').value = '';
-            document.getElementById('edit-hw-file').value = '';
-            openModal('modal-homework-editor');
-        };
-
-        window.saveHomeworkItem = async function() {
-            const title = document.getElementById('edit-hw-title').value.trim();
-            const subjectId = document.getElementById('edit-hw-subject').value;
-            const dueDate = document.getElementById('edit-hw-duedate').value;
-            const desc = document.getElementById('edit-hw-desc').value.trim();
-            const fileInput = document.getElementById('edit-hw-file');
-
-            if (!title) { showToast('宿題タイトルを入力してください', 'warning'); return; }
-
-            let imageUrl = '';
-            if (fileInput.files && fileInput.files[0]) {
-                imageUrl = await new Promise((resolve) => {
-                    const reader = new FileReader();
-                    reader.onload = e => resolve(e.target.result);
-                    reader.readAsDataURL(fileInput.files[0]);
-                });
             }
+            container.innerHTML = html;
+        }
 
-            const newHw = {
-                id: 'hw_' + Date.now(),
-                subjectId,
-                title,
-                dueDate,
-                description: desc,
-                imageUrl,
-                createdAt: new Date().toISOString()
-            };
-
-            if (window.syncHomeworkCloud) await window.syncHomeworkCloud(newHw);
-            closeModal('modal-homework-editor');
-            showToast('宿題を出題しました！', 'success');
-        };
-
-        window.deleteHomeworkItem = function(hwId) {
-            showConfirmModal('宿題の削除', 'この宿題を削除しますか？', async () => {
-                if (window.deleteHomeworkCloud) await window.deleteHomeworkCloud(hwId);
-                showToast('宿題を削除しました', 'info');
-            });
-        };
-
-        // 管理者：アクセス中ユーザー監視テーブル（リアルタイム）
-        window.renderAdminActiveUsersTable = function() {
-            const tbody = document.getElementById('admin-active-users-tbody');
-            if (!tbody) return;
-
-            const users = window.appState.activeUsersList || [];
-            if (users.length === 0) {
-                tbody.innerHTML = `<tr><td colspan="4" class="text-center py-6 text-slate-400 text-xs">アクセス中のユーザーがいません。</td></tr>`;
-                return;
-            }
-
-            const now = new Date();
-
-            tbody.innerHTML = users.map(u => {
-                const lastActiveDate = new Date(u.lastActive);
-                const diffMins = Math.floor((now - lastActiveDate) / (1000 * 60));
-                const isOnlineNow = diffMins < 3; // 3分以内に更新があればオンライン扱い
-
-                const timeStr = lastActiveDate.toLocaleString('ja-JP', { month: 'numeric', day: 'numeric', hour: '2-digit', minute: '2-digit', second: '2-digit' });
-                return `
-                    <tr class="hover:bg-slate-50 border-b border-slate-100 text-slate-800">
-                        <td class="px-3 py-2.5 font-bold text-xs">
-                            <div>${u.userName}</div>
-                            <div class="text-[10px] text-slate-400 font-mono">${u.email}</div>
-                        </td>
-                        <td class="px-3 py-2.5 font-mono text-[10px] text-slate-500">${timeStr}</td>
-                        <td class="px-3 py-2.5">
-                            ${isOnlineNow ? `
-                                <span class="bg-emerald-100 text-emerald-800 text-[10px] font-bold px-2 py-0.5 rounded-full flex items-center gap-1 w-max">
-                                    <span class="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse"></span> 現在利用中
-                                </span>
-                            ` : `
-                                <span class="bg-slate-100 text-slate-600 text-[10px] font-bold px-2 py-0.5 rounded-full w-max">
-                                    ${diffMins}分前
-                                </span>
-                            `}
-                        </td>
-                        <td class="px-3 py-2.5 text-right">
-                            <button onclick="blockUserConfirm('${u.uid}', '${u.userName}')" class="bg-rose-600 hover:bg-rose-700 text-white font-bold text-[10px] px-2.5 py-1 rounded-lg transition shadow">
-                                <i class="fa-solid fa-user-slash mr-1"></i> ブロックして追放
-                            </button>
-                        </td>
-                    </tr>
-                `;
-            }).join('');
-        };
-
-        window.blockUserConfirm = function(uid, userName) {
-            showConfirmModal('ユーザーのアクセス遮断', `${userName} をブロックしますか？\n（このユーザーは即座にアクセス不可となります）`, async () => {
-                if (window.blockUserCloud) await window.blockUserCloud(uid);
-            });
-        };
-
-        window.openQuestionModal = function(qId = null) {
-            document.getElementById('edit-q-id').value = qId || '';
-            document.getElementById('modal-question-title').innerText = qId ? 'クイズ問題の編集' : '新規クイズ問題の作成';
-            
-            if (qId) {
-                const q = window.appState.questions.find(item => item.id === qId);
-                if (q) {
-                    document.getElementById('edit-q-subject').value = q.subjectId;
-                    document.getElementById('edit-q-topic').value = q.topic || '';
-                    document.getElementById('edit-q-text').value = q.question;
-                    document.getElementById('edit-q-c0').value = q.choices[0] || '';
-                    document.getElementById('edit-q-c1').value = q.choices[1] || '';
-                    document.getElementById('edit-q-c2').value = q.choices[2] || '';
-                    document.getElementById('edit-q-c3').value = q.choices[3] || '';
-                    document.getElementById('edit-q-correct').value = q.correctIndex;
-                    document.getElementById('edit-q-ismock').checked = !!q.isMock;
-                    document.getElementById('edit-q-explanation').value = q.explanation || '';
-                }
-            } else {
-                document.getElementById('edit-q-topic').value = '';
-                document.getElementById('edit-q-text').value = '';
-                document.getElementById('edit-q-c0').value = '';
-                document.getElementById('edit-q-c1').value = '';
-                document.getElementById('edit-q-c2').value = '';
-                document.getElementById('edit-q-c3').value = '';
-                document.getElementById('edit-q-correct').value = '0';
-                document.getElementById('edit-q-ismock').checked = false;
-                document.getElementById('edit-q-explanation').value = '';
-            }
-            openModal('modal-question-editor');
-        };
-
-        window.editQuestionItem = function(qId) { window.openQuestionModal(qId); };
-
-        window.saveQuestionItem = async function() {
-            const qId = document.getElementById('edit-q-id').value;
-            const subjectId = document.getElementById('edit-q-subject').value;
-            const topic = document.getElementById('edit-q-topic').value;
-            const questionText = document.getElementById('edit-q-text').value.trim();
-            const c0 = document.getElementById('edit-q-c0').value.trim();
-            const c1 = document.getElementById('edit-q-c1').value.trim();
-            const c2 = document.getElementById('edit-q-c2').value.trim();
-            const c3 = document.getElementById('edit-q-c3').value.trim();
-            const correctIndex = parseInt(document.getElementById('edit-q-correct').value);
-            const isMock = document.getElementById('edit-q-ismock').checked;
-            const explanation = document.getElementById('edit-q-explanation').value.trim();
-
-            if (!questionText || !c0 || !c1) { showToast('問題文と複数の選択肢を入力してください', 'warning'); return; }
-
-            const newQ = {
-                id: qId || 'q_' + Date.now(),
-                subjectId,
-                topic,
-                question: questionText,
-                choices: [c0, c1, c2 || 'なし', c3 || 'なし'],
-                correctIndex,
-                isMock,
-                explanation
-            };
-
-            if (window.syncQuestionCloud) await window.syncQuestionCloud(newQ);
-            if (window.saveAutoBackupCloud) await window.saveAutoBackupCloud(qId ? '問題編集' : '問題追加');
-
-            closeModal('modal-question-editor');
-            showToast('問題データを保存・同期しました！', 'success');
-        };
-
-        window.deleteQuestionItem = function(qId) {
-            showConfirmModal('問題の削除', 'この問題を削除しますか？', async () => {
-                if (window.deleteQuestionCloud) await window.deleteQuestionCloud(qId);
-                if (window.saveAutoBackupCloud) await window.saveAutoBackupCloud('問題削除');
-                showToast('問題を削除しました', 'info');
-            });
-        };
-
+        // --- クイズ進行・解答保存 ---
         window.startSubjectQuiz = function(subjectId) {
             const questions = window.appState.questions.filter(q => q.subjectId === subjectId);
-            if (questions.length === 0) { showToast('この科目にはまだ問題が登録されていません。', 'info'); return; }
+            if (questions.length === 0) { showToast('この科目にはまだ問題がありません', 'info'); return; }
+            
+            window.appState.currentSubjectId = subjectId;
             window.appState.currentQuizSet = [...questions].sort(() => Math.random() - 0.5);
+            window.appState.currentQuizAnswers = [];
             window.appState.currentQuizIndex = 0;
             window.appState.quizScore = 0;
-            window.appState.quizStartTime = new Date();
             window.appState.isMockExam = false;
+            
             showView('quiz');
             loadCurrentQuestion();
         };
 
         window.startMockExam = function() {
-            if (window.appState.questions.length === 0) { showToast('問題データベースが空です。', 'warning'); return; }
-            
-            let mockPool = window.appState.questions.filter(q => q.isMock);
-            if (mockPool.length < 10) {
-                mockPool = window.appState.questions;
-            }
-
-            window.appState.currentQuizSet = [...mockPool].sort(() => Math.random() - 0.5).slice(0, 10);
+            if (window.appState.questions.length === 0) { showToast('問題データベースが空です', 'warning'); return; }
+            window.appState.currentQuizSet = [...window.appState.questions].sort(() => Math.random() - 0.5).slice(0, 10);
+            window.appState.currentQuizAnswers = [];
             window.appState.currentQuizIndex = 0;
             window.appState.quizScore = 0;
-            window.appState.quizStartTime = new Date();
             window.appState.isMockExam = true;
-            window.appState.mockTimeRemaining = 900;
 
-            document.getElementById('mock-timer-bar').classList.remove('hidden');
-            startMockTimer();
             showView('quiz');
             loadCurrentQuestion();
         };
-
-        function startMockTimer() {
-            updateTimerDisplay();
-            window.appState.mockTimer = setInterval(() => {
-                window.appState.mockTimeRemaining--;
-                updateTimerDisplay();
-                if (window.appState.mockTimeRemaining <= 0) {
-                    clearInterval(window.appState.mockTimer);
-                    finishQuiz();
-                }
-            }, 1000);
-        }
-
-        function updateTimerDisplay() {
-            const mins = Math.floor(window.appState.mockTimeRemaining / 60);
-            const secs = window.appState.mockTimeRemaining % 60;
-            document.getElementById('mock-timer-display').innerText = `${mins.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')}`;
-        }
 
         function loadCurrentQuestion() {
             const q = window.appState.currentQuizSet[window.appState.currentQuizIndex];
@@ -2005,7 +1303,7 @@ x² - 5x + 6 を因数分解しなさい。,(x-2)(x-3),(x+2)(x-3),(x-1)(x-6),(x+
 
             document.getElementById('quiz-subject-badge').innerText = subject ? subject.name : '総合';
             document.getElementById('quiz-progress-text').innerText = `第 ${window.appState.currentQuizIndex + 1} / ${window.appState.currentQuizSet.length} 問`;
-            document.getElementById('quiz-topic-tag').innerText = `テーマ: ${q.topic || '基本要点'}`;
+            document.getElementById('quiz-topic-tag').innerText = `テーマ: ${q.topic || '基本'}`;
             document.getElementById('quiz-question-text').innerText = q.question;
 
             document.getElementById('quiz-explanation-box').classList.add('hidden');
@@ -2025,6 +1323,13 @@ x² - 5x + 6 を因数分解しなさい。,(x-2)(x-3),(x+2)(x-3),(x-1)(x-6),(x+
         window.submitAnswer = function(selectedIndex) {
             const q = window.appState.currentQuizSet[window.appState.currentQuizIndex];
             const isCorrect = selectedIndex === parseInt(q.correctIndex);
+
+            if (!window.appState.currentQuizAnswers) window.appState.currentQuizAnswers = [];
+            window.appState.currentQuizAnswers.push({
+                question: q,
+                userChoice: selectedIndex,
+                isCorrect: isCorrect
+            });
 
             const buttons = document.querySelectorAll('.choice-btn');
             buttons.forEach((btn, idx) => {
@@ -2052,13 +1357,336 @@ x² - 5x + 6 を因数分解しなさい。,(x-2)(x-3),(x+2)(x-3),(x-1)(x-6),(x+
         };
 
         function finishQuiz() {
-            if (window.appState.mockTimer) clearInterval(window.appState.mockTimer);
             document.getElementById('result-score').innerText = window.appState.quizScore;
             document.getElementById('result-total').innerText = window.appState.currentQuizSet.length;
             const percentage = Math.round((window.appState.quizScore / window.appState.currentQuizSet.length) * 100);
             document.getElementById('result-percentage').innerText = percentage + '%';
+
+            const wrongQs = (window.appState.currentQuizAnswers || []).filter(a => !a.isCorrect).map(a => ({
+                questionId: a.question.id,
+                question: a.question.question,
+                subjectId: a.question.subjectId,
+                topic: a.question.topic || '',
+                correctAnswer: a.question.choices[a.question.correctIndex],
+                userAnswer: a.question.choices[a.userChoice] || '未回答'
+            }));
+
+            const resultData = {
+                id: 'res_' + Date.now(),
+                userName: window.appState.userName || 'ゲスト学習者',
+                mode: window.appState.isMockExam ? '模擬試験' : (SUBJECTS.find(s => s.id === window.appState.currentSubjectId)?.name || '科目クイズ'),
+                score: window.appState.quizScore,
+                total: window.appState.currentQuizSet.length,
+                percentage: percentage,
+                timestamp: new Date().toISOString(),
+                wrongQuestions: wrongQs
+            };
+
+            if (window.saveQuizResultCloud) window.saveQuizResultCloud(resultData);
             showView('result');
         }
+
+        // --- 宿題描画・モダール ---
+        window.renderHomeworkView = function() {
+            const container = document.getElementById('user-homework-list');
+            if (!container) return;
+            const list = window.appState.homeworks || [];
+
+            if (list.length === 0) {
+                container.innerHTML = `<div class="col-span-2 bg-white rounded-2xl p-8 text-center border border-slate-200"><h3 class="font-bold text-slate-900">現在出されている宿題はありません！</h3></div>`;
+                return;
+            }
+
+            container.innerHTML = list.map(hw => `
+                <div onclick="openHomeworkDetailModal('${hw.id}')" class="bg-white rounded-2xl border border-slate-200 p-4 shadow-sm space-y-2 hover:border-amber-400 transition cursor-pointer">
+                    <div class="flex justify-between items-center">
+                        <span class="bg-amber-100 text-amber-900 font-bold text-xs px-2.5 py-0.5 rounded-full">宿題</span>
+                        <span class="text-xs font-bold text-rose-600">期限: ${hw.dueDate || 'なし'}</span>
+                    </div>
+                    <h3 class="font-black text-slate-900 text-base">${hw.title}</h3>
+                    <p class="text-xs text-slate-600 line-clamp-2">${hw.description || ''}</p>
+                </div>
+            `).join('');
+        };
+
+        window.openHomeworkDetailModal = function(hwId) {
+            const hw = (window.appState.homeworks || []).find(i => i.id === hwId);
+            if (!hw) return;
+            document.getElementById('hw-detail-title').innerText = hw.title;
+            document.getElementById('hw-detail-duedate').innerText = hw.dueDate ? `提出期限: ${hw.dueDate}` : '期限なし';
+            document.getElementById('hw-detail-desc').innerText = hw.description || '指示内容はありません。';
+
+            const imgContainer = document.getElementById('hw-detail-image-container');
+            if (hw.imageUrl) {
+                document.getElementById('hw-detail-image').src = hw.imageUrl;
+                imgContainer.classList.remove('hidden');
+            } else {
+                imgContainer.classList.add('hidden');
+            }
+            openModal('modal-homework-detail');
+        };
+
+        window.openImageModal = function(url) {
+            document.getElementById('modal-full-image').src = url;
+            openModal('modal-image-view');
+        };
+
+        // --- 管理者画面タブ切替・描画 ---
+        window.switchAdminSubTab = function(tabName) {
+            window.appState.adminSubTab = tabName;
+            ['users', 'quiz', 'homework', 'card'].forEach(t => {
+                document.getElementById(`admin-tab-${t}`)?.classList.remove('border-indigo-600', 'text-indigo-600');
+                document.getElementById(`admin-subtab-${t}`)?.classList.add('hidden');
+            });
+
+            document.getElementById(`admin-tab-${tabName}`)?.classList.add('border-indigo-600', 'text-indigo-600');
+            document.getElementById(`admin-subtab-${tabName}`)?.classList.remove('hidden');
+
+            if (tabName === 'users') { renderAdminActiveUsersTable(); renderAdminUserResultsTable(); }
+            if (tabName === 'quiz') renderAdminQuestionsTable();
+            if (tabName === 'homework') renderAdminHomeworkList();
+            if (tabName === 'card') renderAdminCardsTable();
+        };
+
+        function renderAdminDashboard() {
+            renderAdminActiveUsersTable();
+            populateUserLogSelectOptions();
+            renderAdminUserResultsTable();
+            renderAdminQuestionsTable();
+            renderAdminHomeworkList();
+            renderAdminCardsTable();
+        }
+
+        window.renderAdminActiveUsersTable = function() {
+            const tbody = document.getElementById('admin-active-users-tbody');
+            if (!tbody) return;
+
+            const users = window.appState.activeUsersList || [];
+            const filter = document.getElementById('admin-user-status-filter')?.value || 'all';
+            const now = new Date();
+
+            let filteredUsers = users.filter(u => {
+                const diffSec = Math.floor((now - new Date(u.lastActive)) / 1000);
+                const isOnline = u.isOnline && diffSec < 45;
+                if (filter === 'online') return isOnline;
+                if (filter === 'offline') return !isOnline;
+                return true;
+            });
+
+            if (filteredUsers.length === 0) {
+                tbody.innerHTML = `<tr><td colspan="4" class="text-center py-6 text-slate-400 text-xs">該当するユーザーはいません。</td></tr>`;
+                return;
+            }
+
+            tbody.innerHTML = filteredUsers.map(u => {
+                const diffSec = Math.floor((now - new Date(u.lastActive)) / 1000);
+                const isOnline = u.isOnline && diffSec < 45;
+                const timeStr = new Date(u.lastActive).toLocaleString('ja-JP', { month: 'numeric', day: 'numeric', hour: '2-digit', minute: '2-digit' });
+
+                return `
+                    <tr class="hover:bg-slate-50 border-b border-slate-100 text-slate-800">
+                        <td class="px-3 py-2.5 font-bold text-xs">
+                            <div class="text-slate-900">${u.userName}</div>
+                            <div class="text-[10px] text-slate-400 font-mono">${u.email}</div>
+                        </td>
+                        <td class="px-3 py-2.5 font-mono text-[10px] text-slate-500">${timeStr}</td>
+                        <td class="px-3 py-2.5">
+                            ${isOnline ? `
+                                <span class="bg-emerald-100 text-emerald-800 text-[10px] font-bold px-2 py-0.5 rounded-full inline-flex items-center gap-1">
+                                    <span class="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse"></span> オンライン中
+                                </span>
+                            ` : `
+                                <span class="bg-slate-100 text-slate-500 text-[10px] font-bold px-2 py-0.5 rounded-full inline-flex items-center gap-1">
+                                    <span class="w-1.5 h-1.5 rounded-full bg-slate-400"></span> オフライン
+                                </span>
+                            `}
+                        </td>
+                        <td class="px-3 py-2.5 text-right space-x-1 whitespace-nowrap">
+                            <button onclick="openUserDetailModal('${u.uid}', '${u.userName}', '${u.email}')" class="bg-indigo-50 hover:bg-indigo-100 text-indigo-700 font-bold text-[10px] px-2.5 py-1 rounded-lg border border-indigo-200 transition">
+                                <i class="fa-solid fa-chart-line mr-1"></i> 個人成績・間違えた問題
+                            </button>
+                            <button onclick="blockUserConfirm('${u.uid}', '${u.userName}')" class="bg-rose-600 text-white font-bold text-[10px] px-2 py-1 rounded-lg">
+                                追放
+                            </button>
+                        </td>
+                    </tr>
+                `;
+            }).join('');
+        };
+
+        window.openUserDetailModal = function(uid, userName, email) {
+            document.getElementById('user-detail-name').innerText = userName;
+            document.getElementById('user-detail-email').innerText = email;
+
+            const logs = (window.appState.allUserResults || []).filter(r => r.userName === userName || r.userId === uid);
+            document.getElementById('user-detail-total-tests').innerText = logs.length + ' 回';
+
+            let totalQ = 0, totalCorrect = 0;
+            logs.forEach(l => { totalQ += l.total; totalCorrect += l.score; });
+            const avgAcc = totalQ > 0 ? Math.round((totalCorrect / totalQ) * 100) : 0;
+            document.getElementById('user-detail-avg-accuracy').innerText = avgAcc + '%';
+
+            const listContainer = document.getElementById('user-detail-history-list');
+            if (logs.length === 0) {
+                listContainer.innerHTML = `<div class="text-xs text-slate-400 text-center py-4">まだテストの解答記録がありません。</div>`;
+            } else {
+                listContainer.innerHTML = logs.slice(0, 10).map(l => {
+                    const dateStr = new Date(l.timestamp).toLocaleString('ja-JP', { month: 'numeric', day: 'numeric', hour: '2-digit', minute: '2-digit' });
+                    const isPassed = l.percentage >= 60;
+                    const wrongCount = (l.wrongQuestions || []).length;
+                    return `
+                        <div class="bg-slate-50 p-2.5 rounded-xl text-xs border border-slate-200 space-y-1">
+                            <div class="flex items-center justify-between font-bold">
+                                <div>
+                                    <span class="text-slate-800">${l.mode}</span>
+                                    <span class="text-[10px] text-slate-400 font-normal ml-1">(${dateStr})</span>
+                                </div>
+                                <div>
+                                    <span class="text-brand-600 mr-2">${l.score}/${l.total}問 (${l.percentage}%)</span>
+                                    <span class="${isPassed ? 'text-emerald-600' : 'text-rose-600'}">${isPassed ? '合格' : '要復習'}</span>
+                                </div>
+                            </div>
+                            ${wrongCount > 0 ? `<div class="text-[11px] text-rose-600 font-bold"><i class="fa-solid fa-xmark mr-1"></i>間違えた問題: ${wrongCount}問</div>` : '<div class="text-[11px] text-emerald-600 font-bold"><i class="fa-solid fa-check mr-1"></i>全問正解！</div>'}
+                        </div>
+                    `;
+                }).join('');
+            }
+
+            const wrongListContainer = document.getElementById('user-detail-wrong-questions-list');
+            const allWrongQuestions = [];
+            logs.forEach(l => {
+                if (l.wrongQuestions && l.wrongQuestions.length > 0) {
+                    l.wrongQuestions.forEach(wq => {
+                        allWrongQuestions.push({
+                            ...wq,
+                            testMode: l.mode,
+                            dateStr: new Date(l.timestamp).toLocaleDateString('ja-JP')
+                        });
+                    });
+                }
+            });
+
+            if (allWrongQuestions.length === 0) {
+                wrongListContainer.innerHTML = `<div class="text-xs text-slate-400 text-center py-4 bg-slate-50 rounded-xl border border-slate-200">間違えた問題の記録はありません。</div>`;
+            } else {
+                wrongListContainer.innerHTML = allWrongQuestions.map(wq => {
+                    const subject = SUBJECTS.find(s => s.id === wq.subjectId);
+                    return `
+                        <div class="bg-rose-50/70 p-3 rounded-2xl border border-rose-200 text-xs space-y-1.5">
+                            <div class="flex items-center justify-between">
+                                <span class="bg-rose-100 text-rose-800 font-bold text-[10px] px-2 py-0.5 rounded-full">
+                                    ${subject ? subject.name : (wq.subjectId || '科目')}
+                                </span>
+                                <span class="text-[10px] text-slate-400 font-mono">${wq.dateStr} (${wq.testMode})</span>
+                            </div>
+                            <div class="font-bold text-slate-900 leading-snug">${wq.question}</div>
+                            <div class="grid grid-cols-1 sm:grid-cols-2 gap-1.5 pt-1 text-[11px]">
+                                <div class="bg-white/90 p-2 rounded-xl border border-rose-200 text-rose-700">
+                                    <span class="font-bold block text-[10px] text-rose-400 uppercase">受講生の解答</span>
+                                    <span class="font-bold">${wq.userAnswer}</span>
+                                </div>
+                                <div class="bg-white/90 p-2 rounded-xl border border-emerald-200 text-emerald-800">
+                                    <span class="font-bold block text-[10px] text-emerald-500 uppercase">正しい正解</span>
+                                    <span class="font-bold">${wq.correctAnswer}</span>
+                                </div>
+                            </div>
+                        </div>
+                    `;
+                }).join('');
+            }
+
+            openModal('modal-user-detail');
+        };
+
+        window.populateUserLogSelectOptions = function() {
+            const select = document.getElementById('admin-user-log-select');
+            if (!select) return;
+            const currentVal = select.value;
+            const names = new Set();
+            (window.appState.allUserResults || []).forEach(r => { if (r.userName) names.add(r.userName); });
+            select.innerHTML = '<option value="all">全員のログを表示</option>' + 
+                Array.from(names).map(n => `<option value="${n}">${n}</option>`).join('');
+            select.value = currentVal;
+        };
+
+        window.renderAdminUserResultsTable = function() {
+            const tbody = document.getElementById('admin-user-results-tbody');
+            if (!tbody) return;
+            const selectedUser = document.getElementById('admin-user-log-select')?.value || 'all';
+            let logs = window.appState.allUserResults || [];
+
+            if (selectedUser !== 'all') logs = logs.filter(r => r.userName === selectedUser);
+
+            if (logs.length === 0) {
+                tbody.innerHTML = `<tr><td colspan="6" class="text-center py-6 text-slate-400 text-xs">解答ログがありません。</td></tr>`;
+                return;
+            }
+
+            tbody.innerHTML = logs.map(r => {
+                const dateStr = new Date(r.timestamp).toLocaleString('ja-JP', { month: 'numeric', day: 'numeric', hour: '2-digit', minute: '2-digit' });
+                const isPassed = r.percentage >= 60;
+                return `
+                    <tr class="hover:bg-slate-50 border-b border-slate-100 text-slate-800">
+                        <td class="px-3 py-2 font-mono text-[10px] text-slate-500">${dateStr}</td>
+                        <td class="px-3 py-2 font-bold text-xs text-indigo-700">${r.userName || '匿名'}</td>
+                        <td class="px-3 py-2 font-bold text-xs">${r.mode}</td>
+                        <td class="px-3 py-2 font-bold text-xs">${r.score} / ${r.total}</td>
+                        <td class="px-3 py-2 font-black text-xs text-brand-600">${r.percentage}%</td>
+                        <td class="px-3 py-2">
+                            <span class="px-2 py-0.5 rounded-full text-[10px] font-bold ${isPassed ? 'bg-emerald-100 text-emerald-800' : 'bg-rose-100 text-rose-800'}">
+                                ${isPassed ? '合格' : '要復習'}
+                            </span>
+                        </td>
+                    </tr>
+                `;
+            }).join('');
+        };
+
+        window.renderAdminQuestionsTable = function() {
+            const tbody = document.getElementById('admin-questions-tbody');
+            const selectedSubject = document.getElementById('admin-quiz-filter-subject').value;
+            let filtered = window.appState.questions;
+            if (selectedSubject !== 'all') filtered = filtered.filter(q => q.subjectId === selectedSubject);
+
+            document.getElementById('admin-q-count').innerText = filtered.length;
+            tbody.innerHTML = filtered.map(q => `
+                <tr class="hover:bg-slate-50 border-b border-slate-100 text-slate-800">
+                    <td class="px-3 py-2 text-center"><input type="checkbox" value="${q.id}" class="q-select-checkbox rounded text-brand-600"></td>
+                    <td class="px-3 py-2 font-bold text-xs">${q.subjectId}</td>
+                    <td class="px-3 py-2 font-bold text-xs max-w-xs truncate">${q.question}</td>
+                    <td class="px-3 py-2 text-xs">${q.isMock ? '模試対象' : '通常'}</td>
+                    <td class="px-3 py-2 text-right"><button onclick="deleteQuestionItem('${q.id}')" class="text-rose-600 p-1"><i class="fa-solid fa-trash"></i></button></td>
+                </tr>
+            `).join('');
+        };
+
+        window.renderAdminHomeworkList = function() {
+            const container = document.getElementById('admin-homework-grid');
+            if (!container) return;
+            const list = window.appState.homeworks || [];
+            container.innerHTML = list.map(hw => `
+                <div class="bg-white p-3.5 rounded-2xl border border-slate-200 shadow-sm space-y-1.5">
+                    <div class="flex justify-between items-center">
+                        <span class="bg-slate-100 text-slate-800 text-[10px] font-bold px-2 py-0.5 rounded-full">${hw.subjectId}</span>
+                        <button onclick="deleteHomeworkItem('${hw.id}')" class="text-rose-600 text-xs font-bold p-1"><i class="fa-solid fa-trash"></i> 削除</button>
+                    </div>
+                    <h4 class="font-bold text-slate-900 text-sm">${hw.title}</h4>
+                </div>
+            `).join('');
+        };
+
+        window.renderAdminCardsTable = function() {
+            const tbody = document.getElementById('admin-cards-tbody');
+            tbody.innerHTML = window.appState.flashcards.map(c => `
+                <tr class="hover:bg-slate-50 border-b border-slate-100 text-slate-800">
+                    <td class="px-3 py-2 text-center"><input type="checkbox" value="${c.id}" class="c-select-checkbox rounded text-indigo-600"></td>
+                    <td class="px-3 py-2 font-bold text-xs">${c.subjectId}</td>
+                    <td class="px-3 py-2 font-bold text-xs max-w-[120px] truncate">${c.front}</td>
+                    <td class="px-3 py-2 text-xs max-w-[150px] truncate">${c.back}</td>
+                    <td class="px-3 py-2 text-right"><button onclick="deleteCardItem('${c.id}')" class="text-rose-600 p-1"><i class="fa-solid fa-trash"></i></button></td>
+                </tr>
+            `).join('');
+        };
 
         function openModal(id) { document.getElementById(id)?.classList.remove('hidden'); }
         window.closeModal = function(id) { document.getElementById(id)?.classList.add('hidden'); };
@@ -2067,24 +1695,15 @@ x² - 5x + 6 を因数分解しなさい。,(x-2)(x-3),(x+2)(x-3),(x-1)(x-6),(x+
             document.getElementById('confirm-title').innerText = title;
             document.getElementById('confirm-message').innerText = message;
             openModal('modal-confirm');
-
-            const btnCancel = document.getElementById('btn-confirm-cancel');
-            const btnOk = document.getElementById('btn-confirm-ok');
-
-            const cleanup = () => { btnCancel.onclick = null; btnOk.onclick = null; closeModal('modal-confirm'); };
-            btnCancel.onclick = cleanup;
-            btnOk.onclick = () => { cleanup(); if (onOk) onOk(); };
+            const cleanup = () => closeModal('modal-confirm');
+            document.getElementById('btn-confirm-cancel').onclick = cleanup;
+            document.getElementById('btn-confirm-ok').onclick = () => { cleanup(); if (onOk) onOk(); };
         }
 
         function showToast(message, type = 'info') {
             const container = document.getElementById('toast-container');
             const toast = document.createElement('div');
-            let bgClass = 'bg-slate-900 text-white';
-            if (type === 'success') bgClass = 'bg-emerald-600 text-white';
-            if (type === 'danger') bgClass = 'bg-rose-600 text-white';
-            if (type === 'warning') bgClass = 'bg-amber-600 text-white';
-
-            toast.className = `${bgClass} text-xs font-bold px-3.5 py-2.5 rounded-2xl shadow-xl transition-all duration-300 flex items-center gap-2`;
+            toast.className = `bg-slate-900 text-white text-xs font-bold px-3.5 py-2.5 rounded-2xl shadow-xl flex items-center gap-2`;
             toast.innerHTML = `<i class="fa-solid fa-circle-info"></i> <span>${message}</span>`;
             container.appendChild(toast);
             setTimeout(() => toast.remove(), 3000);
