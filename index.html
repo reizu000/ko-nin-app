@@ -166,7 +166,7 @@
     </header>
 
     <nav class="lg:hidden fixed bottom-0 left-0 right-0 bg-white/95 backdrop-blur-md border-t border-slate-200 z-40 px-1 py-1 flex justify-around items-center shadow-lg pb-safe">
-        <button onclick="showView('dashboard')" id="bnav-dashboard" class="bnav-btn flex-1 flex flex-col items-center justify-center py-1.5 px-1 text-brand-600 font-bold active:scale-95 transition">
+        <button onclick="showView('dashboard')" id="bnav-dashboard" class="bnav-btn flex-1 flex flex-col items-center justify-center py-1.5 px-1 text-slate-500 font-bold active:scale-95 transition">
             <i class="fa-solid fa-house text-lg mb-0.5"></i>
             <span class="text-[10px]">ホーム</span>
         </button>
@@ -493,7 +493,7 @@
             <div class="bg-white p-3.5 sm:p-6 rounded-2xl border border-slate-200 shadow-sm flex flex-col sm:flex-row items-start sm:items-center justify-between gap-2.5">
                 <div>
                     <h2 class="text-base sm:text-xl font-black text-slate-900">今月のログインスタンプ</h2>
-                    <p class="text-xs text-slate-500">ログインした日はスタンプが捺印され、来なかった日はスキップされます。</p>
+                    <p class="text-xs text-slate-500">ログインした日はスタンプが自動捺印され、オンライン保存されます。</p>
                 </div>
                 <div class="bg-amber-50 border border-amber-200 text-amber-900 font-black text-xs sm:text-sm px-3 py-1.5 rounded-xl flex items-center gap-1.5">
                     <i class="fa-solid fa-fire text-amber-500"></i> 現在 <span id="stamp-streak-display" class="text-sm sm:text-base text-brand-600">1</span> 日連続ログイン中！
@@ -532,21 +532,21 @@
                 </div>
             </div>
 
-            <div class="flex border-b border-slate-200 space-x-1 sm:space-x-3 overflow-x-auto custom-scrollbar">
-                <button id="admin-tab-users" onclick="switchAdminSubTab('users')" class="py-2.5 px-3 text-xs sm:text-sm font-bold border-b-2 border-indigo-600 text-indigo-600 transition flex items-center gap-1.5 whitespace-nowrap">
-                    <i class="fa-solid fa-users text-indigo-500"></i> ユーザー監視・追放管理
+            <div class="flex border-b border-slate-200 space-x-1 sm:space-x-2 overflow-x-auto custom-scrollbar">
+                <button id="admin-tab-users" onclick="switchAdminSubTab('users')" class="py-2.5 px-3 text-xs sm:text-sm font-bold border-b-2 border-indigo-600 text-indigo-600 bg-indigo-50/50 transition flex items-center gap-1.5 whitespace-nowrap rounded-t-xl">
+                    <i class="fa-solid fa-users text-indigo-600"></i> ユーザー監視・追放管理
                 </button>
-                <button id="admin-tab-material" onclick="switchAdminSubTab('material')" class="py-2.5 px-3 text-xs sm:text-sm font-bold border-b-2 border-transparent text-slate-500 hover:text-slate-800 transition flex items-center gap-1.5 whitespace-nowrap">
+                <button id="admin-tab-material" onclick="switchAdminSubTab('material')" class="py-2.5 px-3 text-xs sm:text-sm font-bold border-b-2 border-transparent text-slate-500 hover:text-slate-800 transition flex items-center gap-1.5 whitespace-nowrap rounded-t-xl">
                     <i class="fa-solid fa-book text-emerald-600"></i> 教科書・資料管理
                 </button>
-                <button id="admin-tab-quiz" onclick="switchAdminSubTab('quiz')" class="py-2.5 px-3 text-xs sm:text-sm font-bold border-b-2 border-transparent text-slate-500 hover:text-slate-800 transition flex items-center gap-1.5 whitespace-nowrap">
-                    <i class="fa-solid fa-pen-to-square"></i> クイズ & 単元管理
+                <button id="admin-tab-quiz" onclick="switchAdminSubTab('quiz')" class="py-2.5 px-3 text-xs sm:text-sm font-bold border-b-2 border-transparent text-slate-500 hover:text-slate-800 transition flex items-center gap-1.5 whitespace-nowrap rounded-t-xl">
+                    <i class="fa-solid fa-pen-to-square text-brand-600"></i> クイズ & 単元管理
                 </button>
-                <button id="admin-tab-homework" onclick="switchAdminSubTab('homework')" class="py-2.5 px-3 text-xs sm:text-sm font-bold border-b-2 border-transparent text-slate-500 hover:text-slate-800 transition flex items-center gap-1.5 whitespace-nowrap">
+                <button id="admin-tab-homework" onclick="switchAdminSubTab('homework')" class="py-2.5 px-3 text-xs sm:text-sm font-bold border-b-2 border-transparent text-slate-500 hover:text-slate-800 transition flex items-center gap-1.5 whitespace-nowrap rounded-t-xl">
                     <i class="fa-solid fa-pen-ruler text-amber-600"></i> 宿題管理
                 </button>
-                <button id="admin-tab-card" onclick="switchAdminSubTab('card')" class="py-2.5 px-3 text-xs sm:text-sm font-bold border-b-2 border-transparent text-slate-500 hover:text-slate-800 transition flex items-center gap-1.5 whitespace-nowrap">
-                    <i class="fa-solid fa-layer-group"></i> 暗記カード管理
+                <button id="admin-tab-card" onclick="switchAdminSubTab('card')" class="py-2.5 px-3 text-xs sm:text-sm font-bold border-b-2 border-transparent text-slate-500 hover:text-slate-800 transition flex items-center gap-1.5 whitespace-nowrap rounded-t-xl">
+                    <i class="fa-solid fa-layer-group text-indigo-500"></i> 暗記カード管理
                 </button>
             </div>
 
@@ -583,7 +583,6 @@
                     </div>
                 </div>
 
-                <!-- 追放済みユーザー一覧カード -->
                 <div class="bg-rose-50/50 rounded-2xl border border-rose-200 p-4 space-y-3 shadow-sm">
                     <div class="flex items-center justify-between border-b border-rose-200 pb-2">
                         <h3 class="font-bold text-rose-900 text-sm flex items-center gap-2">
@@ -605,7 +604,6 @@
                     </div>
                 </div>
 
-                <!-- 全成績ログ -->
                 <div class="bg-white rounded-2xl border border-slate-200 p-4 space-y-3 shadow-sm">
                     <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-2 border-b border-slate-200 pb-2">
                         <div>
@@ -772,7 +770,7 @@
 
     <!-- MODALS -->
 
-    <!-- MODAL: TOPIC SELECT (ユーザー側 単元選択) -->
+    <!-- MODAL: TOPIC SELECT -->
     <div id="modal-topic-select" class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-50 flex items-center justify-center p-3 hidden animate-fade-in">
         <div class="bg-white w-full max-w-md rounded-3xl p-5 shadow-2xl border border-slate-100 space-y-4 max-h-[90vh] overflow-y-auto custom-scrollbar">
             <div class="flex justify-between items-center border-b pb-2">
@@ -829,7 +827,7 @@
         </div>
     </div>
 
-    <!-- MODAL: QUESTION (管理者側 クイズ & 単元作成) -->
+    <!-- MODAL: QUESTION -->
     <div id="modal-question" class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-50 flex items-center justify-center p-3 hidden animate-fade-in">
         <div class="bg-white w-full max-w-lg rounded-3xl p-5 shadow-2xl border border-slate-100 space-y-3 max-h-[90vh] overflow-y-auto custom-scrollbar">
             <div class="flex justify-between items-center border-b pb-2">
@@ -993,7 +991,7 @@
         </div>
     </div>
 
-    <!-- MODAL: USER DETAIL (受講生詳細・単元クリア状況) -->
+    <!-- MODAL: USER DETAIL -->
     <div id="modal-user-detail" class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-50 flex items-center justify-center p-3 hidden animate-fade-in">
         <div class="bg-white w-full max-w-2xl rounded-3xl p-5 sm:p-6 shadow-2xl border border-slate-100 space-y-4 max-h-[90vh] overflow-y-auto custom-scrollbar">
             <div class="flex justify-between items-start border-b border-slate-200 pb-3">
@@ -1016,7 +1014,6 @@
                 </div>
             </div>
 
-            <!-- 管理者用：単元クリア状況 -->
             <div class="space-y-2">
                 <h4 class="font-bold text-xs text-emerald-800 flex items-center gap-1.5">
                     <i class="fa-solid fa-circle-check text-emerald-600"></i> このユーザーのクリア済み単元一覧
@@ -1169,9 +1166,9 @@
 
                         document.getElementById('sync-indicator').classList.remove('hidden');
 
-                        // --- ニックネーム & クリア済単元データの同期 ---
                         let activeName = '';
                         let clearedTopics = [];
+                        let userStamps = [];
                         
                         try {
                             const profileDoc = await getDoc(doc(db, 'artifacts', appId, 'public', 'data', 'user_profiles', user.uid));
@@ -1179,6 +1176,7 @@
                                 const data = profileDoc.data();
                                 if (data.userName) activeName = data.userName;
                                 if (data.clearedTopics) clearedTopics = data.clearedTopics;
+                                if (data.stamps) userStamps = data.stamps;
                             }
                         } catch(e) {}
 
@@ -1190,11 +1188,22 @@
                             activeName = user.displayName || 'Googleユーザー';
                         }
 
+                        if (userStamps.length === 0) {
+                            try {
+                                const localStamps = localStorage.getItem('ko_ninsiken_stamps_' + user.uid) || localStorage.getItem('ko_ninsiken_stamps');
+                                if (localStamps) userStamps = JSON.parse(localStamps);
+                            } catch(e){}
+                        }
+
                         const finalName = activeName || '学習者';
                         window.appState.userName = finalName;
                         window.appState.clearedTopics = clearedTopics;
+                        window.appState.userStamps = userStamps;
+
                         localStorage.setItem('ko_ninsiken_custom_name_' + user.uid, finalName);
                         localStorage.setItem('ko_ninsiken_user_name_fixed', finalName);
+                        localStorage.setItem('ko_ninsiken_stamps_' + user.uid, JSON.stringify(userStamps));
+
                         document.getElementById('header-user-name').innerText = finalName;
 
                         if (!user.isAnonymous) {
@@ -1222,6 +1231,8 @@
                             if (mobileAdminBtn) mobileAdminBtn.classList.add('hidden');
                         }
 
+                        // ログイン時に自動スタンプチェック & クラウド同期
+                        await window.checkInTodayStamp();
                         window.syncUserProfileCloud(finalName, true);
                         subscribeCloudData();
                     } else {
@@ -1239,7 +1250,6 @@
             } catch(e) { console.warn('Firebase init error', e); }
         }
 
-        // 定期的なオンライン更新（10秒おき）
         setInterval(() => {
             if (auth && auth.currentUser) {
                 window.syncUserProfileCloud(window.appState.userName, true);
@@ -1290,6 +1300,7 @@
                 localStorage.setItem('ko_ninsiken_user_name_fixed', name);
                 document.getElementById('header-user-name').innerText = name;
                 
+                await window.checkInTodayStamp();
                 await window.syncUserProfileCloud(name, true);
                 showToast(`${name} としてログインしました`, 'success');
             } catch (error) {
@@ -1367,7 +1378,6 @@
                 }
             });
 
-            // 追放（ブロック）済みユーザーのリアルタイム監視
             onSnapshot(collection(db, 'artifacts', appId, 'public', 'data', 'blocked_users'), (snapshot) => {
                 const blockedList = [];
                 snapshot.forEach(doc => blockedList.push({ uid: doc.id, ...doc.data() }));
@@ -1378,7 +1388,6 @@
             });
         }
 
-        // オンライン情報 & プロファイルの書き込み
         window.syncUserProfileCloud = async function(userName, isOnline = true) {
             if (!db || !auth || !auth.currentUser) return;
             try {
@@ -1390,6 +1399,7 @@
                     userName: userName,
                     email: u.email || '匿名',
                     clearedTopics: window.appState.clearedTopics || [],
+                    stamps: window.appState.userStamps || [],
                     updatedAt: nowIso
                 }, { merge: true });
 
@@ -1412,7 +1422,6 @@
             } catch(e){}
         };
 
-        // 追放処理
         window.blockUserCloud = async function(uid, userName, email) {
             if (!db) return;
             try {
@@ -1427,7 +1436,6 @@
             } catch(e){ showToast('追放処理に失敗しました', 'danger'); }
         };
 
-        // 追放解除処理
         window.unblockUserCloud = async function(uid) {
             if (!db) return;
             try {
@@ -1472,7 +1480,7 @@
             activeUsersList: [],
             blockedUsersList: [],
             allUserResults: [],
-            clearedTopics: [], // ['japanese_現代文', 'math_三角比', ...]
+            clearedTopics: [],
             userStamps: [],
             currentSubjectId: '',
             currentTopicFilter: 'all',
@@ -1501,15 +1509,13 @@
             document.getElementById('header-user-name').innerText = window.appState.userName || '学習者';
 
             try {
-                const savedStamps = localStorage.getItem('ko_ninsiken_stamps');
-                if (savedStamps) window.appState.userStamps = JSON.parse(savedStamps);
                 const savedCleared = localStorage.getItem('ko_ninsiken_cleared_topics');
                 if (savedCleared) window.appState.clearedTopics = JSON.parse(savedCleared);
             } catch(e){}
         }
 
         window.saveLocalState = function() {
-            localStorage.setItem('kousotsu_app_master_v20', JSON.stringify({
+            localStorage.setItem('kousotsu_app_master_v22', JSON.stringify({
                 userName: window.appState.userName
             }));
             localStorage.setItem('ko_ninsiken_cleared_topics', JSON.stringify(window.appState.clearedTopics || []));
@@ -1527,6 +1533,33 @@
             document.getElementById(`view-${viewName}`)?.classList.remove('hidden');
             window.appState.activeView = viewName;
             window.scrollTo({ top: 0, behavior: 'smooth' });
+
+            views.forEach(v => {
+                const btn = document.getElementById(`nav-${v}`);
+                if (btn) {
+                    if (v === viewName) {
+                        btn.classList.add('text-brand-600', 'bg-brand-50');
+                        btn.classList.remove('text-slate-700');
+                    } else {
+                        btn.classList.remove('text-brand-600', 'bg-brand-50');
+                        btn.classList.add('text-slate-700');
+                    }
+                }
+            });
+
+            const bnavs = ['dashboard', 'materials', 'subjects', 'homework', 'mock-exam'];
+            bnavs.forEach(v => {
+                const bbtn = document.getElementById(`bnav-${v}`);
+                if (bbtn) {
+                    if (v === viewName) {
+                        bbtn.classList.add('text-brand-600');
+                        bbtn.classList.remove('text-slate-500');
+                    } else {
+                        bbtn.classList.remove('text-brand-600');
+                        bbtn.classList.add('text-slate-500');
+                    }
+                }
+            });
 
             if (viewName === 'dashboard') { renderDashboardSubjects(); updateClearedTopicsStat(); }
             if (viewName === 'materials') renderMaterialsView();
@@ -1826,18 +1859,29 @@
             loadCurrentQuestion();
         };
 
-        function checkInTodayStamp() {
+        // アカウントごとの自動スタンプ押印 & Firestore同期
+        window.checkInTodayStamp = async function() {
+            if (!window.appState.userStamps) window.appState.userStamps = [];
             const today = getTodayStr();
-            let stamps = window.appState.userStamps || [];
-            if (!stamps.includes(today)) {
-                stamps.push(today);
-                window.appState.userStamps = stamps;
-                localStorage.setItem('ko_ninsiken_stamps', JSON.stringify(stamps));
+            
+            if (!window.appState.userStamps.includes(today)) {
+                window.appState.userStamps.push(today);
+                
+                if (typeof auth !== 'undefined' && auth && auth.currentUser) {
+                    const u = auth.currentUser;
+                    localStorage.setItem('ko_ninsiken_stamps_' + u.uid, JSON.stringify(window.appState.userStamps));
+                } else {
+                    localStorage.setItem('ko_ninsiken_stamps', JSON.stringify(window.appState.userStamps));
+                }
+
+                if (window.syncUserProfileCloud) {
+                    await window.syncUserProfileCloud(window.appState.userName, true);
+                }
             }
-        }
+        };
 
         function renderStampsView() {
-            checkInTodayStamp();
+            window.checkInTodayStamp();
             const container = document.getElementById('stamp-grid-container');
             if (!container) return;
 
@@ -2047,7 +2091,6 @@
             const percentage = Math.round((window.appState.quizScore / window.appState.currentQuizSet.length) * 100);
             document.getElementById('result-percentage').innerText = percentage + '%';
 
-            // 単元クリア判定（全問正解で単元クリア）
             const isAllCorrect = (window.appState.quizScore === window.appState.currentQuizSet.length);
             const clearedBadge = document.getElementById('result-cleared-badge');
 
@@ -2183,7 +2226,6 @@
             `).join('');
         };
 
-        // --- 管理者画面：クイズ＆単元作成モーダル補助 ---
         window.openQuestionModal = function() {
             onAdminQuestionSubjectChange();
             openModal('modal-question');
@@ -2352,13 +2394,29 @@
 
         window.switchAdminSubTab = function(tabName) {
             window.appState.adminSubTab = tabName;
-            ['users', 'material', 'quiz', 'homework', 'card'].forEach(t => {
-                document.getElementById(`admin-tab-${t}`)?.classList.remove('border-indigo-600', 'text-indigo-600');
-                document.getElementById(`admin-subtab-${t}`)?.classList.add('hidden');
+            const tabs = ['users', 'material', 'quiz', 'homework', 'card'];
+            
+            tabs.forEach(t => {
+                const btn = document.getElementById(`admin-tab-${t}`);
+                const subview = document.getElementById(`admin-subtab-${t}`);
+                
+                if (btn) {
+                    if (t === tabName) {
+                        btn.classList.add('border-indigo-600', 'text-indigo-600', 'bg-indigo-50/50');
+                        btn.classList.remove('border-transparent', 'text-slate-500');
+                    } else {
+                        btn.classList.remove('border-indigo-600', 'text-indigo-600', 'bg-indigo-50/50');
+                        btn.classList.add('border-transparent', 'text-slate-500');
+                    }
+                }
+                if (subview) {
+                    if (t === tabName) {
+                        subview.classList.remove('hidden');
+                    } else {
+                        subview.classList.add('hidden');
+                    }
+                }
             });
-
-            document.getElementById(`admin-tab-${tabName}`)?.classList.add('border-indigo-600', 'text-indigo-600');
-            document.getElementById(`admin-subtab-${tabName}`)?.classList.remove('hidden');
 
             if (tabName === 'users') { renderAdminActiveUsersTable(); renderAdminBlockedUsersTable(); renderAdminUserResultsTable(); }
             if (tabName === 'material') renderAdminMaterialsTable();
@@ -2479,9 +2537,7 @@
             const avgAcc = totalQ > 0 ? Math.round((totalCorrect / totalQ) * 100) : 0;
             document.getElementById('user-detail-avg-accuracy').innerText = avgAcc + '%';
 
-            // クリア済み単元の確認表示
             const clearedContainer = document.getElementById('user-detail-cleared-topics-list');
-            const activeUserObj = (window.appState.activeUsersList || []).find(u => u.uid === uid);
             let userClearedTopics = [];
 
             if (logs.length > 0) {
@@ -2712,6 +2768,7 @@
             loadLocalState();
             renderDashboardSubjects();
             updateClearedTopicsStat();
+            showView('dashboard');
         };
     </script>
 </body>
