@@ -54,8 +54,16 @@
 </head>
 <body class="bg-slate-50 text-slate-900 font-sans min-h-screen flex flex-col selection:bg-brand-500 selection:text-white bottom-bar-padding lg:pb-6">
 
-    <!-- 未ログイン保護全画面表示（Googleログイン促進画面） -->
-    <div id="view-auth-required" class="fixed inset-0 bg-slate-950/95 backdrop-blur-md z-[200] flex flex-col items-center justify-center p-4 text-center select-none">
+    <!-- 認証確認中 ローディング表示（チラつき防止） -->
+    <div id="app-loading-screen" class="fixed inset-0 bg-slate-950 z-[300] flex flex-col items-center justify-center p-4 text-center select-none">
+        <div class="flex flex-col items-center gap-3">
+            <div class="w-10 h-10 border-4 border-brand-500 border-t-transparent rounded-full animate-spin"></div>
+            <p class="text-xs font-bold text-slate-400">ログイン状態を確認中...</p>
+        </div>
+    </div>
+
+    <!-- 未ログイン保護全画面表示（Googleログイン促進画面：初期状態非表示） -->
+    <div id="view-auth-required" class="hidden fixed inset-0 bg-slate-950/95 backdrop-blur-md z-[200] flex flex-col items-center justify-center p-4 text-center select-none">
         <div class="max-w-md w-full bg-white rounded-3xl p-6 sm:p-8 space-y-6 shadow-2xl animate-fade-in border border-slate-100">
             <div class="w-16 h-16 bg-brand-50 text-brand-600 rounded-2xl flex items-center justify-center text-3xl mx-auto border border-brand-100 shadow-sm">
                 <i class="fa-solid fa-graduation-cap"></i>
@@ -78,7 +86,7 @@
         </div>
     </div>
 
-    <!-- 追放・締め出し全画面表示（初期状態は非表示） -->
+    <!-- 追放・締め出し全画面表示（初期状態非表示） -->
     <div id="view-blocked" class="hidden fixed inset-0 bg-slate-950 z-[210] flex flex-col items-center justify-center p-4 text-center select-none">
         <div class="max-w-md w-full bg-slate-900 border border-rose-500/30 rounded-3xl p-6 sm:p-8 space-y-4 shadow-2xl animate-fade-in">
             <div class="w-16 h-16 bg-rose-500/10 text-rose-500 rounded-2xl flex items-center justify-center text-3xl mx-auto border border-rose-500/20 shadow-inner">
@@ -1190,10 +1198,12 @@
                     const navAdminBtn = document.getElementById('nav-admin');
                     const mobileAdminBtn = document.getElementById('mobile-admin-btn');
                     const authRequiredEl = document.getElementById('view-auth-required');
+                    const appLoaderEl = document.getElementById('app-loading-screen');
 
-                    // Google認証でログイン済み（isAnonymous ではない）の場合のみアクセス許可
+                    // Google認証でログイン済み（isAnonymous ではない）場合のみアクセス許可
                     if (user && !user.isAnonymous) {
                         if (authRequiredEl) authRequiredEl.classList.add('hidden');
+                        if (appLoaderEl) appLoaderEl.classList.add('hidden');
 
                         // 自身の追放状態をリアルタイム監視
                         listenBlockedStatus(user.uid);
@@ -1258,7 +1268,8 @@
                         window.syncUserProfileCloud(finalName, true);
                         subscribeCloudData();
                     } else {
-                        // Google未ログイン状態：全画面ログイン保護画面を表示
+                        // Google未ログイン状態確定時のみログイン表示
+                        if (appLoaderEl) appLoaderEl.classList.add('hidden');
                         if (authRequiredEl) authRequiredEl.classList.remove('hidden');
                         if (navAdminBtn) navAdminBtn.classList.add('hidden');
                         if (mobileAdminBtn) mobileAdminBtn.classList.add('hidden');
