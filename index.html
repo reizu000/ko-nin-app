@@ -43,7 +43,7 @@
             to { opacity: 1; transform: translateY(0); }
         }
         
-        .custom-scrollbar::-webkit-scrollbar { width: 6px; height: 6px; }
+        .custom-scrollbar::-webkit-scrollbar { width: 5px; height: 5px; }
         .custom-scrollbar::-webkit-scrollbar-track { background: #f1f5f9; border-radius: 8px; }
         .custom-scrollbar::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 8px; }
         .custom-scrollbar::-webkit-scrollbar-thumb:hover { background: #94a3b8; }
@@ -56,7 +56,7 @@
 
     <!-- HEADER NAVIGATION -->
     <header class="bg-white border-b border-slate-200 sticky top-0 z-30 shadow-sm">
-        <div class="max-w-7xl mx-auto px-2.5 sm:px-6 h-14 sm:h-16 flex items-center justify-between gap-1.5 sm:gap-2">
+        <div class="max-w-7xl mx-auto px-3 sm:px-6 h-14 sm:h-16 flex items-center justify-between gap-1.5 sm:gap-2">
             
             <div class="flex items-center space-x-2 cursor-pointer shrink-0" onclick="showView('dashboard')">
                 <div class="w-8 h-8 sm:w-10 sm:h-10 rounded-xl bg-gradient-to-tr from-brand-600 to-indigo-600 flex items-center justify-center text-white shadow-md">
@@ -125,50 +125,65 @@
                     <span class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span> クラウド
                 </span>
                 
-                <button onclick="toggleMobileMenu()" class="lg:hidden p-1.5 rounded-xl text-slate-600 hover:bg-slate-100 focus:outline-none active:bg-slate-200">
-                    <i class="fa-solid fa-bars text-base"></i>
+                <button onclick="toggleMobileMenu()" class="lg:hidden p-2 rounded-xl text-slate-700 hover:bg-slate-100 focus:outline-none active:bg-slate-200">
+                    <i class="fa-solid fa-bars text-lg"></i>
                 </button>
             </div>
         </div>
 
-        <div id="mobile-menu" class="hidden lg:hidden border-t border-slate-200 bg-white px-4 py-2 space-y-1 shadow-md">
-            <button onclick="showView('materials'); toggleMobileMenu()" class="w-full text-left px-3 py-2 rounded-xl font-bold text-xs sm:text-sm text-slate-800 hover:bg-slate-100 flex items-center gap-2.5 active:bg-slate-100">
+        <div id="mobile-menu" class="hidden lg:hidden border-t border-slate-200 bg-white px-4 py-3 space-y-1.5 shadow-lg">
+            <button onclick="showView('dashboard'); toggleMobileMenu()" class="w-full text-left px-3 py-2.5 rounded-xl font-bold text-xs sm:text-sm text-slate-800 hover:bg-slate-100 flex items-center gap-2.5 active:bg-slate-100">
+                <i class="fa-solid fa-house w-4 text-brand-600"></i> ホーム
+            </button>
+            <button onclick="showView('materials'); toggleMobileMenu()" class="w-full text-left px-3 py-2.5 rounded-xl font-bold text-xs sm:text-sm text-slate-800 hover:bg-slate-100 flex items-center gap-2.5 active:bg-slate-100">
                 <i class="fa-solid fa-book w-4 text-emerald-600"></i> 教科書・資料一覧
             </button>
-            <button onclick="showView('homework'); toggleMobileMenu()" class="w-full text-left px-3 py-2 rounded-xl font-bold text-xs sm:text-sm text-slate-800 hover:bg-slate-100 flex items-center gap-2.5 active:bg-slate-100">
+            <button onclick="showView('subjects'); toggleMobileMenu()" class="w-full text-left px-3 py-2.5 rounded-xl font-bold text-xs sm:text-sm text-slate-800 hover:bg-slate-100 flex items-center gap-2.5 active:bg-slate-100">
+                <i class="fa-solid fa-book-open w-4 text-slate-600"></i> 科目別クイズ
+            </button>
+            <button onclick="showView('flashcards'); toggleMobileMenu()" class="w-full text-left px-3 py-2.5 rounded-xl font-bold text-xs sm:text-sm text-slate-800 hover:bg-slate-100 flex items-center gap-2.5 active:bg-slate-100">
+                <i class="fa-solid fa-layer-group w-4 text-indigo-600"></i> 暗記カード
+            </button>
+            <button onclick="showView('homework'); toggleMobileMenu()" class="w-full text-left px-3 py-2.5 rounded-xl font-bold text-xs sm:text-sm text-slate-800 hover:bg-slate-100 flex items-center gap-2.5 active:bg-slate-100">
                 <i class="fa-solid fa-pen-ruler w-4 text-amber-500"></i> 宿題一覧
             </button>
-            <button onclick="showView('stamps'); toggleMobileMenu()" class="w-full text-left px-3 py-2 rounded-xl font-bold text-xs sm:text-sm text-slate-800 hover:bg-slate-100 flex items-center gap-2.5 active:bg-slate-100">
-                <i class="fa-solid fa-calendar-check w-4 text-brand-600"></i> ログインスタンプ
+            <button onclick="showView('mock-exam'); toggleMobileMenu()" class="w-full text-left px-3 py-2.5 rounded-xl font-bold text-xs sm:text-sm text-slate-800 hover:bg-slate-100 flex items-center gap-2.5 active:bg-slate-100">
+                <i class="fa-solid fa-stopwatch w-4 text-rose-500"></i> 模擬試験
             </button>
-            <button onclick="showView('history'); toggleMobileMenu()" class="w-full text-left px-3 py-2 rounded-xl font-bold text-xs sm:text-sm text-slate-800 hover:bg-slate-100 flex items-center gap-2.5 active:bg-slate-100">
-                <i class="fa-solid fa-chart-line w-4 text-brand-600"></i> 自分の学習履歴・分析
+            <button onclick="showView('mistakes'); toggleMobileMenu()" class="w-full text-left px-3 py-2.5 rounded-xl font-bold text-xs sm:text-sm text-slate-800 hover:bg-slate-100 flex items-center gap-2.5 active:bg-slate-100">
+                <i class="fa-solid fa-bookmark w-4 text-purple-600"></i> 復習ノート
             </button>
-            <button id="mobile-admin-btn" onclick="checkAdminAuth(); toggleMobileMenu()" class="hidden w-full text-left px-3 py-2 rounded-xl font-bold text-xs sm:text-sm text-indigo-700 bg-indigo-50/80 items-center gap-2.5 active:bg-indigo-100">
+            <button onclick="showView('stamps'); toggleMobileMenu()" class="w-full text-left px-3 py-2.5 rounded-xl font-bold text-xs sm:text-sm text-slate-800 hover:bg-slate-100 flex items-center gap-2.5 active:bg-slate-100">
+                <i class="fa-solid fa-calendar-check w-4 text-amber-600"></i> ログインスタンプ
+            </button>
+            <button onclick="showView('history'); toggleMobileMenu()" class="w-full text-left px-3 py-2.5 rounded-xl font-bold text-xs sm:text-sm text-slate-800 hover:bg-slate-100 flex items-center gap-2.5 active:bg-slate-100">
+                <i class="fa-solid fa-chart-line w-4 text-blue-600"></i> 自分の学習履歴・分析
+            </button>
+            <button id="mobile-admin-btn" onclick="checkAdminAuth(); toggleMobileMenu()" class="hidden w-full text-left px-3 py-2.5 rounded-xl font-bold text-xs sm:text-sm text-indigo-700 bg-indigo-50/80 items-center gap-2.5 active:bg-indigo-100">
                 <i class="fa-solid fa-user-gear w-4 text-indigo-600"></i> 管理者モード
             </button>
         </div>
     </header>
 
     <nav class="lg:hidden fixed bottom-0 left-0 right-0 bg-white/95 backdrop-blur-md border-t border-slate-200 z-40 px-1 py-1 flex justify-around items-center shadow-lg pb-safe">
-        <button onclick="showView('dashboard')" id="bnav-dashboard" class="bnav-btn flex-1 flex flex-col items-center justify-center py-1 px-1 text-brand-600 font-bold active:scale-95 transition">
-            <i class="fa-solid fa-house text-base mb-0.5"></i>
+        <button onclick="showView('dashboard')" id="bnav-dashboard" class="bnav-btn flex-1 flex flex-col items-center justify-center py-1.5 px-1 text-brand-600 font-bold active:scale-95 transition">
+            <i class="fa-solid fa-house text-lg mb-0.5"></i>
             <span class="text-[10px]">ホーム</span>
         </button>
-        <button onclick="showView('materials')" id="bnav-materials" class="bnav-btn flex-1 flex flex-col items-center justify-center py-1 px-1 text-slate-500 font-bold active:scale-95 transition">
-            <i class="fa-solid fa-book text-base mb-0.5"></i>
+        <button onclick="showView('materials')" id="bnav-materials" class="bnav-btn flex-1 flex flex-col items-center justify-center py-1.5 px-1 text-slate-500 font-bold active:scale-95 transition">
+            <i class="fa-solid fa-book text-lg mb-0.5"></i>
             <span class="text-[10px]">教科書</span>
         </button>
-        <button onclick="showView('subjects')" id="bnav-subjects" class="bnav-btn flex-1 flex flex-col items-center justify-center py-1 px-1 text-slate-500 font-bold active:scale-95 transition">
-            <i class="fa-solid fa-book-open text-base mb-0.5"></i>
+        <button onclick="showView('subjects')" id="bnav-subjects" class="bnav-btn flex-1 flex flex-col items-center justify-center py-1.5 px-1 text-slate-500 font-bold active:scale-95 transition">
+            <i class="fa-solid fa-book-open text-lg mb-0.5"></i>
             <span class="text-[10px]">クイズ</span>
         </button>
-        <button onclick="showView('homework')" id="bnav-homework" class="bnav-btn flex-1 flex flex-col items-center justify-center py-1 px-1 text-slate-500 font-bold active:scale-95 transition relative">
-            <i class="fa-solid fa-pen-ruler text-base mb-0.5"></i>
+        <button onclick="showView('homework')" id="bnav-homework" class="bnav-btn flex-1 flex flex-col items-center justify-center py-1.5 px-1 text-slate-500 font-bold active:scale-95 transition relative">
+            <i class="fa-solid fa-pen-ruler text-lg mb-0.5"></i>
             <span class="text-[10px]">宿題</span>
         </button>
-        <button onclick="showView('mock-exam')" id="bnav-mock-exam" class="bnav-btn flex-1 flex flex-col items-center justify-center py-1 px-1 text-slate-500 font-bold active:scale-95 transition">
-            <i class="fa-solid fa-stopwatch text-base mb-0.5"></i>
+        <button onclick="showView('mock-exam')" id="bnav-mock-exam" class="bnav-btn flex-1 flex flex-col items-center justify-center py-1.5 px-1 text-slate-500 font-bold active:scale-95 transition">
+            <i class="fa-solid fa-stopwatch text-lg mb-0.5"></i>
             <span class="text-[10px]">模試</span>
         </button>
     </nav>
@@ -184,10 +199,10 @@
                     </span>
                     <h2 class="text-lg sm:text-3xl font-black mb-1.5 sm:mb-2 leading-snug">合格への最短ルートを学習しよう！</h2>
                     <p class="text-slate-100 text-xs sm:text-sm leading-relaxed mb-3.5 sm:mb-6 opacity-95">
-                        教科書資料・要点クイズ・暗記カード・模擬試験を完全収録。間違えた問題は復習ノートに自動保存されます。
+                        教科書資料・単元別クイズ・暗記カード・模擬試験を完全収録。間違えた問題は復習ノートに自動保存されます。
                     </p>
                     <div class="flex flex-row gap-2 sm:gap-3">
-                        <button onclick="showView('materials')" class="flex-1 sm:flex-none bg-emerald-500 hover:bg-emerald-600 text-white font-bold px-3.5 sm:px-5 py-2.5 sm:py-3 rounded-xl shadow-lg transition flex items-center justify-center gap-1.5 text-xs sm:text-sm">
+                        <button onclick="showView('materials')" class="flex-1 sm:flex-none bg-emerald-500 hover:bg-emerald-600 active:bg-emerald-700 text-white font-bold px-3.5 sm:px-5 py-2.5 sm:py-3 rounded-xl shadow-lg transition flex items-center justify-center gap-1.5 text-xs sm:text-sm">
                             <i class="fa-solid fa-book"></i> 教科書を読む
                         </button>
                         <button onclick="showView('subjects')" class="flex-1 sm:flex-none bg-white text-brand-700 hover:bg-brand-50 active:bg-slate-100 font-bold px-3.5 sm:px-5 py-2.5 sm:py-3 rounded-xl shadow-lg transition flex items-center justify-center gap-1.5 text-xs sm:text-sm">
@@ -198,54 +213,54 @@
                 <i class="fa-solid fa-graduation-cap absolute -bottom-6 -right-6 text-white/10 text-7xl sm:text-9xl pointer-events-none"></i>
             </div>
 
-            <div class="grid grid-cols-2 md:grid-cols-4 gap-2 sm:gap-4">
-                <div class="bg-white p-3 sm:p-5 rounded-xl sm:rounded-2xl border border-slate-200 shadow-sm flex flex-col justify-between">
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-2.5 sm:gap-4">
+                <div class="bg-white p-3.5 sm:p-5 rounded-2xl border border-slate-200 shadow-sm flex flex-col justify-between">
                     <div class="text-slate-500 text-[10px] sm:text-xs font-bold flex items-center justify-between mb-0.5">
                         <span>総解答数</span>
                         <i class="fa-solid fa-pen-to-square text-brand-500 text-sm sm:text-lg"></i>
                     </div>
                     <div>
-                        <span id="stat-total-answered" class="text-lg sm:text-3xl font-black text-slate-900">0</span>
+                        <span id="stat-total-answered" class="text-xl sm:text-3xl font-black text-slate-900">0</span>
                         <span class="text-[10px] sm:text-xs font-bold text-slate-400 ml-0.5">問</span>
                     </div>
                 </div>
 
-                <div class="bg-white p-3 sm:p-5 rounded-xl sm:rounded-2xl border border-slate-200 shadow-sm flex flex-col justify-between">
+                <div class="bg-white p-3.5 sm:p-5 rounded-2xl border border-slate-200 shadow-sm flex flex-col justify-between">
                     <div class="text-slate-500 text-[10px] sm:text-xs font-bold flex items-center justify-between mb-0.5">
                         <span>全体正答率</span>
                         <i class="fa-solid fa-chart-line text-emerald-500 text-sm sm:text-lg"></i>
                     </div>
                     <div>
-                        <span id="stat-accuracy" class="text-lg sm:text-3xl font-black text-slate-900">0%</span>
+                        <span id="stat-accuracy" class="text-xl sm:text-3xl font-black text-slate-900">0%</span>
                         <span class="text-[9px] sm:text-xs font-bold text-emerald-600 ml-0.5">目標60%+</span>
                     </div>
                 </div>
 
-                <div class="bg-white p-3 sm:p-5 rounded-xl sm:rounded-2xl border border-slate-200 shadow-sm flex flex-col justify-between">
+                <div class="bg-white p-3.5 sm:p-5 rounded-2xl border border-slate-200 shadow-sm flex flex-col justify-between">
                     <div class="text-slate-500 text-[10px] sm:text-xs font-bold flex items-center justify-between mb-0.5">
                         <span>連続学習</span>
                         <i class="fa-solid fa-fire text-amber-500 text-sm sm:text-lg"></i>
                     </div>
                     <div>
-                        <span id="stat-streak" class="text-lg sm:text-3xl font-black text-slate-900">1</span>
+                        <span id="stat-streak" class="text-xl sm:text-3xl font-black text-slate-900">1</span>
                         <span class="text-[10px] sm:text-xs font-bold text-slate-400 ml-0.5">日</span>
                     </div>
                 </div>
 
-                <div class="bg-white p-3 sm:p-5 rounded-xl sm:rounded-2xl border border-slate-200 shadow-sm flex flex-col justify-between">
+                <div class="bg-white p-3.5 sm:p-5 rounded-2xl border border-slate-200 shadow-sm flex flex-col justify-between">
                     <div class="text-slate-500 text-[10px] sm:text-xs font-bold flex items-center justify-between mb-0.5">
-                        <span>要復習問題</span>
-                        <i class="fa-solid fa-triangle-exclamation text-rose-500 text-sm sm:text-lg"></i>
+                        <span>クリア済単元</span>
+                        <i class="fa-solid fa-circle-check text-emerald-500 text-sm sm:text-lg"></i>
                     </div>
                     <div>
-                        <span id="stat-wrong-count" class="text-lg sm:text-3xl font-black text-rose-600">0</span>
-                        <span class="text-[10px] sm:text-xs font-bold text-slate-400 ml-0.5">問</span>
+                        <span id="stat-cleared-topics" class="text-xl sm:text-3xl font-black text-emerald-600">0</span>
+                        <span class="text-[10px] sm:text-xs font-bold text-slate-400 ml-0.5">単元</span>
                     </div>
                 </div>
             </div>
 
             <div>
-                <div class="flex items-center justify-between mb-2.5">
+                <div class="flex items-center justify-between mb-2.5 px-0.5">
                     <h3 class="text-sm sm:text-lg font-bold text-slate-900 flex items-center gap-1.5">
                         <i class="fa-solid fa-book-bookmark text-brand-600"></i> 試験対象科目 (全12科目)
                     </h3>
@@ -266,7 +281,7 @@
                     </h2>
                     <p class="text-xs text-slate-500 mt-0.5">先生が配信した各科目の教科書資料や図解・まとめノートです。</p>
                 </div>
-                <select id="user-material-subject-filter" onchange="renderMaterialsView()" class="w-full sm:w-auto bg-slate-100 font-bold text-slate-800 text-xs sm:text-sm border-0 rounded-xl px-3 py-2 focus:ring-2 focus:ring-emerald-500">
+                <select id="user-material-subject-filter" onchange="renderMaterialsView()" class="w-full sm:w-auto bg-slate-100 font-bold text-slate-800 text-xs sm:text-sm border-0 rounded-xl px-3 py-2.5 focus:ring-2 focus:ring-emerald-500">
                     <option value="all">すべての科目</option>
                     <option value="japanese">国語</option>
                     <option value="math">数学I</option>
@@ -289,10 +304,10 @@
         <section id="view-subjects" class="space-y-3 sm:space-y-6 hidden animate-fade-in">
             <div class="bg-white p-3.5 sm:p-6 rounded-2xl border border-slate-200 shadow-sm flex flex-col sm:flex-row items-start sm:items-center justify-between gap-2.5">
                 <div>
-                    <h2 class="text-base sm:text-xl font-black text-slate-900 mb-0.5">科目別クイズ (全12科目)</h2>
-                    <p class="text-xs text-slate-500">単元を選んで効率よく解答できます。</p>
+                    <h2 class="text-base sm:text-xl font-black text-slate-900 mb-0.5">科目別・単元別クイズ (全12科目)</h2>
+                    <p class="text-xs text-slate-500">学習したい科目を選択し、単元を選んで効率よく進めましょう。</p>
                 </div>
-                <button onclick="showView('history')" class="bg-slate-100 active:bg-slate-200 text-slate-700 font-bold px-3 py-1.5 rounded-xl text-xs flex items-center gap-1.5 transition">
+                <button onclick="showView('history')" class="bg-slate-100 active:bg-slate-200 text-slate-700 font-bold px-3 py-2 rounded-xl text-xs flex items-center gap-1.5 transition">
                     <i class="fa-solid fa-chart-pie"></i> 成績分析を見る
                 </button>
             </div>
@@ -326,7 +341,7 @@
 
             <div class="bg-white rounded-2xl sm:rounded-3xl border border-slate-200 shadow-md p-4 sm:p-8 space-y-4 sm:space-y-5">
                 <div>
-                    <span id="quiz-topic-tag" class="text-[10px] sm:text-[11px] font-bold text-slate-400 uppercase tracking-wider block mb-1">テーマ: 現代文</span>
+                    <span id="quiz-topic-tag" class="text-[10px] sm:text-[11px] font-bold text-brand-600 uppercase tracking-wider block mb-1">単元: 現代文</span>
                     <h3 id="quiz-question-text" class="text-sm sm:text-xl font-bold text-slate-900 leading-relaxed break-words">問題文がここに読み込まれます...</h3>
                 </div>
 
@@ -338,7 +353,7 @@
                 </div>
 
                 <div id="quiz-action-area" class="pt-1 flex justify-end">
-                    <button id="btn-next-question" onclick="nextQuestion()" class="w-full sm:w-auto bg-brand-600 hover:bg-brand-700 active:bg-brand-800 text-white font-bold px-6 py-2.5 sm:py-3 rounded-xl shadow-md transition flex items-center justify-center gap-2 text-xs sm:text-sm">
+                    <button id="btn-next-question" onclick="nextQuestion()" class="w-full sm:w-auto bg-brand-600 hover:bg-brand-700 active:bg-brand-800 text-white font-bold px-6 py-3 rounded-xl shadow-md transition flex items-center justify-center gap-2 text-xs sm:text-sm">
                         次の問題へ <i class="fa-solid fa-arrow-right"></i>
                     </button>
                 </div>
@@ -348,12 +363,15 @@
         <!-- VIEW: QUIZ RESULT -->
         <section id="view-result" class="hidden max-w-2xl mx-auto space-y-3 sm:space-y-6 text-center animate-fade-in">
             <div class="bg-white rounded-2xl sm:rounded-3xl border border-slate-200 shadow-xl p-5 sm:p-10 space-y-4 sm:space-y-5">
-                <div class="w-14 h-14 sm:w-20 sm:h-20 bg-emerald-100 text-emerald-600 rounded-full flex items-center justify-center mx-auto text-xl sm:text-3xl shadow-inner">
+                <div class="w-16 h-16 sm:w-20 sm:h-20 bg-emerald-100 text-emerald-600 rounded-full flex items-center justify-center mx-auto text-2xl sm:text-3xl shadow-inner">
                     <i id="result-icon" class="fa-solid fa-trophy"></i>
                 </div>
 
                 <div>
                     <h2 class="text-lg sm:text-3xl font-black text-slate-900">演習完了！お疲れ様でした！</h2>
+                    <p id="result-cleared-badge" class="text-emerald-600 font-bold text-xs sm:text-sm mt-1 hidden">
+                        <i class="fa-solid fa-circle-check"></i> この単元を完全クリア（全問正解）しました！
+                    </p>
                     <p class="text-slate-500 text-xs sm:text-sm mt-0.5">結果は自動的に記録されました。</p>
                 </div>
 
@@ -370,13 +388,13 @@
                 </div>
 
                 <div class="flex flex-col sm:flex-row gap-2 sm:gap-2.5 justify-center pt-1">
-                    <button onclick="retryCurrentQuiz()" class="bg-emerald-600 hover:bg-emerald-700 text-white font-bold px-4 py-2.5 sm:py-3 rounded-xl shadow-md transition flex items-center justify-center gap-2 text-xs sm:text-sm">
+                    <button onclick="retryCurrentQuiz()" class="bg-emerald-600 hover:bg-emerald-700 active:bg-emerald-800 text-white font-bold px-4 py-3 rounded-xl shadow-md transition flex items-center justify-center gap-2 text-xs sm:text-sm">
                         <i class="fa-solid fa-rotate-right"></i> もう一度解く
                     </button>
-                    <button onclick="showView('subjects')" class="bg-brand-600 hover:bg-brand-700 text-white font-bold px-4 py-2.5 sm:py-3 rounded-xl shadow-md transition flex items-center justify-center gap-2 text-xs sm:text-sm">
+                    <button onclick="showView('subjects')" class="bg-brand-600 hover:bg-brand-700 active:bg-brand-800 text-white font-bold px-4 py-3 rounded-xl shadow-md transition flex items-center justify-center gap-2 text-xs sm:text-sm">
                         <i class="fa-solid fa-book-open"></i> 別の科目を選ぶ
                     </button>
-                    <button onclick="showView('history')" class="bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold px-4 py-2.5 sm:py-3 rounded-xl transition flex items-center justify-center gap-2 text-xs sm:text-sm">
+                    <button onclick="showView('history')" class="bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold px-4 py-3 rounded-xl transition flex items-center justify-center gap-2 text-xs sm:text-sm">
                         <i class="fa-solid fa-chart-line"></i> 学習履歴を見る
                     </button>
                 </div>
@@ -390,7 +408,7 @@
                     <h2 class="text-base sm:text-xl font-black text-slate-900">暗記カード</h2>
                     <p class="text-xs text-slate-500">カードをタップして裏返し、重要キーワードを暗記しましょう。</p>
                 </div>
-                <select id="flashcard-subject-select" onchange="filterFlashcards()" class="w-full sm:w-auto bg-slate-100 font-bold text-slate-800 text-xs sm:text-sm border-0 rounded-xl px-3 py-2 focus:ring-2 focus:ring-brand-500">
+                <select id="flashcard-subject-select" onchange="filterFlashcards()" class="w-full sm:w-auto bg-slate-100 font-bold text-slate-800 text-xs sm:text-sm border-0 rounded-xl px-3 py-2.5 focus:ring-2 focus:ring-brand-500">
                     <option value="all">すべての科目</option>
                     <option value="japanese">国語</option>
                     <option value="math">数学I</option>
@@ -411,7 +429,7 @@
                 <div id="flashcard-inner" class="relative w-full h-full duration-500 transform-style-3d bg-white border-2 border-slate-200 rounded-2xl sm:rounded-3xl shadow-lg">
                     <div class="absolute inset-0 p-4 sm:p-8 flex flex-col justify-between items-center backface-hidden bg-white rounded-2xl sm:rounded-3xl overflow-hidden">
                         <div class="flex items-center justify-between w-full">
-                            <span id="fc-subject" class="bg-indigo-100 text-indigo-800 text-[10px] sm:text-xs font-bold px-2 py-0.5 rounded-full">数学I</span>
+                            <span id="fc-subject" class="bg-indigo-100 text-indigo-800 text-[10px] sm:text-xs font-bold px-2.5 py-0.5 rounded-full">数学I</span>
                             <span class="text-[10px] sm:text-[11px] text-slate-400 font-medium"><i class="fa-solid fa-hand-pointer mr-1"></i> タップで裏返し</span>
                         </div>
                         <div class="w-full my-auto overflow-y-auto max-h-[140px] sm:max-h-[180px] custom-scrollbar text-center px-1">
@@ -422,7 +440,7 @@
 
                     <div class="absolute inset-0 p-4 sm:p-8 flex flex-col justify-between items-center backface-hidden rotate-y-180 bg-slate-900 text-white rounded-2xl sm:rounded-3xl overflow-hidden">
                         <div class="flex items-center justify-between w-full">
-                            <span class="bg-emerald-500/20 text-emerald-300 text-[10px] sm:text-xs font-bold px-2 py-0.5 rounded-full border border-emerald-500/30">解答・解説</span>
+                            <span class="bg-emerald-500/20 text-emerald-300 text-[10px] sm:text-xs font-bold px-2.5 py-0.5 rounded-full border border-emerald-500/30">解答・解説</span>
                             <span class="text-[10px] sm:text-[11px] text-slate-400 font-medium"><i class="fa-solid fa-hand-pointer mr-1"></i> タップで戻る</span>
                         </div>
                         <div class="w-full my-auto overflow-y-auto max-h-[140px] sm:max-h-[180px] custom-scrollbar text-center px-1">
@@ -434,12 +452,12 @@
             </div>
 
             <div class="flex items-center justify-between gap-1.5 sm:gap-2">
-                <button onclick="prevFlashcard()" class="bg-white border border-slate-200 text-slate-700 font-bold px-2.5 sm:px-4 py-2 rounded-xl hover:bg-slate-50 transition text-xs sm:text-sm"><i class="fa-solid fa-chevron-left"></i> 前へ</button>
-                <div class="flex gap-1 sm:gap-2">
-                    <button onclick="markFlashcardStatus(false)" class="bg-rose-50 border border-rose-200 text-rose-700 font-bold px-2.5 sm:px-4 py-2 rounded-xl hover:bg-rose-100 transition flex items-center gap-1 text-xs sm:text-sm"><i class="fa-solid fa-xmark"></i> 要復習</button>
-                    <button onclick="markFlashcardStatus(true)" class="bg-emerald-50 border border-emerald-200 text-emerald-700 font-bold px-2.5 sm:px-4 py-2 rounded-xl hover:bg-emerald-100 transition flex items-center gap-1 text-xs sm:text-sm"><i class="fa-solid fa-check"></i> 覚えた！</button>
+                <button onclick="prevFlashcard()" class="bg-white border border-slate-200 text-slate-700 font-bold px-2.5 sm:px-4 py-2.5 rounded-xl hover:bg-slate-50 transition text-xs sm:text-sm"><i class="fa-solid fa-chevron-left"></i> 前へ</button>
+                <div class="flex gap-1.5 sm:gap-2">
+                    <button onclick="markFlashcardStatus(false)" class="bg-rose-50 border border-rose-200 text-rose-700 font-bold px-2.5 sm:px-4 py-2.5 rounded-xl hover:bg-rose-100 transition flex items-center gap-1 text-xs sm:text-sm"><i class="fa-solid fa-xmark"></i> 要復習</button>
+                    <button onclick="markFlashcardStatus(true)" class="bg-emerald-50 border border-emerald-200 text-emerald-700 font-bold px-2.5 sm:px-4 py-2.5 rounded-xl hover:bg-emerald-100 transition flex items-center gap-1 text-xs sm:text-sm"><i class="fa-solid fa-check"></i> 覚えた！</button>
                 </div>
-                <button onclick="nextFlashcard()" class="bg-white border border-slate-200 text-slate-700 font-bold px-2.5 sm:px-4 py-2 rounded-xl hover:bg-slate-50 transition text-xs sm:text-sm">次へ <i class="fa-solid fa-chevron-right"></i></button>
+                <button onclick="nextFlashcard()" class="bg-white border border-slate-200 text-slate-700 font-bold px-2.5 sm:px-4 py-2.5 rounded-xl hover:bg-slate-50 transition text-xs sm:text-sm">次へ <i class="fa-solid fa-chevron-right"></i></button>
             </div>
             <div class="text-center text-xs text-slate-500 font-bold" id="flashcard-counter-text">1 / 10 枚目</div>
         </section>
@@ -449,8 +467,8 @@
             <div class="bg-gradient-to-r from-slate-900 via-slate-800 to-indigo-950 text-white p-5 sm:p-8 rounded-2xl sm:rounded-3xl shadow-xl space-y-3.5 sm:space-y-5">
                 <div class="inline-block bg-amber-400 text-slate-950 font-black text-[10px] sm:text-[11px] px-2.5 py-0.5 rounded-full uppercase">本番シミュレーション</div>
                 <h2 class="text-lg sm:text-3xl font-black">高卒認定 総合模擬試験</h2>
-                <p class="text-xs sm:text-sm text-slate-300 leading-relaxed">全12科目データベースからランダムに10問を選出して実施する15分間の模擬テストです。</p>
-                <button onclick="startMockExam()" class="w-full sm:w-auto bg-emerald-500 hover:bg-emerald-600 text-white font-bold px-8 py-3 rounded-xl shadow-lg transition flex items-center justify-center gap-2 text-xs sm:text-base">
+                <p class="text-xs sm:text-sm text-slate-300 leading-relaxed">全12科目データベースからランダムに10問を選出して実施する模擬テストです。</p>
+                <button onclick="startMockExam()" class="w-full sm:w-auto bg-emerald-500 hover:bg-emerald-600 active:bg-emerald-700 text-white font-bold px-8 py-3 rounded-xl shadow-lg transition flex items-center justify-center gap-2 text-xs sm:text-base">
                     <i class="fa-solid fa-play"></i> 模擬試験を開始する
                 </button>
             </div>
@@ -463,7 +481,7 @@
                     <h2 class="text-base sm:text-xl font-black text-slate-900">復習ノート</h2>
                     <p class="text-xs text-slate-500">過去にミスした問題が自動でまとめられています。</p>
                 </div>
-                <button id="btn-start-mistake-quiz" onclick="startMistakeQuiz()" class="w-full sm:w-auto bg-rose-600 hover:bg-rose-700 text-white font-bold px-4 py-2 rounded-xl text-xs sm:text-sm shadow-md transition flex items-center justify-center gap-2">
+                <button id="btn-start-mistake-quiz" onclick="startMistakeQuiz()" class="w-full sm:w-auto bg-rose-600 hover:bg-rose-700 text-white font-bold px-4 py-2.5 rounded-xl text-xs sm:text-sm shadow-md transition flex items-center justify-center gap-2">
                     <i class="fa-solid fa-rotate-right"></i> 間違いだけを再テスト
                 </button>
             </div>
@@ -491,7 +509,7 @@
             <div class="bg-white p-3.5 sm:p-6 rounded-2xl border border-slate-200 shadow-sm flex flex-col sm:flex-row items-start sm:items-center justify-between gap-2.5">
                 <div>
                     <h2 class="text-base sm:text-xl font-black text-slate-900">自分の学習履歴 & 弱点分析</h2>
-                    <p class="text-xs text-slate-500">これまでの演習履歴と科目ごとの傾向です。</p>
+                    <p class="text-xs text-slate-500">これまでの演習履歴と科目・単元ごとの状況です。</p>
                 </div>
             </div>
             <div class="bg-white p-3.5 sm:p-6 rounded-2xl border border-slate-200 shadow-sm space-y-3">
@@ -510,25 +528,25 @@
                         <i class="fa-solid fa-shield-halved"></i> 管理者ダッシュボード
                     </div>
                     <h2 class="text-base sm:text-2xl font-black">高認アプリ 管理・統括モード</h2>
-                    <p class="text-[11px] sm:text-xs text-slate-300 mt-0.5">全ユーザーのリアルタイム監視・成績分析ができます。</p>
+                    <p class="text-[11px] sm:text-xs text-slate-300 mt-0.5">ユーザー監視・単元別進捗・追放者リストの管理ができます。</p>
                 </div>
             </div>
 
             <div class="flex border-b border-slate-200 space-x-1 sm:space-x-3 overflow-x-auto custom-scrollbar">
-                <button id="admin-tab-users" onclick="switchAdminSubTab('users')" class="py-2 px-2.5 text-xs sm:text-sm font-bold border-b-2 border-indigo-600 text-indigo-600 transition flex items-center gap-1.5 whitespace-nowrap">
-                    <i class="fa-solid fa-users text-indigo-500"></i> ユーザー監視・個人成績
+                <button id="admin-tab-users" onclick="switchAdminSubTab('users')" class="py-2.5 px-3 text-xs sm:text-sm font-bold border-b-2 border-indigo-600 text-indigo-600 transition flex items-center gap-1.5 whitespace-nowrap">
+                    <i class="fa-solid fa-users text-indigo-500"></i> ユーザー監視・追放管理
                 </button>
-                <button id="admin-tab-material" onclick="switchAdminSubTab('material')" class="py-2 px-2.5 text-xs sm:text-sm font-bold border-b-2 border-transparent text-slate-500 hover:text-slate-800 transition flex items-center gap-1.5 whitespace-nowrap">
+                <button id="admin-tab-material" onclick="switchAdminSubTab('material')" class="py-2.5 px-3 text-xs sm:text-sm font-bold border-b-2 border-transparent text-slate-500 hover:text-slate-800 transition flex items-center gap-1.5 whitespace-nowrap">
                     <i class="fa-solid fa-book text-emerald-600"></i> 教科書・資料管理
                 </button>
-                <button id="admin-tab-quiz" onclick="switchAdminSubTab('quiz')" class="py-2 px-2.5 text-xs sm:text-sm font-bold border-b-2 border-transparent text-slate-500 hover:text-slate-800 transition flex items-center gap-1.5 whitespace-nowrap">
-                    <i class="fa-solid fa-pen-to-square"></i> クイズ問題管理
+                <button id="admin-tab-quiz" onclick="switchAdminSubTab('quiz')" class="py-2.5 px-3 text-xs sm:text-sm font-bold border-b-2 border-transparent text-slate-500 hover:text-slate-800 transition flex items-center gap-1.5 whitespace-nowrap">
+                    <i class="fa-solid fa-pen-to-square"></i> クイズ & 単元管理
                 </button>
-                <button id="admin-tab-homework" onclick="switchAdminSubTab('homework')" class="py-2 px-2.5 text-xs sm:text-sm font-bold border-b-2 border-transparent text-slate-500 hover:text-slate-800 transition flex items-center gap-1.5 whitespace-nowrap">
+                <button id="admin-tab-homework" onclick="switchAdminSubTab('homework')" class="py-2.5 px-3 text-xs sm:text-sm font-bold border-b-2 border-transparent text-slate-500 hover:text-slate-800 transition flex items-center gap-1.5 whitespace-nowrap">
                     <i class="fa-solid fa-pen-ruler text-amber-600"></i> 宿題管理
                 </button>
-                <button id="admin-tab-card" onclick="switchAdminSubTab('card')" class="py-2 px-2.5 text-xs sm:text-sm font-bold border-b-2 border-transparent text-slate-500 hover:text-slate-800 transition flex items-center gap-1.5 whitespace-nowrap">
-                    <i class="fa-solid fa-layer-group"></i> カード管理
+                <button id="admin-tab-card" onclick="switchAdminSubTab('card')" class="py-2.5 px-3 text-xs sm:text-sm font-bold border-b-2 border-transparent text-slate-500 hover:text-slate-800 transition flex items-center gap-1.5 whitespace-nowrap">
+                    <i class="fa-solid fa-layer-group"></i> 暗記カード管理
                 </button>
             </div>
 
@@ -538,10 +556,10 @@
                         <h3 class="font-bold text-slate-900 text-sm sm:text-base flex items-center gap-2">
                             <i class="fa-solid fa-users text-indigo-600"></i> ユーザーアクセス監視 (リアルタイム)
                         </h3>
-                        <p class="text-[11px] text-slate-500 mt-0.5">オンライン状態を監視。「成績ログを見る」から間違い問題も確認できます。</p>
+                        <p class="text-[11px] text-slate-500 mt-0.5">「個人成績」から各ユーザーの単元クリア状況も一目で確認できます。</p>
                     </div>
                     <div class="flex gap-2">
-                        <select id="admin-user-status-filter" onchange="renderAdminActiveUsersTable()" class="bg-slate-100 font-bold text-slate-800 text-xs rounded-xl px-2.5 py-1.5 border border-slate-300">
+                        <select id="admin-user-status-filter" onchange="renderAdminActiveUsersTable()" class="bg-slate-100 font-bold text-slate-800 text-xs rounded-xl px-3 py-1.5 border border-slate-300">
                             <option value="all">全員を表示</option>
                             <option value="online">🟢 オンラインのみ</option>
                             <option value="offline">⚪ オフラインのみ</option>
@@ -557,7 +575,7 @@
                                     <th class="px-3 py-2.5">ユーザー名 / メール</th>
                                     <th class="px-3 py-2.5">最終アクティブ</th>
                                     <th class="px-3 py-2.5">ステータス</th>
-                                    <th class="px-3 py-2.5 text-right">個人分析</th>
+                                    <th class="px-3 py-2.5 text-right">操作</th>
                                 </tr>
                             </thead>
                             <tbody id="admin-active-users-tbody" class="divide-y divide-slate-200"></tbody>
@@ -565,10 +583,33 @@
                     </div>
                 </div>
 
+                <!-- 追放済みユーザー一覧カード -->
+                <div class="bg-rose-50/50 rounded-2xl border border-rose-200 p-4 space-y-3 shadow-sm">
+                    <div class="flex items-center justify-between border-b border-rose-200 pb-2">
+                        <h3 class="font-bold text-rose-900 text-sm flex items-center gap-2">
+                            <i class="fa-solid fa-user-slash text-rose-600"></i> 追放（アクセスブロック）済みユーザー一覧
+                        </h3>
+                        <span class="text-xs font-bold text-rose-700 bg-rose-100 px-2.5 py-0.5 rounded-full"><span id="admin-blocked-count">0</span> 名</span>
+                    </div>
+                    <div class="overflow-x-auto custom-scrollbar">
+                        <table class="w-full text-left text-xs min-w-[500px]">
+                            <thead class="bg-rose-100/60 text-[10px] font-bold text-rose-900 uppercase">
+                                <tr>
+                                    <th class="px-3 py-2">名前 / メール</th>
+                                    <th class="px-3 py-2">追放日時</th>
+                                    <th class="px-3 py-2 text-right">解除操作</th>
+                                </tr>
+                            </thead>
+                            <tbody id="admin-blocked-users-tbody" class="divide-y divide-rose-200/60"></tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <!-- 全成績ログ -->
                 <div class="bg-white rounded-2xl border border-slate-200 p-4 space-y-3 shadow-sm">
                     <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-2 border-b border-slate-200 pb-2">
                         <div>
-                            <h3 class="font-bold text-slate-900 text-sm">全テスト成績ログ (人別絞り込み)</h3>
+                            <h3 class="font-bold text-slate-900 text-sm">全テスト成績ログ</h3>
                             <p class="text-[11px] text-slate-500">受講生を選択して個人の演習履歴を閲覧できます。</p>
                         </div>
                         <div class="flex items-center gap-2">
@@ -636,8 +677,8 @@
                         <button onclick="deleteSelectedQuestions()" class="bg-rose-50 hover:bg-rose-100 text-rose-700 border border-rose-300 text-xs font-bold px-3 py-1.5 rounded-xl transition flex items-center gap-1">
                             <i class="fa-solid fa-trash-can"></i> 選択した項目を一括削除
                         </button>
-                        <button onclick="openQuestionModal()" class="bg-brand-600 hover:bg-brand-700 text-white text-xs font-bold px-3 py-1.5 rounded-xl shadow transition flex items-center gap-1.5">
-                            <i class="fa-solid fa-plus"></i> 新規追加
+                        <button onclick="openQuestionModal()" class="bg-brand-600 hover:bg-brand-700 text-white text-xs font-bold px-3.5 py-2 rounded-xl shadow transition flex items-center gap-1.5">
+                            <i class="fa-solid fa-plus"></i> 新規問題・単元追加
                         </button>
                     </div>
                 </div>
@@ -650,7 +691,7 @@
                                     <th class="px-3 py-2.5 w-8 text-center">
                                         <input type="checkbox" id="select-all-q-checkbox" onchange="toggleSelectAllQuestions(this)" class="rounded text-brand-600">
                                     </th>
-                                    <th class="px-3 py-2.5">科目 / テーマ</th>
+                                    <th class="px-3 py-2.5">科目 / 単元（テーマ）</th>
                                     <th class="px-3 py-2.5">問題文</th>
                                     <th class="px-3 py-2.5">公開状態</th>
                                     <th class="px-3 py-2.5 text-right">操作</th>
@@ -700,7 +741,7 @@
                         <button onclick="deleteSelectedCards()" class="bg-rose-50 hover:bg-rose-100 text-rose-700 border border-rose-300 text-xs font-bold px-3 py-1.5 rounded-xl transition flex items-center gap-1">
                             <i class="fa-solid fa-trash-can"></i> 選択したカードを一括削除
                         </button>
-                        <button onclick="openCardModal()" class="bg-indigo-600 hover:bg-indigo-700 text-white text-xs font-bold px-3 py-1.5 rounded-xl shadow transition flex items-center gap-1.5">
+                        <button onclick="openCardModal()" class="bg-indigo-600 hover:bg-indigo-700 text-white text-xs font-bold px-3.5 py-2 rounded-xl shadow transition flex items-center gap-1.5">
                             <i class="fa-solid fa-plus"></i> 新規カード
                         </button>
                     </div>
@@ -730,27 +771,30 @@
     </main>
 
     <!-- MODALS -->
+
+    <!-- MODAL: TOPIC SELECT (ユーザー側 単元選択) -->
     <div id="modal-topic-select" class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-50 flex items-center justify-center p-3 hidden animate-fade-in">
         <div class="bg-white w-full max-w-md rounded-3xl p-5 shadow-2xl border border-slate-100 space-y-4 max-h-[90vh] overflow-y-auto custom-scrollbar">
             <div class="flex justify-between items-center border-b pb-2">
-                <h3 id="modal-topic-title" class="text-base font-black text-slate-900">単元・テーマの選択</h3>
-                <button onclick="closeModal('modal-topic-select')" class="text-slate-400 hover:text-slate-600"><i class="fa-solid fa-xmark text-lg"></i></button>
+                <h3 id="modal-topic-title" class="text-base sm:text-lg font-black text-slate-900">単元・テーマの選択</h3>
+                <button onclick="closeModal('modal-topic-select')" class="text-slate-400 hover:text-slate-600 p-1"><i class="fa-solid fa-xmark text-xl"></i></button>
             </div>
-            <p class="text-xs text-slate-500">挑戦したい単元（テーマ）を選んでクイズを開始してください。</p>
+            <p class="text-xs text-slate-500 leading-relaxed">挑戦したい単元を選んでクイズを開始してください。全問正解すると単元に <span class="text-emerald-600 font-bold">✅ クリアマーク</span> が付きます。</p>
             <div id="modal-topic-list" class="space-y-2"></div>
         </div>
     </div>
 
+    <!-- MODAL: MATERIAL -->
     <div id="modal-material" class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-50 flex items-center justify-center p-3 hidden animate-fade-in">
         <div class="bg-white w-full max-w-lg rounded-3xl p-5 shadow-2xl border border-slate-100 space-y-3 max-h-[90vh] overflow-y-auto custom-scrollbar">
             <div class="flex justify-between items-center border-b pb-2">
                 <h3 class="text-base font-black text-slate-900">教科書・参考資料の追加</h3>
-                <button onclick="closeModal('modal-material')" class="text-slate-400 hover:text-slate-600"><i class="fa-solid fa-xmark text-lg"></i></button>
+                <button onclick="closeModal('modal-material')" class="text-slate-400 hover:text-slate-600 p-1"><i class="fa-solid fa-xmark text-lg"></i></button>
             </div>
             <div class="space-y-2 text-xs font-bold">
                 <div>
                     <label class="block text-slate-500 mb-1">科目</label>
-                    <select id="mat-input-subject" class="w-full bg-slate-50 border border-slate-300 rounded-xl p-2 font-bold">
+                    <select id="mat-input-subject" class="w-full bg-slate-50 border border-slate-300 rounded-xl p-2.5 font-bold">
                         <option value="japanese">国語</option>
                         <option value="math">数学I</option>
                         <option value="english">英語</option>
@@ -767,34 +811,35 @@
                 </div>
                 <div>
                     <label class="block text-slate-500 mb-1">資料のタイトル</label>
-                    <input type="text" id="mat-input-title" placeholder="例: 現代文の重要古語と要点まとめ" class="w-full bg-slate-50 border border-slate-300 rounded-xl p-2">
+                    <input type="text" id="mat-input-title" placeholder="例: 現代文の重要古語と要点まとめ" class="w-full bg-slate-50 border border-slate-300 rounded-xl p-2.5">
                 </div>
                 <div>
                     <label class="block text-slate-500 mb-1">本文・解説テキスト</label>
-                    <textarea id="mat-input-content" rows="6" placeholder="教科書的な説明文やまとめを入力してください..." class="w-full bg-slate-50 border border-slate-300 rounded-xl p-2"></textarea>
+                    <textarea id="mat-input-content" rows="6" placeholder="教科書的な説明文やまとめを入力してください..." class="w-full bg-slate-50 border border-slate-300 rounded-xl p-2.5"></textarea>
                 </div>
                 <div>
                     <label class="block text-slate-500 mb-1">図解・参考写真URL (任意)</label>
-                    <input type="text" id="mat-input-imageurl" placeholder="https://..." class="w-full bg-slate-50 border border-slate-300 rounded-xl p-2 font-mono">
+                    <input type="text" id="mat-input-imageurl" placeholder="https://..." class="w-full bg-slate-50 border border-slate-300 rounded-xl p-2.5 font-mono">
                 </div>
             </div>
             <div class="flex gap-2 pt-2">
-                <button onclick="closeModal('modal-material')" class="w-1/2 bg-slate-100 text-slate-700 font-bold py-2 rounded-xl text-xs">キャンセル</button>
-                <button onclick="saveMaterial()" class="w-1/2 bg-emerald-600 text-white font-bold py-2 rounded-xl text-xs shadow-md">資料を保存</button>
+                <button onclick="closeModal('modal-material')" class="w-1/2 bg-slate-100 text-slate-700 font-bold py-2.5 rounded-xl text-xs">キャンセル</button>
+                <button onclick="saveMaterial()" class="w-1/2 bg-emerald-600 text-white font-bold py-2.5 rounded-xl text-xs shadow-md">資料を保存</button>
             </div>
         </div>
     </div>
 
+    <!-- MODAL: QUESTION (管理者側 クイズ & 単元作成) -->
     <div id="modal-question" class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-50 flex items-center justify-center p-3 hidden animate-fade-in">
         <div class="bg-white w-full max-w-lg rounded-3xl p-5 shadow-2xl border border-slate-100 space-y-3 max-h-[90vh] overflow-y-auto custom-scrollbar">
             <div class="flex justify-between items-center border-b pb-2">
-                <h3 class="text-base font-black text-slate-900">クイズ問題の追加・編集</h3>
-                <button onclick="closeModal('modal-question')" class="text-slate-400 hover:text-slate-600"><i class="fa-solid fa-xmark text-lg"></i></button>
+                <h3 class="text-base font-black text-slate-900">クイズ問題 & 単元の作成・編集</h3>
+                <button onclick="closeModal('modal-question')" class="text-slate-400 hover:text-slate-600 p-1"><i class="fa-solid fa-xmark text-lg"></i></button>
             </div>
             <div class="space-y-2 text-xs font-bold">
                 <div>
                     <label class="block text-slate-500 mb-1">科目</label>
-                    <select id="q-input-subject" class="w-full bg-slate-50 border border-slate-300 rounded-xl p-2 font-bold">
+                    <select id="q-input-subject" onchange="onAdminQuestionSubjectChange()" class="w-full bg-slate-50 border border-slate-300 rounded-xl p-2.5 font-bold">
                         <option value="japanese">国語</option>
                         <option value="math">数学I</option>
                         <option value="english">英語</option>
@@ -810,23 +855,26 @@
                     </select>
                 </div>
                 <div>
-                    <label class="block text-slate-500 mb-1">単元・テーマ</label>
-                    <input type="text" id="q-input-topic" placeholder="例: 現代文 / 三角比" class="w-full bg-slate-50 border border-slate-300 rounded-xl p-2">
+                    <label class="block text-slate-500 mb-1">単元（テーマ）の選択・仕分け</label>
+                    <select id="q-input-topic-select" onchange="onTopicSelectDropdownChange(this)" class="w-full bg-slate-50 border border-slate-300 rounded-xl p-2.5 font-bold mb-1.5">
+                        <option value="new">＋ 新しい単元を作成（自由入力）</option>
+                    </select>
+                    <input type="text" id="q-input-topic" placeholder="新単元名を入力（例: 三角比 / 古典文法）" class="w-full bg-slate-50 border border-slate-300 rounded-xl p-2.5">
                 </div>
                 <div>
                     <label class="block text-slate-500 mb-1">問題文</label>
-                    <textarea id="q-input-text" rows="3" class="w-full bg-slate-50 border border-slate-300 rounded-xl p-2"></textarea>
+                    <textarea id="q-input-text" rows="3" class="w-full bg-slate-50 border border-slate-300 rounded-xl p-2.5"></textarea>
                 </div>
                 <div class="space-y-1">
                     <label class="block text-slate-500">選択肢 (4つ)</label>
-                    <input type="text" id="q-input-c0" placeholder="選択肢 1" class="w-full bg-slate-50 border border-slate-300 rounded-xl p-2 mb-1">
-                    <input type="text" id="q-input-c1" placeholder="選択肢 2" class="w-full bg-slate-50 border border-slate-300 rounded-xl p-2 mb-1">
-                    <input type="text" id="q-input-c2" placeholder="選択肢 3" class="w-full bg-slate-50 border border-slate-300 rounded-xl p-2 mb-1">
-                    <input type="text" id="q-input-c3" placeholder="選択肢 4" class="w-full bg-slate-50 border border-slate-300 rounded-xl p-2">
+                    <input type="text" id="q-input-c0" placeholder="選択肢 1" class="w-full bg-slate-50 border border-slate-300 rounded-xl p-2.5 mb-1">
+                    <input type="text" id="q-input-c1" placeholder="選択肢 2" class="w-full bg-slate-50 border border-slate-300 rounded-xl p-2.5 mb-1">
+                    <input type="text" id="q-input-c2" placeholder="選択肢 3" class="w-full bg-slate-50 border border-slate-300 rounded-xl p-2.5 mb-1">
+                    <input type="text" id="q-input-c3" placeholder="選択肢 4" class="w-full bg-slate-50 border border-slate-300 rounded-xl p-2.5">
                 </div>
                 <div>
                     <label class="block text-slate-500 mb-1">正解の番号 (1〜4)</label>
-                    <select id="q-input-correct" class="w-full bg-slate-50 border border-slate-300 rounded-xl p-2 font-bold">
+                    <select id="q-input-correct" class="w-full bg-slate-50 border border-slate-300 rounded-xl p-2.5 font-bold">
                         <option value="0">1番目が正解</option>
                         <option value="1">2番目が正解</option>
                         <option value="2">3番目が正解</option>
@@ -835,9 +883,9 @@
                 </div>
                 <div>
                     <label class="block text-slate-500 mb-1">解説文</label>
-                    <textarea id="q-input-explanation" rows="2" class="w-full bg-slate-50 border border-slate-300 rounded-xl p-2"></textarea>
+                    <textarea id="q-input-explanation" rows="2" class="w-full bg-slate-50 border border-slate-300 rounded-xl p-2.5"></textarea>
                 </div>
-                <div class="flex items-center justify-between p-2 bg-slate-50 rounded-xl border border-slate-200">
+                <div class="flex items-center justify-between p-2.5 bg-slate-50 rounded-xl border border-slate-200">
                     <div class="flex items-center gap-2">
                         <input type="checkbox" id="q-input-ispublished" checked class="rounded text-brand-600">
                         <label for="q-input-ispublished" class="text-slate-800 font-bold">受講生へ公開する</label>
@@ -849,22 +897,23 @@
                 </div>
             </div>
             <div class="flex gap-2 pt-2">
-                <button onclick="closeModal('modal-question')" class="w-1/2 bg-slate-100 text-slate-700 font-bold py-2 rounded-xl text-xs">キャンセル</button>
-                <button onclick="saveQuestion()" class="w-1/2 bg-brand-600 text-white font-bold py-2 rounded-xl text-xs shadow-md">クラウドへ保存</button>
+                <button onclick="closeModal('modal-question')" class="w-1/2 bg-slate-100 text-slate-700 font-bold py-2.5 rounded-xl text-xs">キャンセル</button>
+                <button onclick="saveQuestion()" class="w-1/2 bg-brand-600 text-white font-bold py-2.5 rounded-xl text-xs shadow-md">クラウドへ保存</button>
             </div>
         </div>
     </div>
 
+    <!-- MODAL: HOMEWORK -->
     <div id="modal-homework" class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-50 flex items-center justify-center p-3 hidden animate-fade-in">
         <div class="bg-white w-full max-w-md rounded-3xl p-5 shadow-2xl border border-slate-100 space-y-3 max-h-[90vh] overflow-y-auto custom-scrollbar">
             <div class="flex justify-between items-center border-b pb-2">
                 <h3 class="text-base font-black text-slate-900">新しい宿題を作成</h3>
-                <button onclick="closeModal('modal-homework')" class="text-slate-400 hover:text-slate-600"><i class="fa-solid fa-xmark text-lg"></i></button>
+                <button onclick="closeModal('modal-homework')" class="text-slate-400 hover:text-slate-600 p-1"><i class="fa-solid fa-xmark text-lg"></i></button>
             </div>
             <div class="space-y-2 text-xs font-bold">
                 <div>
                     <label class="block text-slate-500 mb-1">科目</label>
-                    <select id="hw-input-subject" class="w-full bg-slate-50 border border-slate-300 rounded-xl p-2 font-bold">
+                    <select id="hw-input-subject" class="w-full bg-slate-50 border border-slate-300 rounded-xl p-2.5 font-bold">
                         <option value="japanese">国語</option>
                         <option value="math">数学I</option>
                         <option value="english">英語</option>
@@ -881,38 +930,39 @@
                 </div>
                 <div>
                     <label class="block text-slate-500 mb-1">宿題タイトル</label>
-                    <input type="text" id="hw-input-title" placeholder="例: 現代文 漢字演習プリント" class="w-full bg-slate-50 border border-slate-300 rounded-xl p-2">
+                    <input type="text" id="hw-input-title" placeholder="例: 現代文 漢字演習プリント" class="w-full bg-slate-50 border border-slate-300 rounded-xl p-2.5">
                 </div>
                 <div>
                     <label class="block text-slate-500 mb-1">提出期限</label>
-                    <input type="date" id="hw-input-duedate" class="w-full bg-slate-50 border border-slate-300 rounded-xl p-2">
+                    <input type="date" id="hw-input-duedate" class="w-full bg-slate-50 border border-slate-300 rounded-xl p-2.5">
                 </div>
                 <div>
                     <label class="block text-slate-500 mb-1">指示・説明内容</label>
-                    <textarea id="hw-input-desc" rows="3" class="w-full bg-slate-50 border border-slate-300 rounded-xl p-2"></textarea>
+                    <textarea id="hw-input-desc" rows="3" class="w-full bg-slate-50 border border-slate-300 rounded-xl p-2.5"></textarea>
                 </div>
                 <div>
                     <label class="block text-slate-500 mb-1">参考画像URL (任意)</label>
-                    <input type="text" id="hw-input-imageurl" placeholder="https://..." class="w-full bg-slate-50 border border-slate-300 rounded-xl p-2 font-mono">
+                    <input type="text" id="hw-input-imageurl" placeholder="https://..." class="w-full bg-slate-50 border border-slate-300 rounded-xl p-2.5 font-mono">
                 </div>
             </div>
             <div class="flex gap-2 pt-2">
-                <button onclick="closeModal('modal-homework')" class="w-1/2 bg-slate-100 text-slate-700 font-bold py-2 rounded-xl text-xs">キャンセル</button>
-                <button onclick="saveHomework()" class="w-1/2 bg-amber-500 text-slate-950 font-black py-2 rounded-xl text-xs shadow-md">宿題を配信</button>
+                <button onclick="closeModal('modal-homework')" class="w-1/2 bg-slate-100 text-slate-700 font-bold py-2.5 rounded-xl text-xs">キャンセル</button>
+                <button onclick="saveHomework()" class="w-1/2 bg-amber-500 text-slate-950 font-black py-2.5 rounded-xl text-xs shadow-md">宿題を配信</button>
             </div>
         </div>
     </div>
 
+    <!-- MODAL: CARD -->
     <div id="modal-card" class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-50 flex items-center justify-center p-3 hidden animate-fade-in">
         <div class="bg-white w-full max-w-md rounded-3xl p-5 shadow-2xl border border-slate-100 space-y-3 max-h-[90vh] overflow-y-auto custom-scrollbar">
             <div class="flex justify-between items-center border-b pb-2">
                 <h3 class="text-base font-black text-slate-900">暗記カードの追加</h3>
-                <button onclick="closeModal('modal-card')" class="text-slate-400 hover:text-slate-600"><i class="fa-solid fa-xmark text-lg"></i></button>
+                <button onclick="closeModal('modal-card')" class="text-slate-400 hover:text-slate-600 p-1"><i class="fa-solid fa-xmark text-lg"></i></button>
             </div>
             <div class="space-y-2 text-xs font-bold">
                 <div>
                     <label class="block text-slate-500 mb-1">科目</label>
-                    <select id="card-input-subject" class="w-full bg-slate-50 border border-slate-300 rounded-xl p-2 font-bold">
+                    <select id="card-input-subject" class="w-full bg-slate-50 border border-slate-300 rounded-xl p-2.5 font-bold">
                         <option value="japanese">国語</option>
                         <option value="math">数学I</option>
                         <option value="english">英語</option>
@@ -929,20 +979,21 @@
                 </div>
                 <div>
                     <label class="block text-slate-500 mb-1">表面 (問題・用語)</label>
-                    <textarea id="card-input-front" rows="2" class="w-full bg-slate-50 border border-slate-300 rounded-xl p-2"></textarea>
+                    <textarea id="card-input-front" rows="2" class="w-full bg-slate-50 border border-slate-300 rounded-xl p-2.5"></textarea>
                 </div>
                 <div>
                     <label class="block text-slate-500 mb-1">裏面 (解答・意味)</label>
-                    <textarea id="card-input-back" rows="3" class="w-full bg-slate-50 border border-slate-300 rounded-xl p-2"></textarea>
+                    <textarea id="card-input-back" rows="3" class="w-full bg-slate-50 border border-slate-300 rounded-xl p-2.5"></textarea>
                 </div>
             </div>
             <div class="flex gap-2 pt-2">
-                <button onclick="closeModal('modal-card')" class="w-1/2 bg-slate-100 text-slate-700 font-bold py-2 rounded-xl text-xs">キャンセル</button>
-                <button onclick="saveCard()" class="w-1/2 bg-indigo-600 text-white font-bold py-2 rounded-xl text-xs shadow-md">カードを追加</button>
+                <button onclick="closeModal('modal-card')" class="w-1/2 bg-slate-100 text-slate-700 font-bold py-2.5 rounded-xl text-xs">キャンセル</button>
+                <button onclick="saveCard()" class="w-1/2 bg-indigo-600 text-white font-bold py-2.5 rounded-xl text-xs shadow-md">カードを追加</button>
             </div>
         </div>
     </div>
 
+    <!-- MODAL: USER DETAIL (受講生詳細・単元クリア状況) -->
     <div id="modal-user-detail" class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-50 flex items-center justify-center p-3 hidden animate-fade-in">
         <div class="bg-white w-full max-w-2xl rounded-3xl p-5 sm:p-6 shadow-2xl border border-slate-100 space-y-4 max-h-[90vh] overflow-y-auto custom-scrollbar">
             <div class="flex justify-between items-start border-b border-slate-200 pb-3">
@@ -965,18 +1016,26 @@
                 </div>
             </div>
 
+            <!-- 管理者用：単元クリア状況 -->
+            <div class="space-y-2">
+                <h4 class="font-bold text-xs text-emerald-800 flex items-center gap-1.5">
+                    <i class="fa-solid fa-circle-check text-emerald-600"></i> このユーザーのクリア済み単元一覧
+                </h4>
+                <div id="user-detail-cleared-topics-list" class="flex flex-wrap gap-1.5 max-h-36 overflow-y-auto custom-scrollbar bg-emerald-50/50 p-3 rounded-2xl border border-emerald-200"></div>
+            </div>
+
             <div class="space-y-2">
                 <h4 class="font-bold text-xs text-rose-600 flex items-center gap-1.5">
-                    <i class="fa-solid fa-triangle-exclamation"></i> この人が間違えた問題一覧（弱点箇所）
+                    <i class="fa-solid fa-triangle-exclamation"></i> 間違えた問題一覧（弱点箇所）
                 </h4>
-                <div id="user-detail-wrong-questions-list" class="space-y-2 max-h-56 overflow-y-auto custom-scrollbar pr-1"></div>
+                <div id="user-detail-wrong-questions-list" class="space-y-2 max-h-48 overflow-y-auto custom-scrollbar pr-1"></div>
             </div>
 
             <div class="space-y-1.5">
                 <h4 class="font-bold text-xs text-slate-900 flex items-center gap-1.5">
                     <i class="fa-solid fa-clock-rotate-left"></i> 直近のテスト解答結果
                 </h4>
-                <div id="user-detail-history-list" class="space-y-1.5 max-h-40 overflow-y-auto custom-scrollbar pr-1"></div>
+                <div id="user-detail-history-list" class="space-y-1.5 max-h-36 overflow-y-auto custom-scrollbar pr-1"></div>
             </div>
 
             <div class="pt-2">
@@ -987,6 +1046,7 @@
         </div>
     </div>
 
+    <!-- MODAL: HOMEWORK DETAIL -->
     <div id="modal-homework-detail" class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-50 flex items-center justify-center p-3 hidden animate-fade-in">
         <div class="bg-white w-full max-w-lg rounded-3xl p-5 shadow-2xl border border-slate-100 space-y-4 max-h-[90vh] overflow-y-auto custom-scrollbar">
             <div class="flex justify-between items-start border-b border-slate-200 pb-3">
@@ -1013,7 +1073,7 @@
         </div>
     </div>
 
-    <!-- USER NAME EDIT -->
+    <!-- MODAL: USER NAME EDIT -->
     <div id="modal-user-name" class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-50 flex items-center justify-center p-3 hidden animate-fade-in">
         <div class="bg-white w-full max-w-sm rounded-3xl p-5 shadow-2xl border border-slate-100 space-y-4">
             <div class="w-10 h-10 bg-brand-100 text-brand-600 rounded-2xl flex items-center justify-center text-lg"><i class="fa-solid fa-user-pen"></i></div>
@@ -1029,6 +1089,7 @@
         </div>
     </div>
 
+    <!-- MODAL: IMAGE VIEW -->
     <div id="modal-image-view" class="fixed inset-0 bg-slate-950/90 backdrop-blur-md z-50 flex items-center justify-center p-3 hidden animate-fade-in" onclick="closeModal('modal-image-view')">
         <div class="max-w-3xl max-h-[90vh] relative p-2">
             <img id="modal-full-image" src="" class="max-h-[85vh] max-w-full rounded-2xl shadow-2xl object-contain mx-auto">
@@ -1036,14 +1097,15 @@
         </div>
     </div>
 
+    <!-- MODAL: CONFIRM -->
     <div id="modal-confirm" class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-50 flex items-center justify-center p-3 hidden animate-fade-in">
         <div class="bg-white w-full max-w-xs rounded-3xl p-5 shadow-2xl border border-slate-100 text-center space-y-3">
             <div class="w-10 h-10 bg-amber-100 text-amber-600 rounded-full flex items-center justify-center text-lg mx-auto"><i class="fa-solid fa-triangle-exclamation"></i></div>
             <h3 id="confirm-title" class="text-base font-black text-slate-900">確認</h3>
             <p id="confirm-message" class="text-xs text-slate-600 leading-relaxed">処理を実行してよろしいですか？</p>
             <div class="flex gap-2 pt-1">
-                <button id="btn-confirm-cancel" class="w-1/2 bg-slate-100 text-slate-700 font-bold py-2 rounded-xl text-xs">キャンセル</button>
-                <button id="btn-confirm-ok" class="w-1/2 bg-rose-600 text-white font-bold py-2 rounded-xl text-xs shadow-md">実行する</button>
+                <button id="btn-confirm-cancel" class="w-1/2 bg-slate-100 text-slate-700 font-bold py-2.5 rounded-xl text-xs">キャンセル</button>
+                <button id="btn-confirm-ok" class="w-1/2 bg-rose-600 text-white font-bold py-2.5 rounded-xl text-xs shadow-md">実行する</button>
             </div>
         </div>
     </div>
@@ -1107,16 +1169,18 @@
 
                         document.getElementById('sync-indicator').classList.remove('hidden');
 
-                        // --- ニックネーム復元（Firestoreユーザー専用プロファイル優先） ---
+                        // --- ニックネーム & クリア済単元データの同期 ---
                         let activeName = '';
+                        let clearedTopics = [];
                         
                         try {
-                            // 1. ユーザー専用永久保存ドキュメントを参照
                             const profileDoc = await getDoc(doc(db, 'artifacts', appId, 'public', 'data', 'user_profiles', user.uid));
-                            if (profileDoc.exists() && profileDoc.data().userName) {
-                                activeName = profileDoc.data().userName;
+                            if (profileDoc.exists()) {
+                                const data = profileDoc.data();
+                                if (data.userName) activeName = data.userName;
+                                if (data.clearedTopics) clearedTopics = data.clearedTopics;
                             }
-                        } catch(e) { console.warn('Profile read error:', e); }
+                        } catch(e) {}
 
                         if (!activeName) {
                             activeName = localStorage.getItem('ko_ninsiken_custom_name_' + user.uid) || localStorage.getItem('ko_ninsiken_user_name_fixed');
@@ -1128,6 +1192,7 @@
 
                         const finalName = activeName || '学習者';
                         window.appState.userName = finalName;
+                        window.appState.clearedTopics = clearedTopics;
                         localStorage.setItem('ko_ninsiken_custom_name_' + user.uid, finalName);
                         localStorage.setItem('ko_ninsiken_user_name_fixed', finalName);
                         document.getElementById('header-user-name').innerText = finalName;
@@ -1157,7 +1222,6 @@
                             if (mobileAdminBtn) mobileAdminBtn.classList.add('hidden');
                         }
 
-                        // クラウド同期
                         window.syncUserProfileCloud(finalName, true);
                         subscribeCloudData();
                     } else {
@@ -1175,7 +1239,7 @@
             } catch(e) { console.warn('Firebase init error', e); }
         }
 
-        // 定期的なオンライン更新（ハートビート: 10秒おき）
+        // 定期的なオンライン更新（10秒おき）
         setInterval(() => {
             if (auth && auth.currentUser) {
                 window.syncUserProfileCloud(window.appState.userName, true);
@@ -1185,12 +1249,6 @@
         window.addEventListener('visibilitychange', () => {
             if (auth && auth.currentUser) {
                 window.syncUserProfileCloud(window.appState.userName, document.visibilityState === 'visible');
-            }
-        });
-
-        window.addEventListener('beforeunload', () => {
-            if (auth && auth.currentUser) {
-                window.syncUserProfileCloud(window.appState.userName, false);
             }
         });
 
@@ -1308,24 +1366,33 @@
                     window.populateUserLogSelectOptions();
                 }
             });
+
+            // 追放（ブロック）済みユーザーのリアルタイム監視
+            onSnapshot(collection(db, 'artifacts', appId, 'public', 'data', 'blocked_users'), (snapshot) => {
+                const blockedList = [];
+                snapshot.forEach(doc => blockedList.push({ uid: doc.id, ...doc.data() }));
+                window.appState.blockedUsersList = blockedList;
+                if (window.appState.activeView === 'admin') {
+                    window.renderAdminBlockedUsersTable();
+                }
+            });
         }
 
-        // オンライン情報 & ニックネームのクラウド書き込み関数
+        // オンライン情報 & プロファイルの書き込み
         window.syncUserProfileCloud = async function(userName, isOnline = true) {
             if (!db || !auth || !auth.currentUser) return;
             try {
                 const u = auth.currentUser;
                 const nowIso = new Date().toISOString();
                 
-                // 1. ユーザープロファイル専用領域へ永久保存
                 await setDoc(doc(db, 'artifacts', appId, 'public', 'data', 'user_profiles', u.uid), {
                     uid: u.uid,
                     userName: userName,
                     email: u.email || '匿名',
+                    clearedTopics: window.appState.clearedTopics || [],
                     updatedAt: nowIso
                 }, { merge: true });
 
-                // 2. アクティブユーザーリスト（オンライン監視）へ状態保存
                 const activeData = {
                     uid: u.uid,
                     userName: userName || (u.isAnonymous ? 'ゲスト学習者' : 'ユーザー'),
@@ -1335,9 +1402,7 @@
                     isAnonymous: u.isAnonymous
                 };
                 await setDoc(doc(db, 'artifacts', appId, 'public', 'data', 'active_users', u.uid), activeData);
-            } catch(e){
-                console.error('Firebase write blocked/failed:', e);
-            }
+            } catch(e){}
         };
 
         window.saveQuizResultCloud = async function(resultData) {
@@ -1347,13 +1412,28 @@
             } catch(e){}
         };
 
-        window.blockUserCloud = async function(uid) {
+        // 追放処理
+        window.blockUserCloud = async function(uid, userName, email) {
             if (!db) return;
             try {
-                await setDoc(doc(db, 'artifacts', appId, 'public', 'data', 'blocked_users', uid), { blocked: true, blockedAt: new Date().toISOString() });
+                await setDoc(doc(db, 'artifacts', appId, 'public', 'data', 'blocked_users', uid), { 
+                    blocked: true, 
+                    userName: userName || '不明',
+                    email: email || '不明',
+                    blockedAt: new Date().toISOString() 
+                });
                 await deleteDoc(doc(db, 'artifacts', appId, 'public', 'data', 'active_users', uid));
-                showToast('ユーザーをブロックしました', 'success');
-            } catch(e){ showToast('ブロック処理に失敗しました', 'danger'); }
+                showToast('ユーザーをブロック（追放）しました', 'success');
+            } catch(e){ showToast('追放処理に失敗しました', 'danger'); }
+        };
+
+        // 追放解除処理
+        window.unblockUserCloud = async function(uid) {
+            if (!db) return;
+            try {
+                await deleteDoc(doc(db, 'artifacts', appId, 'public', 'data', 'blocked_users', uid));
+                showToast('追放を解除しました', 'success');
+            } catch(e){ showToast('追放解除に失敗しました', 'danger'); }
         };
 
         window.syncMaterialCloud = async function(item) { if (db) await setDoc(doc(db, 'artifacts', appId, 'public', 'data', 'materials', item.id), item); };
@@ -1390,8 +1470,9 @@
             homeworks: [],
             materials: [],
             activeUsersList: [],
+            blockedUsersList: [],
             allUserResults: [],
-            wrongQuestionIds: [],
+            clearedTopics: [], // ['japanese_現代文', 'math_三角比', ...]
             userStamps: [],
             currentSubjectId: '',
             currentTopicFilter: 'all',
@@ -1422,13 +1503,16 @@
             try {
                 const savedStamps = localStorage.getItem('ko_ninsiken_stamps');
                 if (savedStamps) window.appState.userStamps = JSON.parse(savedStamps);
+                const savedCleared = localStorage.getItem('ko_ninsiken_cleared_topics');
+                if (savedCleared) window.appState.clearedTopics = JSON.parse(savedCleared);
             } catch(e){}
         }
 
         window.saveLocalState = function() {
-            localStorage.setItem('kousotsu_app_master_v19', JSON.stringify({
+            localStorage.setItem('kousotsu_app_master_v20', JSON.stringify({
                 userName: window.appState.userName
             }));
+            localStorage.setItem('ko_ninsiken_cleared_topics', JSON.stringify(window.appState.clearedTopics || []));
         };
 
         window.toggleMobileMenu = function() {
@@ -1444,7 +1528,7 @@
             window.appState.activeView = viewName;
             window.scrollTo({ top: 0, behavior: 'smooth' });
 
-            if (viewName === 'dashboard') renderDashboardSubjects();
+            if (viewName === 'dashboard') { renderDashboardSubjects(); updateClearedTopicsStat(); }
             if (viewName === 'materials') renderMaterialsView();
             if (viewName === 'subjects') renderFullSubjects();
             if (viewName === 'homework') renderHomeworkView();
@@ -1455,17 +1539,26 @@
             if (viewName === 'admin') renderAdminDashboard();
         };
 
+        function updateClearedTopicsStat() {
+            const count = (window.appState.clearedTopics || []).length;
+            const el = document.getElementById('stat-cleared-topics');
+            if (el) el.innerText = count;
+        }
+
         function renderDashboardSubjects() {
             const container = document.getElementById('dashboard-subjects-grid');
             container.innerHTML = SUBJECTS.slice(0, 6).map(s => {
-                const qCount = window.appState.questions.filter(q => q.subjectId === s.id && q.isPublished !== false).length;
+                const subjectQs = window.appState.questions.filter(q => q.subjectId === s.id && q.isPublished !== false);
+                const topics = Array.from(new Set(subjectQs.map(q => q.topic || '基本')));
+                const clearedCount = topics.filter(t => (window.appState.clearedTopics || []).includes(`${s.id}_${t}`)).length;
+
                 return `
-                    <div onclick="openTopicSelectModal('${s.id}')" class="bg-white p-3.5 rounded-2xl border border-slate-200 hover:border-brand-500 cursor-pointer flex items-center justify-between">
+                    <div onclick="openTopicSelectModal('${s.id}')" class="bg-white p-3.5 rounded-2xl border border-slate-200 hover:border-brand-500 cursor-pointer flex items-center justify-between shadow-sm">
                         <div class="flex items-center space-x-3">
                             <div class="w-10 h-10 rounded-xl bg-gradient-to-tr ${s.color} text-white flex items-center justify-center text-lg"><i class="fa-solid ${s.icon}"></i></div>
                             <div>
                                 <h4 class="font-bold text-slate-900 text-sm">${s.name}</h4>
-                                <span class="text-[10px] text-slate-500">${qCount} 演習問題</span>
+                                <span class="text-[10px] font-bold text-slate-500">${subjectQs.length} 演習問題 ${clearedCount > 0 ? `<span class="text-emerald-600 font-bold ml-1"> (✅ ${clearedCount}/${topics.length} 単元クリア)</span>` : ''}</span>
                             </div>
                         </div>
                         <i class="fa-solid fa-chevron-right text-slate-300 text-xs"></i>
@@ -1483,7 +1576,7 @@
             if (filterSubject !== 'all') list = list.filter(m => m.subjectId === filterSubject);
 
             if (list.length === 0) {
-                container.innerHTML = `<div class="col-span-2 bg-white rounded-2xl p-8 text-center border border-slate-200"><h3 class="font-bold text-slate-900">登録されている教科書・資料がありません。</h3></div>`;
+                container.innerHTML = `<div class="col-span-2 bg-white rounded-2xl p-8 text-center border border-slate-200"><h3 class="font-bold text-slate-900 text-sm">登録されている教科書・資料がありません。</h3></div>`;
                 return;
             }
 
@@ -1510,17 +1603,25 @@
         function renderFullSubjects() {
             const container = document.getElementById('full-subjects-grid');
             container.innerHTML = SUBJECTS.map(s => {
-                const qCount = window.appState.questions.filter(q => q.subjectId === s.id && q.isPublished !== false).length;
+                const subjectQs = window.appState.questions.filter(q => q.subjectId === s.id && q.isPublished !== false);
+                const topics = Array.from(new Set(subjectQs.map(q => q.topic || '基本')));
+                const clearedCount = topics.filter(t => (window.appState.clearedTopics || []).includes(`${s.id}_${t}`)).length;
+
                 return `
-                    <div class="bg-white rounded-2xl border border-slate-200 p-4 space-y-3">
+                    <div class="bg-white rounded-2xl border border-slate-200 p-4 space-y-3 shadow-sm">
                         <div class="flex items-center space-x-3">
                             <div class="w-11 h-11 rounded-2xl bg-gradient-to-tr ${s.color} text-white flex items-center justify-center text-lg"><i class="fa-solid ${s.icon}"></i></div>
                             <div>
                                 <h3 class="font-black text-slate-900 text-base">${s.name}</h3>
-                                <span class="bg-slate-100 text-[10px] font-bold px-2 py-0.5 rounded-full">出題可能 ${qCount} 問</span>
+                                <div class="flex items-center gap-1.5 mt-0.5">
+                                    <span class="bg-slate-100 text-[10px] font-bold px-2 py-0.5 rounded-full">${subjectQs.length} 問</span>
+                                    ${clearedCount > 0 ? `<span class="bg-emerald-100 text-emerald-800 text-[10px] font-bold px-2 py-0.5 rounded-full">✅ ${clearedCount}/${topics.length} 単元クリア</span>` : ''}
+                                </div>
                             </div>
                         </div>
-                        <button onclick="openTopicSelectModal('${s.id}')" class="w-full bg-slate-900 text-white font-bold py-2 rounded-xl text-xs">単元を選んで開始</button>
+                        <button onclick="openTopicSelectModal('${s.id}')" class="w-full bg-slate-900 hover:bg-slate-800 text-white font-bold py-2.5 rounded-xl text-xs shadow-sm active:scale-98 transition">
+                            単元を選んで開始
+                        </button>
                     </div>
                 `;
             }).join('');
@@ -1544,8 +1645,8 @@
             let html = `
                 <button onclick="startSubjectQuiz('${subjectId}', 'all')" class="w-full text-left bg-brand-50 hover:bg-brand-100 border-2 border-brand-200 rounded-2xl p-3.5 font-bold text-brand-900 transition flex items-center justify-between">
                     <div>
-                        <div class="text-sm">🌟 すべての単元からランダム出題</div>
-                        <div class="text-[10px] text-brand-600 font-normal">全 ${subjectQs.length} 問からランダム選出</div>
+                        <div class="text-xs sm:text-sm">🌟 全単元からランダム出題</div>
+                        <div class="text-[10px] text-brand-600 font-normal">全 ${subjectQs.length} 問から総合演習</div>
                     </div>
                     <i class="fa-solid fa-chevron-right text-brand-500"></i>
                 </button>
@@ -1553,13 +1654,18 @@
 
             topics.forEach(top => {
                 const count = subjectQs.filter(q => (q.topic || '基本') === top).length;
+                const isCleared = (window.appState.clearedTopics || []).includes(`${subjectId}_${top}`);
+
                 html += `
-                    <button onclick="startSubjectQuiz('${subjectId}', '${top}')" class="w-full text-left bg-slate-50 hover:bg-slate-100 border border-slate-200 rounded-2xl p-3.5 font-bold text-slate-800 transition flex items-center justify-between">
+                    <button onclick="startSubjectQuiz('${subjectId}', '${top}')" class="w-full text-left ${isCleared ? 'bg-emerald-50/80 border-emerald-300 hover:bg-emerald-100' : 'bg-slate-50 hover:bg-slate-100 border-slate-200'} border rounded-2xl p-3.5 font-bold text-slate-800 transition flex items-center justify-between">
                         <div>
-                            <div class="text-xs sm:text-sm">📌 単元: ${top}</div>
-                            <div class="text-[10px] text-slate-400 font-normal">${count} 問登録</div>
+                            <div class="text-xs sm:text-sm flex items-center gap-1.5">
+                                ${isCleared ? '<span class="text-emerald-600 text-sm">✅</span>' : '<span class="text-slate-400 text-xs">📌</span>'}
+                                <span>単元: ${top}</span>
+                            </div>
+                            <div class="text-[10px] text-slate-400 font-normal ml-5">${count} 問登録 ${isCleared ? '・ <span class="text-emerald-600 font-bold">完全クリア済み</span>' : ''}</div>
                         </div>
-                        <i class="fa-solid fa-chevron-right text-slate-300"></i>
+                        <i class="fa-solid fa-chevron-right ${isCleared ? 'text-emerald-500' : 'text-slate-300'}"></i>
                     </button>
                 `;
             });
@@ -1812,7 +1918,7 @@
                             <span class="text-slate-800">${s.name}</span>
                             <span class="text-brand-600">${acc}% (${qCorrect}/${qTotal}問)</span>
                         </div>
-                        <div class="w-full bg-slate-100 h-2 rounded-full overflow-hidden">
+                        <div class="w-full bg-slate-100 h-2.5 rounded-full overflow-hidden">
                             <div class="bg-brand-600 h-full rounded-full transition-all duration-500" style="width: ${acc}%"></div>
                         </div>
                     </div>
@@ -1882,7 +1988,7 @@
 
             document.getElementById('quiz-subject-badge').innerText = subject ? subject.name : '総合';
             document.getElementById('quiz-progress-text').innerText = `第 ${window.appState.currentQuizIndex + 1} / ${window.appState.currentQuizSet.length} 問`;
-            document.getElementById('quiz-topic-tag').innerText = `テーマ: ${q.topic || '基本'}`;
+            document.getElementById('quiz-topic-tag').innerText = `単元: ${q.topic || '基本'}`;
             document.getElementById('quiz-question-text').innerText = q.question;
 
             document.getElementById('quiz-explanation-box').classList.add('hidden');
@@ -1890,10 +1996,10 @@
 
             const choicesContainer = document.getElementById('quiz-choices-container');
             choicesContainer.innerHTML = q.choices.map((choice, idx) => `
-                <button onclick="submitAnswer(${idx})" class="choice-btn w-full text-left bg-slate-50 hover:bg-brand-50 border-2 border-slate-200 hover:border-brand-500 rounded-xl p-3 font-bold text-slate-800 transition flex items-center justify-between">
-                    <span class="flex items-center gap-2">
-                        <span class="w-7 h-7 rounded-lg bg-white border border-slate-300 flex items-center justify-center text-xs font-black text-slate-700">${idx + 1}</span>
-                        <span class="text-xs sm:text-base">${choice}</span>
+                <button onclick="submitAnswer(${idx})" class="choice-btn w-full text-left bg-slate-50 hover:bg-brand-50 border-2 border-slate-200 hover:border-brand-500 rounded-xl p-3 sm:p-3.5 font-bold text-slate-800 transition flex items-center justify-between">
+                    <span class="flex items-center gap-2.5">
+                        <span class="w-7 h-7 rounded-lg bg-white border border-slate-300 flex items-center justify-center text-xs font-black text-slate-700 shrink-0">${idx + 1}</span>
+                        <span class="text-xs sm:text-base leading-snug">${choice}</span>
                     </span>
                 </button>
             `).join('');
@@ -1941,6 +2047,26 @@
             const percentage = Math.round((window.appState.quizScore / window.appState.currentQuizSet.length) * 100);
             document.getElementById('result-percentage').innerText = percentage + '%';
 
+            // 単元クリア判定（全問正解で単元クリア）
+            const isAllCorrect = (window.appState.quizScore === window.appState.currentQuizSet.length);
+            const clearedBadge = document.getElementById('result-cleared-badge');
+
+            if (isAllCorrect && !window.appState.isMockExam && window.appState.currentTopicFilter !== 'all') {
+                const topicKey = `${window.appState.currentSubjectId}_${window.appState.currentTopicFilter}`;
+                if (!window.appState.clearedTopics) window.appState.clearedTopics = [];
+                if (!window.appState.clearedTopics.includes(topicKey)) {
+                    window.appState.clearedTopics.push(topicKey);
+                    window.saveLocalState();
+                    if (window.syncUserProfileCloud) {
+                        window.syncUserProfileCloud(window.appState.userName, true);
+                    }
+                }
+                if (clearedBadge) clearedBadge.classList.remove('hidden');
+                confetti({ particleCount: 80, spread: 70, origin: { y: 0.6 } });
+            } else {
+                if (clearedBadge) clearedBadge.classList.add('hidden');
+            }
+
             const wrongQs = (window.appState.currentQuizAnswers || []).filter(a => !a.isCorrect).map(a => ({
                 questionId: a.question.id,
                 question: a.question.question,
@@ -1954,6 +2080,7 @@
                 id: 'res_' + Date.now(),
                 userName: window.appState.userName || 'ゲスト学習者',
                 mode: window.appState.isMockExam ? '模擬試験' : (SUBJECTS.find(s => s.id === window.appState.currentSubjectId)?.name || '科目クイズ'),
+                topic: window.appState.currentTopicFilter || '基本',
                 score: window.appState.quizScore,
                 total: window.appState.currentQuizSet.length,
                 percentage: percentage,
@@ -1971,7 +2098,7 @@
             const list = window.appState.homeworks || [];
 
             if (list.length === 0) {
-                container.innerHTML = `<div class="col-span-2 bg-white rounded-2xl p-8 text-center border border-slate-200"><h3 class="font-bold text-slate-900">現在出されている宿題はありません！</h3></div>`;
+                container.innerHTML = `<div class="col-span-2 bg-white rounded-2xl p-8 text-center border border-slate-200"><h3 class="font-bold text-slate-900 text-sm">現在出されている宿題はありません！</h3></div>`;
                 return;
             }
 
@@ -2056,12 +2183,46 @@
             `).join('');
         };
 
-        window.openQuestionModal = function() { openModal('modal-question'); };
+        // --- 管理者画面：クイズ＆単元作成モーダル補助 ---
+        window.openQuestionModal = function() {
+            onAdminQuestionSubjectChange();
+            openModal('modal-question');
+        };
+
+        window.onAdminQuestionSubjectChange = function() {
+            const subjectId = document.getElementById('q-input-subject').value;
+            const subjectQs = window.appState.questions.filter(q => q.subjectId === subjectId);
+            const topics = Array.from(new Set(subjectQs.map(q => q.topic || '基本')));
+
+            const selectEl = document.getElementById('q-input-topic-select');
+            selectEl.innerHTML = '<option value="new">＋ 新しい単元を作成（自由入力）</option>' +
+                topics.map(t => `<option value="${t}">📌 既存単元: ${t}</option>`).join('');
+
+            selectEl.value = 'new';
+            document.getElementById('q-input-topic').value = '';
+            document.getElementById('q-input-topic').focus();
+        };
+
+        window.onTopicSelectDropdownChange = function(selectEl) {
+            const topicInput = document.getElementById('q-input-topic');
+            if (selectEl.value === 'new') {
+                topicInput.value = '';
+                topicInput.placeholder = '新単元名を入力（例: 三角比 / 古典文法）';
+                topicInput.focus();
+            } else {
+                topicInput.value = selectEl.value;
+            }
+        };
+
         window.saveQuestion = function() {
+            const topicInput = document.getElementById('q-input-topic').value.trim();
+            const topicSelect = document.getElementById('q-input-topic-select').value;
+            const finalTopic = topicInput || (topicSelect !== 'new' ? topicSelect : '基本');
+
             const qItem = {
                 id: 'q_' + Date.now(),
                 subjectId: document.getElementById('q-input-subject').value,
-                topic: document.getElementById('q-input-topic').value || '基本',
+                topic: finalTopic,
                 question: document.getElementById('q-input-text').value,
                 choices: [
                     document.getElementById('q-input-c0').value,
@@ -2079,7 +2240,7 @@
 
             if (window.syncQuestionCloud) window.syncQuestionCloud(qItem);
             closeModal('modal-question');
-            showToast('問題を追加しました', 'success');
+            showToast(`単元「${finalTopic}」に問題を追加しました`, 'success');
         };
 
         window.toggleQuestionPublish = function(qId) {
@@ -2177,9 +2338,15 @@
             });
         };
 
-        window.blockUserConfirm = function(uid, userName) {
+        window.blockUserConfirm = function(uid, userName, email) {
             showConfirmModal('ユーザー追放確認', `${userName} をアクセスブロック（追放）しますか？`, () => {
-                if (window.blockUserCloud) window.blockUserCloud(uid);
+                if (window.blockUserCloud) window.blockUserCloud(uid, userName, email);
+            });
+        };
+
+        window.unblockUserConfirm = function(uid, userName) {
+            showConfirmModal('追放解除確認', `${userName} の追放を解除しアクセスを再許可しますか？`, () => {
+                if (window.unblockUserCloud) window.unblockUserCloud(uid);
             });
         };
 
@@ -2193,7 +2360,7 @@
             document.getElementById(`admin-tab-${tabName}`)?.classList.add('border-indigo-600', 'text-indigo-600');
             document.getElementById(`admin-subtab-${tabName}`)?.classList.remove('hidden');
 
-            if (tabName === 'users') { renderAdminActiveUsersTable(); renderAdminUserResultsTable(); }
+            if (tabName === 'users') { renderAdminActiveUsersTable(); renderAdminBlockedUsersTable(); renderAdminUserResultsTable(); }
             if (tabName === 'material') renderAdminMaterialsTable();
             if (tabName === 'quiz') renderAdminQuestionsTable();
             if (tabName === 'homework') renderAdminHomeworkList();
@@ -2202,6 +2369,7 @@
 
         function renderAdminDashboard() {
             renderAdminActiveUsersTable();
+            renderAdminBlockedUsersTable();
             populateUserLogSelectOptions();
             renderAdminUserResultsTable();
             renderAdminMaterialsTable();
@@ -2220,7 +2388,7 @@
 
             let filteredUsers = users.filter(u => {
                 const diffSec = Math.floor((now - new Date(u.lastActive)) / 1000);
-                const isOnline = u.isOnline && diffSec < 35; // 35秒以内に応答があればオンライン判定
+                const isOnline = u.isOnline && diffSec < 35;
                 if (filter === 'online') return isOnline;
                 if (filter === 'offline') return !isOnline;
                 return true;
@@ -2255,11 +2423,43 @@
                             `}
                         </td>
                         <td class="px-3 py-2.5 text-right space-x-1 whitespace-nowrap">
-                            <button onclick="openUserDetailModal('${u.uid}', '${u.userName}', '${u.email}')" class="bg-indigo-50 hover:bg-indigo-100 text-indigo-700 font-bold text-[10px] px-2.5 py-1 rounded-lg border border-indigo-200 transition">
-                                <i class="fa-solid fa-chart-line mr-1"></i> 個人成績・間違えた問題
+                            <button onclick="openUserDetailModal('${u.uid}', '${u.userName}', '${u.email}')" class="bg-indigo-50 hover:bg-indigo-100 text-indigo-700 font-bold text-[10px] px-2.5 py-1.5 rounded-xl border border-indigo-200 transition">
+                                <i class="fa-solid fa-chart-line mr-1"></i> 個人成績 & 単元クリア
                             </button>
-                            <button onclick="blockUserConfirm('${u.uid}', '${u.userName}')" class="bg-rose-600 text-white font-bold text-[10px] px-2 py-1 rounded-lg">
+                            <button onclick="blockUserConfirm('${u.uid}', '${u.userName}', '${u.email}')" class="bg-rose-600 hover:bg-rose-700 text-white font-bold text-[10px] px-2.5 py-1.5 rounded-xl transition">
                                 追放
+                            </button>
+                        </td>
+                    </tr>
+                `;
+            }).join('');
+        };
+
+        window.renderAdminBlockedUsersTable = function() {
+            const tbody = document.getElementById('admin-blocked-users-tbody');
+            const countEl = document.getElementById('admin-blocked-count');
+            if (!tbody) return;
+
+            const list = window.appState.blockedUsersList || [];
+            if (countEl) countEl.innerText = list.length;
+
+            if (list.length === 0) {
+                tbody.innerHTML = `<tr><td colspan="3" class="text-center py-4 text-slate-400 text-xs">現在追放（ブロック）中のユーザーはいません。</td></tr>`;
+                return;
+            }
+
+            tbody.innerHTML = list.map(b => {
+                const dateStr = b.blockedAt ? new Date(b.blockedAt).toLocaleString('ja-JP', { month: 'numeric', day: 'numeric', hour: '2-digit', minute: '2-digit' }) : '不明';
+                return `
+                    <tr class="hover:bg-rose-100/50 text-slate-800">
+                        <td class="px-3 py-2 font-bold text-xs">
+                            <div class="text-rose-950">${b.userName || '不明'}</div>
+                            <div class="text-[10px] text-rose-700/70 font-mono">${b.email || '不明'}</div>
+                        </td>
+                        <td class="px-3 py-2 font-mono text-[10px] text-slate-500">${dateStr}</td>
+                        <td class="px-3 py-2 text-right">
+                            <button onclick="unblockUserConfirm('${b.uid}', '${b.userName}')" class="bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-[10px] px-2.5 py-1.5 rounded-xl shadow transition flex items-center gap-1 ml-auto">
+                                <i class="fa-solid fa-rotate-left"></i> 追放を解除
                             </button>
                         </td>
                     </tr>
@@ -2279,6 +2479,39 @@
             const avgAcc = totalQ > 0 ? Math.round((totalCorrect / totalQ) * 100) : 0;
             document.getElementById('user-detail-avg-accuracy').innerText = avgAcc + '%';
 
+            // クリア済み単元の確認表示
+            const clearedContainer = document.getElementById('user-detail-cleared-topics-list');
+            const activeUserObj = (window.appState.activeUsersList || []).find(u => u.uid === uid);
+            let userClearedTopics = [];
+
+            if (logs.length > 0) {
+                logs.forEach(l => {
+                    if (l.percentage === 100 && l.topic && l.mode !== '模擬試験') {
+                        const subj = SUBJECTS.find(s => s.name === l.mode);
+                        if (subj) {
+                            const key = `${subj.id}_${l.topic}`;
+                            if (!userClearedTopics.includes(key)) userClearedTopics.push(key);
+                        }
+                    }
+                });
+            }
+
+            if (userClearedTopics.length === 0) {
+                clearedContainer.innerHTML = `<span class="text-xs text-slate-400">まだ完全クリア（100%正解）した単元はありません。</span>`;
+            } else {
+                clearedContainer.innerHTML = userClearedTopics.map(key => {
+                    const parts = key.split('_');
+                    const subjId = parts[0];
+                    const topicName = parts.slice(1).join('_');
+                    const subj = SUBJECTS.find(s => s.id === subjId);
+                    return `
+                        <span class="bg-emerald-100 text-emerald-900 border border-emerald-300 font-bold text-[11px] px-2.5 py-1 rounded-xl flex items-center gap-1">
+                            <i class="fa-solid fa-circle-check text-emerald-600"></i> ${subj ? subj.name : subjId}: ${topicName}
+                        </span>
+                    `;
+                }).join('');
+            }
+
             const listContainer = document.getElementById('user-detail-history-list');
             if (logs.length === 0) {
                 listContainer.innerHTML = `<div class="text-xs text-slate-400 text-center py-4">まだテストの解答記録がありません。</div>`;
@@ -2292,14 +2525,15 @@
                             <div class="flex items-center justify-between font-bold">
                                 <div>
                                     <span class="text-slate-800">${l.mode}</span>
-                                    <span class="text-[10px] text-slate-400 font-normal ml-1">(${dateStr})</span>
+                                    ${l.topic ? `<span class="text-[10px] text-brand-600 font-normal ml-1">(${l.topic})</span>` : ''}
+                                    <span class="text-[10px] text-slate-400 font-normal ml-1"> - ${dateStr}</span>
                                 </div>
                                 <div>
                                     <span class="text-brand-600 mr-2">${l.score}/${l.total}問 (${l.percentage}%)</span>
                                     <span class="${isPassed ? 'text-emerald-600' : 'text-rose-600'}">${isPassed ? '合格' : '要復習'}</span>
                                 </div>
                             </div>
-                            ${wrongCount > 0 ? `<div class="text-[11px] text-rose-600 font-bold"><i class="fa-solid fa-xmark mr-1"></i>間違えた問題: ${wrongCount}問</div>` : '<div class="text-[11px] text-emerald-600 font-bold"><i class="fa-solid fa-check mr-1"></i>全問正解！</div>'}
+                            ${wrongCount > 0 ? `<div class="text-[11px] text-rose-600 font-bold"><i class="fa-solid fa-xmark mr-1"></i>間違えた問題: ${wrongCount}問</div>` : '<div class="text-[11px] text-emerald-600 font-bold"><i class="fa-solid fa-check mr-1"></i>全問正解！（単元クリア）</div>'}
                         </div>
                     `;
                 }).join('');
@@ -2384,7 +2618,7 @@
                     <tr class="hover:bg-slate-50 border-b border-slate-100 text-slate-800">
                         <td class="px-3 py-2 font-mono text-[10px] text-slate-500">${dateStr}</td>
                         <td class="px-3 py-2 font-bold text-xs text-indigo-700">${r.userName || '匿名'}</td>
-                        <td class="px-3 py-2 font-bold text-xs">${r.mode}</td>
+                        <td class="px-3 py-2 font-bold text-xs">${r.mode} ${r.topic ? `<span class="text-[10px] text-slate-400">(${r.topic})</span>` : ''}</td>
                         <td class="px-3 py-2 font-bold text-xs">${r.score} / ${r.total}</td>
                         <td class="px-3 py-2 font-black text-xs text-brand-600">${r.percentage}%</td>
                         <td class="px-3 py-2">
@@ -2411,7 +2645,7 @@
                         <td class="px-3 py-2 text-center"><input type="checkbox" value="${q.id}" class="q-select-checkbox rounded text-brand-600"></td>
                         <td class="px-3 py-2 font-bold text-xs">
                             <span class="text-slate-900">${q.subjectId}</span>
-                            <span class="text-[10px] text-slate-400 block">${q.topic || '基本'}</span>
+                            <span class="text-[10px] text-brand-600 font-bold block">📌 ${q.topic || '基本'}</span>
                         </td>
                         <td class="px-3 py-2 font-bold text-xs max-w-xs truncate">${q.question}</td>
                         <td class="px-3 py-2 text-xs">
@@ -2477,6 +2711,7 @@
         window.onload = function() {
             loadLocalState();
             renderDashboardSubjects();
+            updateClearedTopicsStat();
         };
     </script>
 </body>
