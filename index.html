@@ -54,8 +54,32 @@
 </head>
 <body class="bg-slate-50 text-slate-900 font-sans min-h-screen flex flex-col selection:bg-brand-500 selection:text-white bottom-bar-padding lg:pb-6">
 
+    <!-- 未ログイン保護全画面表示（Googleログイン促進画面） -->
+    <div id="view-auth-required" class="fixed inset-0 bg-slate-950/95 backdrop-blur-md z-[200] flex flex-col items-center justify-center p-4 text-center select-none">
+        <div class="max-w-md w-full bg-white rounded-3xl p-6 sm:p-8 space-y-6 shadow-2xl animate-fade-in border border-slate-100">
+            <div class="w-16 h-16 bg-brand-50 text-brand-600 rounded-2xl flex items-center justify-center text-3xl mx-auto border border-brand-100 shadow-sm">
+                <i class="fa-solid fa-graduation-cap"></i>
+            </div>
+            
+            <div class="space-y-2">
+                <h2 class="text-xl sm:text-2xl font-black text-slate-900">高認パスポート</h2>
+                <p class="text-xs sm:text-sm text-slate-600 leading-relaxed font-medium">
+                    アプリを利用するにはGoogleログインが必要です。<br>
+                    下のボタンからログインして学習を開始してください。
+                </p>
+            </div>
+
+            <div class="pt-2 space-y-3">
+                <button onclick="signInWithGoogle()" class="w-full bg-slate-900 hover:bg-slate-800 active:bg-slate-950 text-white font-black py-3.5 px-4 rounded-2xl text-sm transition shadow-lg flex items-center justify-center gap-2">
+                    <i class="fa-brands fa-google text-rose-500 text-lg"></i> Googleアカウントでログイン
+                </button>
+                <p class="text-[10px] text-slate-400 font-bold">※ 個人の学習履歴やスタンプが安全にクラウド保存されます</p>
+            </div>
+        </div>
+    </div>
+
     <!-- 追放・締め出し全画面表示（初期状態は非表示） -->
-    <div id="view-blocked" class="hidden fixed inset-0 bg-slate-950 z-[100] flex flex-col items-center justify-center p-4 text-center select-none">
+    <div id="view-blocked" class="hidden fixed inset-0 bg-slate-950 z-[210] flex flex-col items-center justify-center p-4 text-center select-none">
         <div class="max-w-md w-full bg-slate-900 border border-rose-500/30 rounded-3xl p-6 sm:p-8 space-y-4 shadow-2xl animate-fade-in">
             <div class="w-16 h-16 bg-rose-500/10 text-rose-500 rounded-2xl flex items-center justify-center text-3xl mx-auto border border-rose-500/20 shadow-inner">
                 <i class="fa-solid fa-user-slash"></i>
@@ -129,13 +153,6 @@
                     <i id="header-user-icon" class="fa-solid fa-circle-user text-brand-600 text-xs sm:text-sm"></i>
                     <span id="header-user-name" class="max-w-[65px] sm:max-w-[110px] truncate">学習者</span>
                 </button>
-
-                <div id="auth-buttons-login" class="flex items-center gap-1">
-                    <button id="btn-google-login" onclick="signInWithGoogle()" class="bg-white hover:bg-slate-50 text-slate-700 font-bold text-xs p-1.5 sm:px-2 sm:py-1.5 rounded-xl border border-slate-300 transition flex items-center gap-1 shadow-sm" title="Googleログイン">
-                        <i class="fa-brands fa-google text-rose-500"></i>
-                        <span class="hidden sm:inline">Google</span>
-                    </button>
-                </div>
 
                 <button id="btn-logout" onclick="signOutAuth()" class="hidden bg-slate-100 hover:bg-slate-200 text-slate-600 font-bold text-xs p-1.5 sm:px-2.5 sm:py-1.5 rounded-xl border border-slate-300 transition flex items-center gap-1" title="ログアウト">
                     <i class="fa-solid fa-right-from-bracket"></i>
@@ -1135,8 +1152,6 @@
         import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
         import { 
             getAuth, 
-            signInAnonymously, 
-            signInWithCustomToken, 
             onAuthStateChanged,
             GoogleAuthProvider,
             signInWithPopup,
@@ -1174,9 +1189,13 @@
                 onAuthStateChanged(auth, async (user) => {
                     const navAdminBtn = document.getElementById('nav-admin');
                     const mobileAdminBtn = document.getElementById('mobile-admin-btn');
+                    const authRequiredEl = document.getElementById('view-auth-required');
 
-                    if (user) {
-                        // 自身の追放状態をリアルタイム監視（追放即時締め出し & 追放解除時自動復帰）
+                    // Google認証でログイン済み（isAnonymous ではない）の場合のみアクセス許可
+                    if (user && !user.isAnonymous) {
+                        if (authRequiredEl) authRequiredEl.classList.add('hidden');
+
+                        // 自身の追放状態をリアルタイム監視
                         listenBlockedStatus(user.uid);
 
                         document.getElementById('sync-indicator').classList.remove('hidden');
@@ -1196,16 +1215,12 @@
                         } catch(e) {}
 
                         if (!activeName) {
-                            activeName = localStorage.getItem('ko_ninsiken_custom_name_' + user.uid) || localStorage.getItem('ko_ninsiken_user_name_fixed');
-                        }
-
-                        if (!activeName && !user.isAnonymous) {
-                            activeName = user.displayName || 'Googleユーザー';
+                            activeName = localStorage.getItem('ko_ninsiken_custom_name_' + user.uid) || user.displayName || 'Googleユーザー';
                         }
 
                         if (userStamps.length === 0) {
                             try {
-                                const localStamps = localStorage.getItem('ko_ninsiken_stamps_' + user.uid) || localStorage.getItem('ko_ninsiken_stamps');
+                                const localStamps = localStorage.getItem('ko_ninsiken_stamps_' + user.uid);
                                 if (localStamps) userStamps = JSON.parse(localStamps);
                             } catch(e){}
                         }
@@ -1221,27 +1236,19 @@
 
                         document.getElementById('header-user-name').innerText = finalName;
 
-                        if (!user.isAnonymous) {
-                            document.getElementById('auth-buttons-login').classList.add('hidden');
-                            document.getElementById('btn-logout').classList.remove('hidden');
+                        document.getElementById('btn-logout').classList.remove('hidden');
 
-                            if (user.photoURL) {
-                                const avatarEl = document.getElementById('header-user-avatar');
-                                avatarEl.src = user.photoURL;
-                                avatarEl.classList.remove('hidden');
-                                document.getElementById('header-user-icon').classList.add('hidden');
-                            }
+                        if (user.photoURL) {
+                            const avatarEl = document.getElementById('header-user-avatar');
+                            avatarEl.src = user.photoURL;
+                            avatarEl.classList.remove('hidden');
+                            document.getElementById('header-user-icon').classList.add('hidden');
+                        }
 
-                            if (user.email && user.email.toLowerCase() === ADMIN_EMAIL.toLowerCase()) {
-                                if (navAdminBtn) navAdminBtn.classList.remove('hidden'), navAdminBtn.classList.add('inline-flex');
-                                if (mobileAdminBtn) mobileAdminBtn.classList.remove('hidden'), mobileAdminBtn.classList.add('flex');
-                            } else {
-                                if (navAdminBtn) navAdminBtn.classList.add('hidden');
-                                if (mobileAdminBtn) mobileAdminBtn.classList.add('hidden');
-                            }
+                        if (user.email && user.email.toLowerCase() === ADMIN_EMAIL.toLowerCase()) {
+                            if (navAdminBtn) navAdminBtn.classList.remove('hidden'), navAdminBtn.classList.add('inline-flex');
+                            if (mobileAdminBtn) mobileAdminBtn.classList.remove('hidden'), mobileAdminBtn.classList.add('flex');
                         } else {
-                            document.getElementById('auth-buttons-login').classList.remove('hidden');
-                            document.getElementById('btn-logout').classList.add('hidden');
                             if (navAdminBtn) navAdminBtn.classList.add('hidden');
                             if (mobileAdminBtn) mobileAdminBtn.classList.add('hidden');
                         }
@@ -1251,15 +1258,11 @@
                         window.syncUserProfileCloud(finalName, true);
                         subscribeCloudData();
                     } else {
+                        // Google未ログイン状態：全画面ログイン保護画面を表示
+                        if (authRequiredEl) authRequiredEl.classList.remove('hidden');
                         if (navAdminBtn) navAdminBtn.classList.add('hidden');
                         if (mobileAdminBtn) mobileAdminBtn.classList.add('hidden');
-
-                        if (typeof __initial_auth_token !== 'undefined' && __initial_auth_token) {
-                            try { await signInWithCustomToken(auth, __initial_auth_token); } 
-                            catch { await signInAnonymously(auth); }
-                        } else {
-                            await signInAnonymously(auth);
-                        }
+                        document.getElementById('btn-logout').classList.add('hidden');
                     }
                 });
             } catch(e) { console.warn('Firebase init error', e); }
@@ -1299,13 +1302,13 @@
         }
 
         setInterval(() => {
-            if (auth && auth.currentUser && !window.appState.isBlocked) {
+            if (auth && auth.currentUser && !auth.currentUser.isAnonymous && !window.appState.isBlocked) {
                 window.syncUserProfileCloud(window.appState.userName, true);
             }
         }, 10000);
 
         window.addEventListener('visibilitychange', () => {
-            if (auth && auth.currentUser && !window.appState.isBlocked) {
+            if (auth && auth.currentUser && !auth.currentUser.isAnonymous && !window.appState.isBlocked) {
                 window.syncUserProfileCloud(window.appState.userName, document.visibilityState === 'visible');
             }
         });
@@ -1440,7 +1443,7 @@
         }
 
         window.syncUserProfileCloud = async function(userName, isOnline = true) {
-            if (!db || !auth || !auth.currentUser || window.appState.isBlocked) return;
+            if (!db || !auth || !auth.currentUser || auth.currentUser.isAnonymous || window.appState.isBlocked) return;
             try {
                 const u = auth.currentUser;
                 const nowIso = new Date().toISOString();
@@ -1448,7 +1451,7 @@
                 await setDoc(doc(db, 'artifacts', appId, 'public', 'data', 'user_profiles', u.uid), {
                     uid: u.uid,
                     userName: userName,
-                    email: u.email || '匿名',
+                    email: u.email || 'メールなし',
                     clearedTopics: window.appState.clearedTopics || [],
                     stamps: window.appState.userStamps || [],
                     updatedAt: nowIso
@@ -1456,11 +1459,11 @@
 
                 const activeData = {
                     uid: u.uid,
-                    userName: userName || (u.isAnonymous ? 'ゲスト学習者' : 'ユーザー'),
-                    email: u.email || (u.isAnonymous ? '匿名アクセス' : 'メアドなし'),
+                    userName: userName || 'ユーザー',
+                    email: u.email || 'メアドなし',
                     lastActive: nowIso,
                     isOnline: isOnline,
-                    isAnonymous: u.isAnonymous
+                    isAnonymous: false
                 };
                 await setDoc(doc(db, 'artifacts', appId, 'public', 'data', 'active_users', u.uid), activeData);
             } catch(e){}
@@ -2498,7 +2501,6 @@
             const filter = document.getElementById('admin-user-status-filter')?.value || 'all';
             const now = new Date();
 
-            // 追放（ブロック）済みユーザーはユーザー監視テーブルから完全除外
             let filteredUsers = users.filter(u => {
                 if (blockedUids.has(u.uid)) return false;
 
