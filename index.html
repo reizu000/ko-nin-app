@@ -2347,7 +2347,18 @@
         };
 
         window.openQuestionModal = function() {
+            document.getElementById('q-input-subject').value = 'japanese';
             onAdminQuestionSubjectChange();
+            document.getElementById('q-input-topic').value = '';
+            document.getElementById('q-input-text').value = '';
+            document.getElementById('q-input-c0').value = '';
+            document.getElementById('q-input-c1').value = '';
+            document.getElementById('q-input-c2').value = '';
+            document.getElementById('q-input-c3').value = '';
+            document.getElementById('q-input-correct').value = '0';
+            document.getElementById('q-input-explanation').value = '';
+            document.getElementById('q-input-ispublished').checked = true;
+            document.getElementById('q-input-ismock').checked = false;
             openModal('modal-question');
         };
 
