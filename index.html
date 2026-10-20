@@ -683,7 +683,7 @@
                 <div id="admin-materials-grid" class="grid grid-cols-1 md:grid-cols-2 gap-3"></div>
             </div>
 
-            <div id="admin-subtab-quiz" class="hidden space-y-3">
+            <div id="admin-subtab-quiz" class="hidden space-y-4">
                 <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-2 bg-white p-3.5 rounded-2xl border border-slate-200">
                     <div class="flex flex-wrap items-center gap-2">
                         <span class="font-bold text-slate-900 text-xs sm:text-sm">科目フィルター:</span>
@@ -702,37 +702,17 @@
                             <option value="earth_science">地学基礎</option>
                             <option value="info">情報</option>
                         </select>
-                        <span class="text-xs text-slate-500 font-bold ml-1">(全 <span id="admin-q-count">0</span> 問)</span>
+                        <span class="text-xs text-slate-500 font-bold ml-1">(公開中: <span id="admin-pub-q-count" class="text-emerald-600 font-bold">0</span> / 全 <span id="admin-q-count">0</span> 問)</span>
                     </div>
 
                     <div class="flex flex-wrap gap-2 w-full sm:w-auto justify-end">
-                        <button onclick="deleteSelectedQuestions()" class="bg-rose-50 hover:bg-rose-100 text-rose-700 border border-rose-300 text-xs font-bold px-3 py-1.5 rounded-xl transition flex items-center gap-1">
-                            <i class="fa-solid fa-trash-can"></i> 選択した項目を一括削除
-                        </button>
                         <button onclick="openQuestionModal()" class="bg-brand-600 hover:bg-brand-700 text-white text-xs font-bold px-3.5 py-2 rounded-xl shadow transition flex items-center gap-1.5">
                             <i class="fa-solid fa-plus"></i> 新規問題・単元追加
                         </button>
                     </div>
                 </div>
 
-                <div class="bg-white rounded-2xl border border-slate-200 overflow-hidden shadow-sm">
-                    <div class="overflow-x-auto custom-scrollbar">
-                        <table class="w-full text-left text-xs sm:text-sm min-w-[550px]">
-                            <thead class="bg-slate-50 text-[10px] sm:text-[11px] font-bold text-slate-500 uppercase border-b border-slate-200">
-                                <tr>
-                                    <th class="px-3 py-2.5 w-8 text-center">
-                                        <input type="checkbox" id="select-all-q-checkbox" onchange="toggleSelectAllQuestions(this)" class="rounded text-brand-600">
-                                    </th>
-                                    <th class="px-3 py-2.5">科目 / 単元（テーマ）</th>
-                                    <th class="px-3 py-2.5">問題文</th>
-                                    <th class="px-3 py-2.5">公開状態</th>
-                                    <th class="px-3 py-2.5 text-right">操作</th>
-                                </tr>
-                            </thead>
-                            <tbody id="admin-questions-tbody" class="divide-y divide-slate-200"></tbody>
-                        </table>
-                    </div>
-                </div>
+                <div id="admin-topics-container" class="space-y-4"></div>
             </div>
 
             <div id="admin-subtab-homework" class="hidden space-y-3">
@@ -1383,6 +1363,10 @@
                 snapshot.forEach(doc => cloudQs.push(doc.data()));
                 window.appState.questions = cloudQs;
                 window.saveLocalState();
+
+                // リアルタイム画面更新
+                if (window.appState.activeView === 'dashboard') { renderDashboardSubjects(); updateClearedTopicsStat(); }
+                if (window.appState.activeView === 'subjects') renderFullSubjects();
                 if (window.appState.activeView === 'admin') window.renderAdminQuestionsTable();
                 if (window.appState.activeView === 'history') window.renderAnalyticsView();
             });
@@ -2000,7 +1984,7 @@
             container.innerHTML = html;
         }
 
-        // 自分の履歴：科目別・単元別（アコーディオン）正答率表示
+        // 自分の履歴：全何問中何問解いているかを算出表示
         function renderAnalyticsView() {
             const container = document.getElementById('analytics-subjects-container');
             if (!container) return;
@@ -2013,24 +1997,42 @@
                 subjectLogs.forEach(l => { qTotal += l.total; qCorrect += l.score; });
                 const acc = qTotal > 0 ? Math.round((qCorrect / qTotal) * 100) : 0;
 
-                // 管理者画面で登録された問題の単元を取得
+                // 公開されている問題のみ対象
                 const subjectQs = (window.appState.questions || []).filter(q => q.subjectId === s.id && q.isPublished !== false);
                 const registeredTopics = subjectQs.map(q => q.topic || '基本');
                 const logTopics = subjectLogs.map(l => l.topic).filter(t => t && t !== 'all');
 
-                // 重複を排除したすべての単元
                 const allTopics = Array.from(new Set([...registeredTopics, ...logTopics]));
 
                 let topicsHtml = '';
                 if (allTopics.length === 0) {
-                    topicsHtml = `<div class="text-[11px] text-slate-400 py-1.5 pl-4">登録されている単元はありません。</div>`;
+                    topicsHtml = `<div class="text-[11px] text-slate-400 py-1.5 pl-4">登録されている公開中の問題はありません。</div>`;
                 } else {
                     topicsHtml = allTopics.map(top => {
-                        const topQCount = subjectQs.filter(q => (q.topic || '基本') === top).length;
+                        const topQs = subjectQs.filter(q => (q.topic || '基本') === top);
+                        const topQCount = topQs.length;
+                        const topQIdSet = new Set(topQs.map(q => q.id));
+
                         const topLogs = subjectLogs.filter(l => l.topic === top);
                         let topTotal = 0, topCorrect = 0;
                         topLogs.forEach(l => { topTotal += l.total; topCorrect += l.score; });
                         const topAcc = topTotal > 0 ? Math.round((topCorrect / topTotal) * 100) : 0;
+
+                        // 解いたことのあるユニーク公開問題数を集計
+                        const answeredSet = new Set();
+                        topLogs.forEach(l => {
+                            if (l.answeredQuestionIds && Array.isArray(l.answeredQuestionIds)) {
+                                l.answeredQuestionIds.forEach(id => { if (topQIdSet.has(id)) answeredSet.add(id); });
+                            } else if (l.wrongQuestions) {
+                                l.wrongQuestions.forEach(wq => { if (wq.questionId && topQIdSet.has(wq.questionId)) answeredSet.add(wq.questionId); });
+                            }
+                        });
+
+                        let solvedCount = answeredSet.size;
+                        if (solvedCount === 0 && topLogs.length > 0) {
+                            const maxInLog = Math.max(...topLogs.map(l => l.total || 0));
+                            solvedCount = Math.min(maxInLog, topQCount);
+                        }
 
                         const isCleared = (window.appState.clearedTopics || []).includes(`${s.id}_${top}`);
 
@@ -2042,12 +2044,14 @@
                                         <span class="text-slate-800">${top}</span>
                                         ${isCleared ? '<span class="text-[10px] bg-emerald-100 text-emerald-800 px-1.5 py-0.2 rounded-full font-bold">✅ クリア</span>' : ''}
                                     </div>
-                                    <span class="${topTotal > 0 ? 'text-brand-600' : 'text-slate-400'} font-extrabold">
-                                        ${topTotal > 0 ? `${topAcc}% <span class="text-slate-400 font-normal text-[10px]">(${topCorrect}/${topTotal}問)</span>` : `<span class="text-slate-400 text-[10px] font-normal">未実施 (${topQCount}問登録)</span>`}
+                                    <span class="${solvedCount > 0 ? 'text-brand-600' : 'text-slate-400'} font-extrabold">
+                                        ${solvedCount > 0 
+                                            ? `${solvedCount}/${topQCount}問実施 <span class="text-slate-500 font-normal text-[10px]">(${topAcc}%)</span>` 
+                                            : `<span class="text-slate-400 text-[10px] font-normal">0/${topQCount}問実施 <span class="text-rose-500 font-bold ml-0.5">(未実施)</span></span>`}
                                     </span>
                                 </div>
                                 <div class="w-full bg-slate-100 h-2 rounded-full overflow-hidden">
-                                    <div class="bg-brand-500 h-full rounded-full transition-all duration-300" style="width: ${topTotal > 0 ? topAcc : 0}%"></div>
+                                    <div class="bg-brand-500 h-full rounded-full transition-all duration-300" style="width: ${topQCount > 0 ? Math.round((solvedCount / topQCount) * 100) : 0}%"></div>
                                 </div>
                             </div>
                         `;
@@ -2098,7 +2102,7 @@
             }
 
             if (questions.length === 0) {
-                showToast('この単元にはまだ問題がありません', 'info');
+                showToast('この単元にはまだ公開中の問題がありません', 'info');
                 return;
             }
 
@@ -2239,6 +2243,8 @@
                 userAnswer: a.question.choices[a.userChoice] || '未回答'
             }));
 
+            const answeredIds = (window.appState.currentQuizSet || []).map(q => q.id);
+
             const resultData = {
                 id: 'res_' + Date.now(),
                 userName: window.appState.userName || 'ゲスト学習者',
@@ -2248,6 +2254,7 @@
                 total: window.appState.currentQuizSet.length,
                 percentage: percentage,
                 timestamp: new Date().toISOString(),
+                answeredQuestionIds: answeredIds,
                 wrongQuestions: wrongQs
             };
 
@@ -2362,6 +2369,23 @@
             openModal('modal-question');
         };
 
+        window.openQuestionModalForTopic = function(subjectId, topicName) {
+            document.getElementById('q-input-subject').value = subjectId;
+            onAdminQuestionSubjectChange();
+            document.getElementById('q-input-topic-select').value = topicName;
+            document.getElementById('q-input-topic').value = topicName;
+            document.getElementById('q-input-text').value = '';
+            document.getElementById('q-input-c0').value = '';
+            document.getElementById('q-input-c1').value = '';
+            document.getElementById('q-input-c2').value = '';
+            document.getElementById('q-input-c3').value = '';
+            document.getElementById('q-input-correct').value = '0';
+            document.getElementById('q-input-explanation').value = '';
+            document.getElementById('q-input-ispublished').checked = true;
+            document.getElementById('q-input-ismock').checked = false;
+            openModal('modal-question');
+        };
+
         window.onAdminQuestionSubjectChange = function() {
             const subjectId = document.getElementById('q-input-subject').value;
             const subjectQs = window.appState.questions.filter(q => q.subjectId === subjectId);
@@ -2425,25 +2449,36 @@
             showToast(newStatus ? '問題を「公開」にしました' : '問題を「非公開」にしました', newStatus ? 'success' : 'warning');
         };
 
+        window.toggleTopicPublish = function(subjectId, topicName, publishStatus) {
+            const targets = window.appState.questions.filter(q => q.subjectId === subjectId && (q.topic || '基本') === topicName);
+            if (targets.length === 0) return;
+
+            const actionText = publishStatus ? '一括公開' : '一括非公開';
+            showConfirmModal('一括設定確認', `単元「${topicName}」の全 ${targets.length} 問を${actionText}にしますか？`, async () => {
+                for (const q of targets) {
+                    q.isPublished = publishStatus;
+                    if (window.syncQuestionCloud) await window.syncQuestionCloud(q);
+                }
+                showToast(`単元「${topicName}」を${actionText}に設定しました`, 'success');
+            });
+        };
+
+        window.deleteTopicQuestions = function(subjectId, topicName) {
+            const targets = window.appState.questions.filter(q => q.subjectId === subjectId && (q.topic || '基本') === topicName);
+            if (targets.length === 0) return;
+
+            showConfirmModal('単元一括削除確認', `単元「${topicName}」の全 ${targets.length} 問を削除しますか？この操作は取り消せません。`, async () => {
+                for (const q of targets) {
+                    if (window.deleteQuestionCloud) await window.deleteQuestionCloud(q.id);
+                }
+                showToast(`単元「${topicName}」を削除しました`, 'info');
+            });
+        };
+
         window.deleteQuestionItem = function(qId) {
             showConfirmModal('削除確認', 'この問題を削除しますか？', () => {
                 if (window.deleteQuestionCloud) window.deleteQuestionCloud(qId);
                 showToast('削除しました', 'info');
-            });
-        };
-
-        window.toggleSelectAllQuestions = function(masterEl) {
-            const checkboxes = document.querySelectorAll('.q-select-checkbox');
-            checkboxes.forEach(cb => cb.checked = masterEl.checked);
-        };
-
-        window.deleteSelectedQuestions = function() {
-            const checkedList = document.querySelectorAll('.q-select-checkbox:checked');
-            if (checkedList.length === 0) { showToast('一括削除する項目を選択してください', 'warning'); return; }
-
-            showConfirmModal('一括削除確認', `選択した ${checkedList.length} 件の問題を削除しますか？`, () => {
-                checkedList.forEach(cb => { if (window.deleteQuestionCloud) window.deleteQuestionCloud(cb.value); });
-                showToast('一括削除しました', 'success');
             });
         };
 
@@ -2822,30 +2857,101 @@
             }).join('');
         };
 
+        // 管理者画面：単元（トピック）ごとに見やすくグループ化して一覧表示
         window.renderAdminQuestionsTable = function() {
-            const tbody = document.getElementById('admin-questions-tbody');
-            const selectedSubject = document.getElementById('admin-quiz-filter-subject').value;
-            let filtered = window.appState.questions;
-            if (selectedSubject !== 'all') filtered = filtered.filter(q => q.subjectId === selectedSubject);
+            const container = document.getElementById('admin-topics-container');
+            if (!container) return;
 
-            document.getElementById('admin-q-count').innerText = filtered.length;
-            tbody.innerHTML = filtered.map(q => {
-                const isPub = (q.isPublished !== false);
+            const selectedSubject = document.getElementById('admin-quiz-filter-subject').value;
+            let allQs = window.appState.questions || [];
+
+            if (selectedSubject !== 'all') {
+                allQs = allQs.filter(q => q.subjectId === selectedSubject);
+            }
+
+            const totalCount = allQs.length;
+            const publishedCount = allQs.filter(q => q.isPublished !== false).length;
+
+            document.getElementById('admin-q-count').innerText = totalCount;
+            document.getElementById('admin-pub-q-count').innerText = publishedCount;
+
+            if (totalCount === 0) {
+                container.innerHTML = `<div class="bg-white rounded-2xl p-8 text-center border border-slate-200 text-xs text-slate-400">登録された問題はありません。</div>`;
+                return;
+            }
+
+            // 科目IDと単元名でグループ作成
+            const groupsMap = new Map();
+            allQs.forEach(q => {
+                const subjId = q.subjectId || 'japanese';
+                const topicName = q.topic || '基本';
+                const key = `${subjId}___${topicName}`;
+                if (!groupsMap.has(key)) {
+                    groupsMap.set(key, { subjectId: subjId, topicName: topicName, questions: [] });
+                }
+                groupsMap.get(key).questions.push(q);
+            });
+
+            container.innerHTML = Array.from(groupsMap.values()).map(g => {
+                const subjectObj = SUBJECTS.find(s => s.id === g.subjectId);
+                const subjName = subjectObj ? subjectObj.name : g.subjectId;
+                const pubQs = g.questions.filter(q => q.isPublished !== false).length;
+
                 return `
-                    <tr class="hover:bg-slate-50 border-b border-slate-100 text-slate-800">
-                        <td class="px-3 py-2 text-center"><input type="checkbox" value="${q.id}" class="q-select-checkbox rounded text-brand-600"></td>
-                        <td class="px-3 py-2 font-bold text-xs">
-                            <span class="text-slate-900">${q.subjectId}</span>
-                            <span class="text-[10px] text-brand-600 font-bold block">📌 ${q.topic || '基本'}</span>
-                        </td>
-                        <td class="px-3 py-2 font-bold text-xs max-w-xs truncate">${q.question}</td>
-                        <td class="px-3 py-2 text-xs">
-                            <button onclick="toggleQuestionPublish('${q.id}')" class="px-2 py-1 rounded-lg text-[10px] font-bold transition ${isPub ? 'bg-emerald-100 text-emerald-800 hover:bg-emerald-200' : 'bg-slate-200 text-slate-600 hover:bg-slate-300'}">
-                                ${isPub ? '🟢 公開中' : '⚪ 非公開'}
-                            </button>
-                        </td>
-                        <td class="px-3 py-2 text-right"><button onclick="deleteQuestionItem('${q.id}')" class="text-rose-600 p-1"><i class="fa-solid fa-trash"></i></button></td>
-                    </tr>
+                    <div class="bg-white rounded-2xl border border-slate-200 overflow-hidden shadow-sm space-y-0">
+                        <div class="bg-slate-50 border-b border-slate-200 p-3 sm:p-4 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-2">
+                            <div class="flex items-center gap-2">
+                                <span class="bg-brand-100 text-brand-700 font-bold text-xs px-2.5 py-0.5 rounded-full">${subjName}</span>
+                                <h4 class="font-black text-slate-900 text-sm sm:text-base flex items-center gap-1">📌 単元: ${g.topicName}</h4>
+                                <span class="text-xs font-bold text-slate-500 ml-1">(全 ${g.questions.length} 問 / 🟢 ${pubQs} 問公開)</span>
+                            </div>
+
+                            <div class="flex flex-wrap items-center gap-1.5 w-full sm:w-auto justify-end">
+                                <button onclick="openQuestionModalForTopic('${g.subjectId}', '${g.topicName}')" class="bg-emerald-50 hover:bg-emerald-100 text-emerald-700 border border-emerald-300 font-bold text-[11px] px-2.5 py-1 rounded-lg transition flex items-center gap-1">
+                                    <i class="fa-solid fa-plus"></i> 問題追加
+                                </button>
+                                <button onclick="toggleTopicPublish('${g.subjectId}', '${g.topicName}', true)" class="bg-brand-50 hover:bg-brand-100 text-brand-700 border border-brand-300 font-bold text-[11px] px-2.5 py-1 rounded-lg transition">
+                                    🟢 一括公開
+                                </button>
+                                <button onclick="toggleTopicPublish('${g.subjectId}', '${g.topicName}', false)" class="bg-slate-200 hover:bg-slate-300 text-slate-700 font-bold text-[11px] px-2.5 py-1 rounded-lg transition">
+                                    ⚪ 一括非公開
+                                </button>
+                                <button onclick="deleteTopicQuestions('${g.subjectId}', '${g.topicName}')" class="bg-rose-50 hover:bg-rose-100 text-rose-700 border border-rose-300 font-bold text-[11px] px-2 py-1 rounded-lg transition">
+                                    <i class="fa-solid fa-trash"></i> 一括削除
+                                </button>
+                            </div>
+                        </div>
+
+                        <div class="overflow-x-auto custom-scrollbar">
+                            <table class="w-full text-left text-xs sm:text-sm min-w-[500px]">
+                                <thead class="bg-slate-100/50 text-[10px] font-bold text-slate-400 uppercase border-b border-slate-200">
+                                    <tr>
+                                        <th class="px-3 py-2">問題文</th>
+                                        <th class="px-3 py-2 w-28">公開状態</th>
+                                        <th class="px-3 py-2 w-16 text-right">操作</th>
+                                    </tr>
+                                </thead>
+                                <tbody class="divide-y divide-slate-100">
+                                    ${g.questions.map(q => {
+                                        const isPub = (q.isPublished !== false);
+                                        return `
+                                            <tr class="hover:bg-slate-50 text-slate-800">
+                                                <td class="px-3 py-2.5 font-bold text-xs max-w-md truncate">${q.question}</td>
+                                                <td class="px-3 py-2.5 text-xs">
+                                                    <button onclick="toggleQuestionPublish('${q.id}')" class="px-2 py-1 rounded-lg text-[10px] font-bold transition ${isPub ? 'bg-emerald-100 text-emerald-800 hover:bg-emerald-200' : 'bg-slate-200 text-slate-600 hover:bg-slate-300'}">
+                                                        ${isPub ? '🟢 公開中' : '⚪ 非公開'}
+                                                    </button>
+                                                </td>
+                                                <td class="px-3 py-2.5 text-right">
+                                                    <button onclick="deleteQuestionItem('${q.id}')" class="text-rose-600 p-1 hover:text-rose-800"><i class="fa-solid fa-trash"></i></button>
+                                                </td>
+                                            </tr>
+                                        `;
+                                    }).join('')}
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
                 `;
             }).join('');
         };
