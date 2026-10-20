@@ -539,7 +539,7 @@
             <div class="bg-white p-3.5 sm:p-6 rounded-2xl border border-slate-200 shadow-sm flex flex-col sm:flex-row items-start sm:items-center justify-between gap-2.5">
                 <div>
                     <h2 class="text-base sm:text-xl font-black text-slate-900">今月のログインスタンプ</h2>
-                    <p class="text-xs text-slate-500">ログインした日はスタンプが自動捺印され、オンライン保存されます。</p>
+                    <p class="text-xs text-slate-500">朝6時以降の初アクセス時に自動で捺印され、オンライン保存されます。</p>
                 </div>
                 <div class="bg-amber-50 border border-amber-200 text-amber-900 font-black text-xs sm:text-sm px-3 py-1.5 rounded-xl flex items-center gap-1.5">
                     <i class="fa-solid fa-fire text-amber-500"></i> 現在 <span id="stamp-streak-display" class="text-sm sm:text-base text-brand-600">1</span> 日連続ログイン中！
@@ -1561,8 +1561,10 @@
             adminSubTab: 'users'
         };
 
+        // 朝6時切り替えの日付文字列を取得（朝5:59までは前日扱い）
         function getTodayStr() {
             const d = new Date();
+            d.setHours(d.getHours() - 6);
             const year = d.getFullYear();
             const month = String(d.getMonth() + 1).padStart(2, '0');
             const day = String(d.getDate()).padStart(2, '0');
@@ -1925,11 +1927,13 @@
             loadCurrentQuestion();
         };
 
+        // 朝6時切替でのスタンプ捺印処理
         window.checkInTodayStamp = async function() {
             if (window.appState.isBlocked) return;
             if (!window.appState.userStamps) window.appState.userStamps = [];
             const today = getTodayStr();
             
+            // 切り替わって以降の【初回アクセス時】のみ追加 & 通知を表示
             if (!window.appState.userStamps.includes(today)) {
                 window.appState.userStamps.push(today);
                 
@@ -1943,6 +1947,8 @@
                 if (window.syncUserProfileCloud) {
                     await window.syncUserProfileCloud(window.appState.userName, true);
                 }
+
+                showToast('今日のログインスタンプを獲得しました！ 💮', 'success');
             }
         };
 
@@ -1951,9 +1957,12 @@
             const container = document.getElementById('stamp-grid-container');
             if (!container) return;
 
-            const now = new Date();
-            const year = now.getFullYear();
-            const month = now.getMonth();
+            // 朝6時基準の日時を取得
+            const baseDate = new Date();
+            baseDate.setHours(baseDate.getHours() - 6);
+
+            const year = baseDate.getFullYear();
+            const month = baseDate.getMonth();
             const todayStr = getTodayStr();
             const stampsSet = new Set(window.appState.userStamps || []);
 
@@ -1961,7 +1970,7 @@
             let html = '';
 
             let streak = 0;
-            let checkDate = new Date();
+            let checkDate = new Date(baseDate.getTime());
             while (true) {
                 const y = checkDate.getFullYear();
                 const m = String(checkDate.getMonth() + 1).padStart(2, '0');
