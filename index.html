@@ -48,6 +48,16 @@
         .custom-scrollbar::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 8px; }
         .custom-scrollbar::-webkit-scrollbar-thumb:hover { background: #94a3b8; }
         
+        /* 横スクロール教科書ビューアー用 */
+        .snap-x-mandatory {
+            scroll-snap-type: x mandatory;
+            scroll-behavior: smooth;
+        }
+        .snap-center-item {
+            scroll-snap-align: center;
+            scroll-snap-stop: always;
+        }
+
         .pb-safe { padding-bottom: max(1rem, env(safe-area-inset-bottom)); }
         .bottom-bar-padding { padding-bottom: calc(4.5rem + env(safe-area-inset-bottom)); }
     </style>
@@ -318,7 +328,7 @@
                     <h2 class="text-base sm:text-xl font-black text-slate-900 flex items-center gap-2">
                         <i class="fa-solid fa-book text-emerald-600"></i> 教科書・学習解説資料
                     </h2>
-                    <p class="text-xs text-slate-500 mt-0.5">先生が配信した各科目の教科書資料や図解・まとめノートです。</p>
+                    <p class="text-xs text-slate-500 mt-0.5">タップすると拡大し、横にスクロール・スワイプして教科書を閲覧できます。</p>
                 </div>
                 <select id="user-material-subject-filter" onchange="renderMaterialsView()" class="w-full sm:w-auto bg-slate-100 font-bold text-slate-800 text-xs sm:text-sm border-0 rounded-xl px-3 py-2.5 focus:ring-2 focus:ring-emerald-500">
                     <option value="all">すべての科目</option>
@@ -562,7 +572,7 @@
                         <i class="fa-solid fa-shield-halved"></i> 管理者ダッシュボード
                     </div>
                     <h2 class="text-base sm:text-2xl font-black">高認アプリ 管理・統括モード</h2>
-                    <p class="text-[11px] sm:text-xs text-slate-300 mt-0.5">ユーザー監視・単元別進捗・追放者リストの管理ができます。</p>
+                    <p class="text-[11px] sm:text-xs text-slate-300 mt-0.5">ユーザー監視・教科書並び替え・単元別進捗・追放者リストの管理ができます。</p>
                 </div>
             </div>
 
@@ -571,7 +581,7 @@
                     <i class="fa-solid fa-users text-indigo-600"></i> ユーザー監視・追放管理
                 </button>
                 <button id="admin-tab-material" onclick="switchAdminSubTab('material')" class="py-2.5 px-3 text-xs sm:text-sm font-bold border-b-2 border-transparent text-slate-500 hover:text-slate-800 transition flex items-center gap-1.5 whitespace-nowrap rounded-t-xl">
-                    <i class="fa-solid fa-book text-emerald-600"></i> 教科書・資料管理
+                    <i class="fa-solid fa-book text-emerald-600"></i> 教科書・資料順序管理
                 </button>
                 <button id="admin-tab-quiz" onclick="switchAdminSubTab('quiz')" class="py-2.5 px-3 text-xs sm:text-sm font-bold border-b-2 border-transparent text-slate-500 hover:text-slate-800 transition flex items-center gap-1.5 whitespace-nowrap rounded-t-xl">
                     <i class="fa-solid fa-pen-to-square text-brand-600"></i> クイズ & 単元管理
@@ -673,14 +683,14 @@
             <div id="admin-subtab-material" class="hidden space-y-3">
                 <div class="flex justify-between items-center bg-white p-3.5 rounded-2xl border border-slate-200">
                     <div>
-                        <h3 class="font-bold text-slate-900 text-sm sm:text-base">教科書・解説資料の管理</h3>
-                        <p class="text-[11px] text-slate-500">受講生がいつでも読める科目別の教材・写真を追加できます。</p>
+                        <h3 class="font-bold text-slate-900 text-sm sm:text-base">教科書・解説資料の管理と順序設定</h3>
+                        <p class="text-[11px] text-slate-500">写真ファイル添付対応。「⬆」「⬇」ボタンで生徒画面での表示順序を自由に並び替えられます。</p>
                     </div>
                     <button onclick="openMaterialModal()" class="bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-xs px-3.5 py-2 rounded-xl shadow transition flex items-center gap-1.5">
                         <i class="fa-solid fa-plus"></i> 新しい資料を追加
                     </button>
                 </div>
-                <div id="admin-materials-grid" class="grid grid-cols-1 md:grid-cols-2 gap-3"></div>
+                <div id="admin-materials-grid" class="space-y-3"></div>
             </div>
 
             <div id="admin-subtab-quiz" class="hidden space-y-4">
@@ -784,6 +794,31 @@
 
     <!-- MODALS -->
 
+    <!-- MODAL: EXPANDED HORIZONTAL TEXTBOOK VIEWER (教科書拡大＆横スクロールビューアー) -->
+    <div id="modal-material-viewer" class="fixed inset-0 bg-slate-950/95 backdrop-blur-md z-[100] flex flex-col justify-between p-3 sm:p-6 hidden animate-fade-in select-none">
+        <div class="flex items-center justify-between border-b border-slate-800 pb-3 text-white">
+            <div class="flex items-center gap-2">
+                <span id="mat-viewer-subject" class="bg-emerald-500 text-slate-950 font-black text-xs px-2.5 py-0.5 rounded-full">国語</span>
+                <h3 id="mat-viewer-title" class="text-sm sm:text-lg font-black truncate max-w-[200px] sm:max-w-md">教科書タイトル</h3>
+            </div>
+            <button onclick="closeModal('modal-material-viewer')" class="text-slate-400 hover:text-white p-2 rounded-xl bg-slate-800/80 transition">
+                <i class="fa-solid fa-xmark text-xl"></i>
+            </button>
+        </div>
+
+        <!-- 横スクロールコンテナ -->
+        <div id="mat-viewer-scroll-container" class="flex-1 my-3 flex items-center overflow-x-auto snap-x-mandatory custom-scrollbar space-x-4 px-2 sm:px-6">
+            <!-- ページコンテンツが動的生成されます -->
+        </div>
+
+        <div class="flex items-center justify-between border-t border-slate-800 pt-3 text-slate-400 text-xs">
+            <div class="flex items-center gap-1.5 font-bold">
+                <i class="fa-solid fa-arrows-left-right text-emerald-400 animate-pulse"></i> 左右にスクロール・スワイプしてページ移動
+            </div>
+            <div id="mat-viewer-page-indicator" class="font-mono font-bold text-emerald-400">1 / 1 ページ</div>
+        </div>
+    </div>
+
     <!-- MODAL: TOPIC SELECT -->
     <div id="modal-topic-select" class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-50 flex items-center justify-center p-3 hidden animate-fade-in">
         <div class="bg-white w-full max-w-md rounded-3xl p-5 shadow-2xl border border-slate-100 space-y-4 max-h-[90vh] overflow-y-auto custom-scrollbar">
@@ -796,14 +831,14 @@
         </div>
     </div>
 
-    <!-- MODAL: MATERIAL -->
+    <!-- MODAL: MATERIAL ADD/EDIT (ファイル・写真添付対応) -->
     <div id="modal-material" class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-50 flex items-center justify-center p-3 hidden animate-fade-in">
         <div class="bg-white w-full max-w-lg rounded-3xl p-5 shadow-2xl border border-slate-100 space-y-3 max-h-[90vh] overflow-y-auto custom-scrollbar">
             <div class="flex justify-between items-center border-b pb-2">
                 <h3 class="text-base font-black text-slate-900">教科書・参考資料の追加</h3>
                 <button onclick="closeModal('modal-material')" class="text-slate-400 hover:text-slate-600 p-1"><i class="fa-solid fa-xmark text-lg"></i></button>
             </div>
-            <div class="space-y-2 text-xs font-bold">
+            <div class="space-y-2.5 text-xs font-bold">
                 <div>
                     <label class="block text-slate-500 mb-1">科目</label>
                     <select id="mat-input-subject" class="w-full bg-slate-50 border border-slate-300 rounded-xl p-2.5 font-bold">
@@ -827,10 +862,20 @@
                 </div>
                 <div>
                     <label class="block text-slate-500 mb-1">本文・解説テキスト</label>
-                    <textarea id="mat-input-content" rows="6" placeholder="教科書的な説明文やまとめを入力してください..." class="w-full bg-slate-50 border border-slate-300 rounded-xl p-2.5"></textarea>
+                    <textarea id="mat-input-content" rows="4" placeholder="教科書的な説明文やまとめを入力してください..." class="w-full bg-slate-50 border border-slate-300 rounded-xl p-2.5"></textarea>
                 </div>
+
+                <div class="p-3 bg-slate-50 rounded-2xl border border-slate-200 space-y-2">
+                    <label class="block text-slate-700 font-bold flex items-center gap-1.5">
+                        <i class="fa-solid fa-file-image text-emerald-600"></i> 教科書写真・画像ファイルを添付 (複数選択可)
+                    </label>
+                    <input type="file" id="mat-input-file" accept="image/*" multiple onchange="handleMaterialFilesSelect(event)" class="w-full text-xs font-bold text-slate-600 border border-slate-300 rounded-xl p-2 bg-white cursor-pointer">
+                    <p class="text-[10px] text-slate-400 font-medium">※ ノートや教科書ページの写真画像を選んで直接アップロードできます（横スクロールで読めるようになります）。</p>
+                    <div id="mat-file-previews" class="flex flex-wrap gap-2 pt-1"></div>
+                </div>
+
                 <div>
-                    <label class="block text-slate-500 mb-1">図解・参考写真URL (任意)</label>
+                    <label class="block text-slate-500 mb-1">または画像URLを直接指定 (任意)</label>
                     <input type="text" id="mat-input-imageurl" placeholder="https://..." class="w-full bg-slate-50 border border-slate-300 rounded-xl p-2.5 font-mono">
                 </div>
             </div>
@@ -882,7 +927,7 @@
                     <input type="text" id="q-input-c0" placeholder="選択肢 1" class="w-full bg-slate-50 border border-slate-300 rounded-xl p-2.5 mb-1">
                     <input type="text" id="q-input-c1" placeholder="選択肢 2" class="w-full bg-slate-50 border border-slate-300 rounded-xl p-2.5 mb-1">
                     <input type="text" id="q-input-c2" placeholder="選択肢 3" class="w-full bg-slate-50 border border-slate-300 rounded-xl p-2.5 mb-1">
-                    <input type="text" id="q-input-c3" placeholder="選択肢 4" class="w-full bg-slate-50 border border-slate-300 rounded-xl p-2.5">
+                    <input type="text" id="q-input-c3" placeholder="選択肢 4" class="w-full bg-slate-50 border border-slate-300 rounded-xl p-2">
                 </div>
                 <div>
                     <label class="block text-slate-500 mb-1">正解の番号 (1〜4)</label>
@@ -1352,7 +1397,13 @@
             onSnapshot(collection(db, 'artifacts', appId, 'public', 'data', 'materials'), (snapshot) => {
                 const list = [];
                 snapshot.forEach(doc => list.push(doc.data()));
-                list.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
+                // 順序(order)順にソート、同順位なら作成日時順
+                list.sort((a, b) => {
+                    const orderA = typeof a.order === 'number' ? a.order : 0;
+                    const orderB = typeof b.order === 'number' ? b.order : 0;
+                    if (orderA !== orderB) return orderA - orderB;
+                    return new Date(b.createdAt) - new Date(a.createdAt);
+                });
                 window.appState.materials = list;
                 window.renderMaterialsView();
                 if (window.appState.activeView === 'admin') window.renderAdminMaterialsTable();
@@ -1364,7 +1415,6 @@
                 window.appState.questions = cloudQs;
                 window.saveLocalState();
 
-                // リアルタイム画面更新
                 if (window.appState.activeView === 'dashboard') { renderDashboardSubjects(); updateClearedTopicsStat(); }
                 if (window.appState.activeView === 'subjects') renderFullSubjects();
                 if (window.appState.activeView === 'admin') window.renderAdminQuestionsTable();
@@ -1527,7 +1577,8 @@
             currentFlashcardIndex: 0,
             filteredCards: [],
             activeView: 'dashboard',
-            adminSubTab: 'users'
+            adminSubTab: 'users',
+            uploadedMaterialImages: [] // 新規追加時の画像Base64配列
         };
 
         function getTodayStr() {
@@ -1651,22 +1702,76 @@
 
             container.innerHTML = list.map(m => {
                 const subject = SUBJECTS.find(s => s.id === m.subjectId);
+                const allImgs = (m.imageUrls && m.imageUrls.length > 0) ? m.imageUrls : (m.imageUrl ? [m.imageUrl] : []);
+                
                 return `
-                    <div class="bg-white rounded-2xl border border-slate-200 p-4 sm:p-5 shadow-sm space-y-3">
+                    <div onclick="openMaterialViewerModal('${m.id}')" class="bg-white rounded-2xl border border-slate-200 p-4 sm:p-5 shadow-sm space-y-3 hover:border-emerald-500 transition cursor-pointer group">
                         <div class="flex justify-between items-center">
                             <span class="bg-emerald-100 text-emerald-900 font-bold text-xs px-2.5 py-0.5 rounded-full">${subject ? subject.name : m.subjectId}</span>
-                            <span class="text-[10px] text-slate-400 font-mono">${new Date(m.createdAt).toLocaleDateString('ja-JP')}</span>
+                            <span class="text-[10px] font-bold text-emerald-600 bg-emerald-50 px-2 py-0.5 rounded-full group-hover:bg-emerald-600 group-hover:text-white transition">
+                                <i class="fa-solid fa-up-right-and-down-left-from-center mr-1"></i> タップして拡大・めくる
+                            </span>
                         </div>
-                        <h3 class="font-black text-slate-900 text-base sm:text-lg leading-snug">${m.title}</h3>
-                        <p class="text-xs sm:text-sm text-slate-700 leading-relaxed whitespace-pre-line bg-slate-50 p-3 rounded-xl border border-slate-200">${m.content || ''}</p>
-                        ${m.imageUrl ? `
-                            <div class="bg-slate-900 p-1 rounded-2xl overflow-hidden flex justify-center cursor-pointer">
-                                <img src="${m.imageUrl}" onclick="openImageModal('${m.imageUrl}')" class="max-h-60 rounded-xl object-contain hover:opacity-90 transition">
+                        <h3 class="font-black text-slate-900 text-base sm:text-lg leading-snug group-hover:text-emerald-700 transition">${m.title}</h3>
+                        ${m.content ? `<p class="text-xs sm:text-sm text-slate-700 leading-relaxed line-clamp-3 bg-slate-50 p-2.5 rounded-xl border border-slate-200">${m.content}</p>` : ''}
+                        
+                        ${allImgs.length > 0 ? `
+                            <div class="bg-slate-900 p-1.5 rounded-2xl flex items-center justify-center relative overflow-hidden max-h-48">
+                                <img src="${allImgs[0]}" class="max-h-44 object-contain rounded-xl opacity-90 group-hover:opacity-100 transition">
+                                ${allImgs.length > 1 ? `<span class="absolute bottom-2 right-2 bg-slate-900/90 text-white font-mono text-[10px] font-bold px-2 py-0.5 rounded-full"><i class="fa-solid fa-copy mr-1"></i>全 ${allImgs.length} ページ</span>` : ''}
                             </div>
                         ` : ''}
                     </div>
                 `;
             }).join('');
+        };
+
+        // タップして全画面拡大＆横スクロール閲覧できる教科書ビューアー
+        window.openMaterialViewerModal = function(matId) {
+            const m = (window.appState.materials || []).find(item => item.id === matId);
+            if (!m) return;
+
+            const subject = SUBJECTS.find(s => s.id === m.subjectId);
+            document.getElementById('mat-viewer-subject').innerText = subject ? subject.name : m.subjectId;
+            document.getElementById('mat-viewer-title').innerText = m.title;
+
+            const allImgs = (m.imageUrls && m.imageUrls.length > 0) ? m.imageUrls : (m.imageUrl ? [m.imageUrl] : []);
+            const container = document.getElementById('mat-viewer-scroll-container');
+
+            let pageItems = [];
+
+            // 本文ページ
+            if (m.content) {
+                pageItems.push(`
+                    <div class="snap-center-item shrink-0 w-full max-w-2xl bg-white text-slate-900 p-6 sm:p-8 rounded-3xl shadow-2xl space-y-4 max-h-[75vh] overflow-y-auto custom-scrollbar border border-slate-200">
+                        <div class="inline-block bg-emerald-100 text-emerald-800 text-xs font-bold px-3 py-1 rounded-full">📄 解説テキスト本文</div>
+                        <h4 class="text-base sm:text-xl font-black">${m.title}</h4>
+                        <p class="text-xs sm:text-base leading-relaxed whitespace-pre-line text-slate-800 font-medium">${m.content}</p>
+                    </div>
+                `);
+            }
+
+            // 画像・写真ページ（複数枚横送り）
+            allImgs.forEach((imgUrl, idx) => {
+                pageItems.push(`
+                    <div class="snap-center-item shrink-0 w-full max-w-3xl flex flex-col items-center justify-center p-2">
+                        <div class="bg-slate-900 p-2 rounded-3xl shadow-2xl max-h-[72vh] flex items-center justify-center overflow-hidden border border-slate-800">
+                            <img src="${imgUrl}" class="max-h-[68vh] max-w-full object-contain rounded-2xl select-none">
+                        </div>
+                        <span class="text-slate-400 font-mono text-xs font-bold mt-2">写真資料 ${idx + 1} / ${allImgs.length}</span>
+                    </div>
+                `);
+            });
+
+            if (pageItems.length === 0) {
+                pageItems.push(`<div class="text-slate-400 text-center w-full">表示できるコンテンツがありません。</div>`);
+            }
+
+            container.innerHTML = pageItems.join('');
+            document.getElementById('mat-viewer-page-indicator').innerText = `全 ${pageItems.length} ページ (横にスクロール)`;
+
+            openModal('modal-material-viewer');
+            container.scrollLeft = 0;
         };
 
         function renderFullSubjects() {
@@ -1984,7 +2089,6 @@
             container.innerHTML = html;
         }
 
-        // 自分の履歴：全何問中何問解いているかを算出表示
         function renderAnalyticsView() {
             const container = document.getElementById('analytics-subjects-container');
             if (!container) return;
@@ -1997,7 +2101,6 @@
                 subjectLogs.forEach(l => { qTotal += l.total; qCorrect += l.score; });
                 const acc = qTotal > 0 ? Math.round((qCorrect / qTotal) * 100) : 0;
 
-                // 公開されている問題のみ対象
                 const subjectQs = (window.appState.questions || []).filter(q => q.subjectId === s.id && q.isPublished !== false);
                 const registeredTopics = subjectQs.map(q => q.topic || '基本');
                 const logTopics = subjectLogs.map(l => l.topic).filter(t => t && t !== 'all');
@@ -2018,7 +2121,6 @@
                         topLogs.forEach(l => { topTotal += l.total; topCorrect += l.score; });
                         const topAcc = topTotal > 0 ? Math.round((topCorrect / topTotal) * 100) : 0;
 
-                        // 解いたことのあるユニーク公開問題数を集計
                         const answeredSet = new Set();
                         topLogs.forEach(l => {
                             if (l.answeredQuestionIds && Array.isArray(l.answeredQuestionIds)) {
@@ -2306,18 +2408,58 @@
             openModal('modal-image-view');
         };
 
-        window.openMaterialModal = function() { openModal('modal-material'); };
+        // 教科書作成時の写真ファイル選択処理
+        window.handleMaterialFilesSelect = function(event) {
+            const files = event.target.files;
+            if (!files || files.length === 0) return;
+
+            window.appState.uploadedMaterialImages = [];
+            const previewsContainer = document.getElementById('mat-file-previews');
+            previewsContainer.innerHTML = '';
+
+            Array.from(files).forEach((file, index) => {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    const base64Str = e.target.result;
+                    window.appState.uploadedMaterialImages.push(base64Str);
+
+                    const imgThumb = document.createElement('img');
+                    imgThumb.src = base64Str;
+                    imgThumb.className = 'w-16 h-16 object-cover rounded-xl border border-slate-300 shadow-sm';
+                    previewsContainer.appendChild(imgThumb);
+                };
+                reader.readAsDataURL(file);
+            });
+        };
+
+        window.openMaterialModal = function() {
+            window.appState.uploadedMaterialImages = [];
+            document.getElementById('mat-input-title').value = '';
+            document.getElementById('mat-input-content').value = '';
+            document.getElementById('mat-input-imageurl').value = '';
+            document.getElementById('mat-input-file').value = '';
+            document.getElementById('mat-file-previews').innerHTML = '';
+            openModal('modal-material');
+        };
+
         window.saveMaterial = function() {
+            const existingCount = (window.appState.materials || []).length;
+            const singleUrl = document.getElementById('mat-input-imageurl').value.trim();
+            const imagesList = [...(window.appState.uploadedMaterialImages || [])];
+            if (singleUrl) imagesList.push(singleUrl);
+
             const item = {
                 id: 'mat_' + Date.now(),
                 subjectId: document.getElementById('mat-input-subject').value,
-                title: document.getElementById('mat-input-title').value,
-                content: document.getElementById('mat-input-content').value,
-                imageUrl: document.getElementById('mat-input-imageurl').value,
+                title: document.getElementById('mat-input-title').value.trim(),
+                content: document.getElementById('mat-input-content').value.trim(),
+                imageUrl: imagesList.length > 0 ? imagesList[0] : '',
+                imageUrls: imagesList,
+                order: existingCount, // デフォルト表示順
                 createdAt: new Date().toISOString()
             };
 
-            if (!item.title || !item.content) { showToast('タイトルと本文を入力してください', 'warning'); return; }
+            if (!item.title) { showToast('資料のタイトルを入力してください', 'warning'); return; }
 
             if (window.syncMaterialCloud) window.syncMaterialCloud(item);
             closeModal('modal-material');
@@ -2331,26 +2473,76 @@
             });
         };
 
+        // 教科書資料の表示順番入れ替え機能 (上へ / 下へ)
+        window.moveMaterialOrder = async function(index, direction) {
+            const list = [...(window.appState.materials || [])];
+            if (index < 0 || index >= list.length) return;
+            const targetIndex = index + direction;
+            if (targetIndex < 0 || targetIndex >= list.length) return;
+
+            // スワップ
+            const temp = list[index];
+            list[index] = list[targetIndex];
+            list[targetIndex] = temp;
+
+            // order更新
+            for (let i = 0; i < list.length; i++) {
+                list[i].order = i;
+                if (window.syncMaterialCloud) {
+                    await window.syncMaterialCloud(list[i]);
+                }
+            }
+            showToast('表示順番を変更しました', 'success');
+        };
+
         window.renderAdminMaterialsTable = function() {
             const container = document.getElementById('admin-materials-grid');
             if (!container) return;
             const list = window.appState.materials || [];
 
             if (list.length === 0) {
-                container.innerHTML = `<div class="col-span-2 bg-white rounded-2xl p-6 text-center border border-slate-200 text-xs text-slate-400">登録された資料はありません。</div>`;
+                container.innerHTML = `<div class="bg-white rounded-2xl p-6 text-center border border-slate-200 text-xs text-slate-400">登録された資料はありません。</div>`;
                 return;
             }
 
-            container.innerHTML = list.map(m => `
-                <div class="bg-white p-3.5 rounded-2xl border border-slate-200 shadow-sm space-y-1.5">
-                    <div class="flex justify-between items-center">
-                        <span class="bg-emerald-100 text-emerald-900 text-[10px] font-bold px-2 py-0.5 rounded-full">${m.subjectId}</span>
-                        <button onclick="deleteMaterialItem('${m.id}')" class="text-rose-600 text-xs font-bold p-1"><i class="fa-solid fa-trash"></i> 削除</button>
+            container.innerHTML = list.map((m, idx) => {
+                const subject = SUBJECTS.find(s => s.id === m.subjectId);
+                const allImgs = (m.imageUrls && m.imageUrls.length > 0) ? m.imageUrls : (m.imageUrl ? [m.imageUrl] : []);
+
+                return `
+                    <div class="bg-white p-3.5 rounded-2xl border border-slate-200 shadow-sm flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3">
+                        <div class="flex items-center gap-3">
+                            <div class="flex flex-col gap-1">
+                                <button onclick="moveMaterialOrder(${idx}, -1)" ${idx === 0 ? 'disabled class="opacity-30 cursor-not-allowed"' : 'class="hover:bg-slate-100 text-slate-700"'} class="w-7 h-7 rounded-lg border border-slate-300 flex items-center justify-center text-xs font-black" title="上へ移動">
+                                    ⬆
+                                </button>
+                                <button onclick="moveMaterialOrder(${idx}, 1)" ${idx === list.length - 1 ? 'disabled class="opacity-30 cursor-not-allowed"' : 'class="hover:bg-slate-100 text-slate-700"'} class="w-7 h-7 rounded-lg border border-slate-300 flex items-center justify-center text-xs font-black" title="下へ移動">
+                                    ⬇
+                                </button>
+                            </div>
+
+                            <div>
+                                <div class="flex items-center gap-2 mb-1">
+                                    <span class="bg-emerald-100 text-emerald-900 text-[10px] font-bold px-2 py-0.5 rounded-full">${subject ? subject.name : m.subjectId}</span>
+                                    <span class="text-[10px] text-slate-400 font-mono">順序: #${idx + 1}</span>
+                                    ${allImgs.length > 0 ? `<span class="bg-slate-100 text-slate-600 text-[10px] font-bold px-2 py-0.5 rounded-full"><i class="fa-solid fa-image mr-1"></i>画像 ${allImgs.length}枚</span>` : ''}
+                                </div>
+                                <h4 class="font-bold text-slate-900 text-sm sm:text-base">${m.title}</h4>
+                                <p class="text-xs text-slate-500 line-clamp-1">${m.content || '本文なし'}</p>
+                            </div>
+                        </div>
+
+                        <div class="flex items-center gap-2 self-end sm:self-center">
+                            <button onclick="openMaterialViewerModal('${m.id}')" class="bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold text-xs px-3 py-1.5 rounded-xl border border-slate-300 transition">
+                                プレビュー
+                            </button>
+                            <button onclick="deleteMaterialItem('${m.id}')" class="bg-rose-50 hover:bg-rose-100 text-rose-700 font-bold text-xs px-3 py-1.5 rounded-xl border border-rose-200 transition">
+                                <i class="fa-solid fa-trash"></i> 削除
+                            </button>
+                        </div>
                     </div>
-                    <h4 class="font-bold text-slate-900 text-sm">${m.title}</h4>
-                    <p class="text-xs text-slate-500 line-clamp-2">${m.content || ''}</p>
-                </div>
-            `).join('');
+                `;
+            }).join('');
         };
 
         window.openQuestionModal = function() {
@@ -2857,7 +3049,6 @@
             }).join('');
         };
 
-        // 管理者画面：単元（トピック）ごとに見やすくグループ化して一覧表示
         window.renderAdminQuestionsTable = function() {
             const container = document.getElementById('admin-topics-container');
             if (!container) return;
@@ -2880,7 +3071,6 @@
                 return;
             }
 
-            // 科目IDと単元名でグループ作成
             const groupsMap = new Map();
             allQs.forEach(q => {
                 const subjId = q.subjectId || 'japanese';
