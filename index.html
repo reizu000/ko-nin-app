@@ -367,7 +367,7 @@
                     <h2 class="text-base sm:text-xl font-black text-slate-900 flex items-center gap-2">
                         <i class="fa-solid fa-pen-ruler text-amber-500"></i> 出題されている宿題
                     </h2>
-                    <p class="text-xs text-slate-500 mt-0.5">タップすると詳細と画像がポップアップで確認できます。</p>
+                    <p class="text-xs text-slate-500 mt-0.5">タップすると詳細・提出フォームが開きます（写真やコメントで提出可能です）。</p>
                 </div>
             </div>
             <div id="user-homework-list" class="grid grid-cols-1 md:grid-cols-2 gap-3 sm:gap-4"></div>
@@ -392,9 +392,15 @@
 
                 <div id="quiz-choices-container" class="space-y-2"></div>
 
-                <div id="quiz-explanation-box" class="hidden rounded-2xl p-3.5 sm:p-5 space-y-3 animate-fade-in">
+                <!-- 改善ポイント: 解説ボックスとテキストのフォント拡大 & 装飾強化 -->
+                <div id="quiz-explanation-box" class="hidden rounded-2xl p-4 sm:p-6 space-y-3 animate-fade-in">
                     <div id="quiz-result-header" class="flex items-center gap-2 font-black text-base sm:text-xl p-3 rounded-xl"></div>
-                    <div id="quiz-explanation-text" class="text-xs sm:text-sm text-slate-800 leading-relaxed whitespace-pre-line break-words">ここに解説文が表示されます。</div>
+                    <div class="space-y-1.5 pt-1">
+                        <div class="text-xs font-black text-slate-500 uppercase tracking-widest flex items-center gap-1">
+                            <i class="fa-solid fa-lightbulb text-amber-500"></i> 解答の解説・ポイント
+                        </div>
+                        <div id="quiz-explanation-text" class="text-sm sm:text-base text-slate-900 leading-relaxed whitespace-pre-line break-words font-medium p-1">ここに解説文が表示されます。</div>
+                    </div>
                 </div>
 
                 <div id="quiz-action-area" class="pt-1 flex justify-end">
@@ -445,64 +451,83 @@
             </div>
         </section>
 
+        <!-- VIEW: FLASHCARDS (機能刷新: 科目選択 ➔ 単元選択 ➔ カード暗記) -->
         <section id="view-flashcards" class="hidden space-y-3 sm:space-y-6 max-w-3xl mx-auto animate-fade-in">
-            <div class="bg-white p-3.5 sm:p-6 rounded-2xl border border-slate-200 shadow-sm flex flex-col sm:flex-row items-start sm:items-center justify-between gap-2.5">
-                <div>
-                    <h2 class="text-base sm:text-xl font-black text-slate-900">暗記カード</h2>
-                    <p class="text-xs text-slate-500">カードをタップして裏返し、重要キーワードを暗記しましょう。</p>
+            
+            <!-- STEP 1: 科目選択画面 -->
+            <div id="fc-step-subject" class="space-y-3 sm:space-y-4">
+                <div class="bg-white p-3.5 sm:p-6 rounded-2xl border border-slate-200 shadow-sm">
+                    <h2 class="text-base sm:text-xl font-black text-slate-900 flex items-center gap-2">
+                        <i class="fa-solid fa-layer-group text-indigo-600"></i> 暗記カード - 科目選択
+                    </h2>
+                    <p class="text-xs text-slate-500 mt-1">暗記したい科目を選んで、単元を選択してください。</p>
                 </div>
-                <select id="flashcard-subject-select" onchange="filterFlashcards()" class="w-full sm:w-auto bg-slate-100 font-bold text-slate-800 text-xs sm:text-sm border-0 rounded-xl px-3 py-2.5 focus:ring-2 focus:ring-brand-500">
-                    <option value="all">すべての科目</option>
-                    <option value="japanese">国語</option>
-                    <option value="math">数学I</option>
-                    <option value="english">英語</option>
-                    <option value="history">歴史</option>
-                    <option value="geography">地理</option>
-                    <option value="civics">公共</option>
-                    <option value="science">科学と人間生活</option>
-                    <option value="physics">物理基礎</option>
-                    <option value="chemistry">化学基礎</option>
-                    <option value="biology">生物基礎</option>
-                    <option value="earth_science">地学基礎</option>
-                    <option value="info">情報</option>
-                </select>
+                <div id="fc-subjects-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-2.5 sm:gap-4"></div>
             </div>
 
-            <div id="flashcard-container" class="perspective-1000 w-full min-h-[220px] h-[250px] sm:h-[320px] cursor-pointer" onclick="flipFlashcard()">
-                <div id="flashcard-inner" class="relative w-full h-full duration-500 transform-style-3d bg-white border-2 border-slate-200 rounded-2xl sm:rounded-3xl shadow-lg">
-                    <div class="absolute inset-0 p-4 sm:p-8 flex flex-col justify-between items-center backface-hidden bg-white rounded-2xl sm:rounded-3xl overflow-hidden">
-                        <div class="flex items-center justify-between w-full">
-                            <span id="fc-subject" class="bg-indigo-100 text-indigo-800 text-[10px] sm:text-xs font-bold px-2.5 py-0.5 rounded-full">数学I</span>
-                            <span class="text-[10px] sm:text-[11px] text-slate-400 font-medium"><i class="fa-solid fa-hand-pointer mr-1"></i> タップで裏返し</span>
-                        </div>
-                        <div class="w-full my-auto overflow-y-auto max-h-[140px] sm:max-h-[180px] custom-scrollbar text-center px-1">
-                            <div id="fc-front-text" class="text-base sm:text-2xl font-black text-slate-900 break-words whitespace-pre-line leading-relaxed">2次関数の頂点の公式</div>
-                        </div>
-                        <div class="text-[9px] sm:text-[10px] text-slate-400 font-bold uppercase tracking-widest">FRONT (表面)</div>
+            <!-- STEP 2: 単元選択画面 -->
+            <div id="fc-step-topic" class="hidden space-y-3 sm:space-y-4 animate-fade-in">
+                <div class="bg-white p-3.5 sm:p-6 rounded-2xl border border-slate-200 shadow-sm flex items-center justify-between">
+                    <div>
+                        <span id="fc-selected-subject-badge" class="bg-indigo-100 text-indigo-800 text-xs font-black px-2.5 py-0.5 rounded-full">国語</span>
+                        <h2 class="text-base sm:text-xl font-black text-slate-900 mt-1">単元（テーマ）を選んで暗記開始</h2>
                     </div>
+                    <button onclick="backToFcSubjects()" class="text-xs font-bold text-slate-600 bg-slate-100 hover:bg-slate-200 px-3 py-1.5 rounded-xl transition">
+                        <i class="fa-solid fa-arrow-left"></i> 科目を変更
+                    </button>
+                </div>
+                <div id="fc-topics-list" class="space-y-2"></div>
+            </div>
 
-                    <div class="absolute inset-0 p-4 sm:p-8 flex flex-col justify-between items-center backface-hidden rotate-y-180 bg-slate-900 text-white rounded-2xl sm:rounded-3xl overflow-hidden">
-                        <div class="flex items-center justify-between w-full">
-                            <span class="bg-emerald-500/20 text-emerald-300 text-[10px] sm:text-xs font-bold px-2.5 py-0.5 rounded-full border border-emerald-500/30">解答・解説</span>
-                            <span class="text-[10px] sm:text-[11px] text-slate-400 font-medium"><i class="fa-solid fa-hand-pointer mr-1"></i> タップで戻る</span>
+            <!-- STEP 3: カード暗記学習画面 -->
+            <div id="fc-step-study" class="hidden space-y-3 sm:space-y-6 animate-fade-in">
+                <div class="bg-white p-3.5 sm:p-5 rounded-2xl border border-slate-200 shadow-sm flex items-center justify-between">
+                    <div class="flex items-center gap-2">
+                        <span id="fc-study-subject-badge" class="bg-indigo-100 text-indigo-800 text-xs font-black px-2.5 py-0.5 rounded-full">国語</span>
+                        <span id="fc-study-topic-badge" class="bg-slate-100 text-slate-700 text-xs font-bold px-2.5 py-0.5 rounded-full">単元: 全般</span>
+                    </div>
+                    <button onclick="backToFcTopics()" class="text-xs font-bold text-slate-600 bg-slate-100 hover:bg-slate-200 px-2.5 py-1 rounded-xl transition">
+                        単元を変更 <i class="fa-solid fa-rotate mr-1"></i>
+                    </button>
+                </div>
+
+                <div id="flashcard-container" class="perspective-1000 w-full min-h-[220px] h-[250px] sm:h-[320px] cursor-pointer" onclick="flipFlashcard()">
+                    <div id="flashcard-inner" class="relative w-full h-full duration-500 transform-style-3d bg-white border-2 border-slate-200 rounded-2xl sm:rounded-3xl shadow-lg">
+                        <div class="absolute inset-0 p-4 sm:p-8 flex flex-col justify-between items-center backface-hidden bg-white rounded-2xl sm:rounded-3xl overflow-hidden">
+                            <div class="flex items-center justify-between w-full">
+                                <span id="fc-card-subject-tag" class="bg-indigo-100 text-indigo-800 text-[10px] sm:text-xs font-bold px-2.5 py-0.5 rounded-full">数学I</span>
+                                <span class="text-[10px] sm:text-[11px] text-slate-400 font-medium"><i class="fa-solid fa-hand-pointer mr-1"></i> タップで裏返し</span>
+                            </div>
+                            <div class="w-full my-auto overflow-y-auto max-h-[140px] sm:max-h-[180px] custom-scrollbar text-center px-1">
+                                <div id="fc-front-text" class="text-base sm:text-2xl font-black text-slate-900 break-words whitespace-pre-line leading-relaxed">2次関数の頂点の公式</div>
+                            </div>
+                            <div class="text-[9px] sm:text-[10px] text-slate-400 font-bold uppercase tracking-widest">FRONT (表面)</div>
                         </div>
-                        <div class="w-full my-auto overflow-y-auto max-h-[140px] sm:max-h-[180px] custom-scrollbar text-center px-1">
-                            <div id="fc-back-text" class="text-sm sm:text-xl font-bold text-emerald-300 break-words whitespace-pre-line leading-relaxed">y = a(x - p)² + q</div>
+
+                        <div class="absolute inset-0 p-4 sm:p-8 flex flex-col justify-between items-center backface-hidden rotate-y-180 bg-slate-900 text-white rounded-2xl sm:rounded-3xl overflow-hidden">
+                            <div class="flex items-center justify-between w-full">
+                                <span class="bg-emerald-500/20 text-emerald-300 text-[10px] sm:text-xs font-bold px-2.5 py-0.5 rounded-full border border-emerald-500/30">解答・解説</span>
+                                <span class="text-[10px] sm:text-[11px] text-slate-400 font-medium"><i class="fa-solid fa-hand-pointer mr-1"></i> タップで戻る</span>
+                            </div>
+                            <div class="w-full my-auto overflow-y-auto max-h-[140px] sm:max-h-[180px] custom-scrollbar text-center px-1">
+                                <div id="fc-back-text" class="text-sm sm:text-xl font-bold text-emerald-300 break-words whitespace-pre-line leading-relaxed">y = a(x - p)² + q</div>
+                            </div>
+                            <div class="text-[9px] sm:text-[10px] text-slate-400 font-bold uppercase tracking-widest">BACK (裏面)</div>
                         </div>
-                        <div class="text-[9px] sm:text-[10px] text-slate-400 font-bold uppercase tracking-widest">BACK (裏面)</div>
                     </div>
                 </div>
+
+                <div class="flex items-center justify-between gap-1.5 sm:gap-2">
+                    <button onclick="prevFlashcard()" class="bg-white border border-slate-200 text-slate-700 font-bold px-2.5 sm:px-4 py-2.5 rounded-xl hover:bg-slate-50 transition text-xs sm:text-sm"><i class="fa-solid fa-chevron-left"></i> 前へ</button>
+                    <div class="flex gap-1.5 sm:gap-2">
+                        <button onclick="markFlashcardStatus(false)" class="bg-rose-50 border border-rose-200 text-rose-700 font-bold px-2.5 sm:px-4 py-2.5 rounded-xl hover:bg-rose-100 transition flex items-center gap-1 text-xs sm:text-sm"><i class="fa-solid fa-xmark"></i> 要復習</button>
+                        <button onclick="markFlashcardStatus(true)" class="bg-emerald-50 border border-emerald-200 text-emerald-700 font-bold px-2.5 sm:px-4 py-2.5 rounded-xl hover:bg-emerald-100 transition flex items-center gap-1 text-xs sm:text-sm"><i class="fa-solid fa-check"></i> 覚えた！</button>
+                    </div>
+                    <button onclick="nextFlashcard()" class="bg-white border border-slate-200 text-slate-700 font-bold px-2.5 sm:px-4 py-2.5 rounded-xl hover:bg-slate-50 transition text-xs sm:text-sm">次へ <i class="fa-solid fa-chevron-right"></i></button>
+                </div>
+                <div class="text-center text-xs text-slate-500 font-bold" id="flashcard-counter-text">1 / 10 枚目</div>
             </div>
 
-            <div class="flex items-center justify-between gap-1.5 sm:gap-2">
-                <button onclick="prevFlashcard()" class="bg-white border border-slate-200 text-slate-700 font-bold px-2.5 sm:px-4 py-2.5 rounded-xl hover:bg-slate-50 transition text-xs sm:text-sm"><i class="fa-solid fa-chevron-left"></i> 前へ</button>
-                <div class="flex gap-1.5 sm:gap-2">
-                    <button onclick="markFlashcardStatus(false)" class="bg-rose-50 border border-rose-200 text-rose-700 font-bold px-2.5 sm:px-4 py-2.5 rounded-xl hover:bg-rose-100 transition flex items-center gap-1 text-xs sm:text-sm"><i class="fa-solid fa-xmark"></i> 要復習</button>
-                    <button onclick="markFlashcardStatus(true)" class="bg-emerald-50 border border-emerald-200 text-emerald-700 font-bold px-2.5 sm:px-4 py-2.5 rounded-xl hover:bg-emerald-100 transition flex items-center gap-1 text-xs sm:text-sm"><i class="fa-solid fa-check"></i> 覚えた！</button>
-                </div>
-                <button onclick="nextFlashcard()" class="bg-white border border-slate-200 text-slate-700 font-bold px-2.5 sm:px-4 py-2.5 rounded-xl hover:bg-slate-50 transition text-xs sm:text-sm">次へ <i class="fa-solid fa-chevron-right"></i></button>
-            </div>
-            <div class="text-center text-xs text-slate-500 font-bold" id="flashcard-counter-text">1 / 10 枚目</div>
         </section>
 
         <!-- VIEW: MOCK EXAM INTRO -->
@@ -571,7 +596,7 @@
                         <i class="fa-solid fa-shield-halved"></i> 管理者ダッシュボード
                     </div>
                     <h2 class="text-base sm:text-2xl font-black">高認アプリ 管理・統括モード</h2>
-                    <p class="text-[11px] sm:text-xs text-slate-300 mt-0.5">ユーザー監視・教科書並び替え・単元別進捗・追放者リストの管理ができます。</p>
+                    <p class="text-[11px] sm:text-xs text-slate-300 mt-0.5">ユーザー監視・宿題提出物確認・教科書並び替え・単元別進捗・追放者リストの管理ができます。</p>
                 </div>
             </div>
 
@@ -586,7 +611,7 @@
                     <i class="fa-solid fa-pen-to-square text-brand-600"></i> クイズ & 単元管理
                 </button>
                 <button id="admin-tab-homework" onclick="switchAdminSubTab('homework')" class="py-2.5 px-3 text-xs sm:text-sm font-bold border-b-2 border-transparent text-slate-500 hover:text-slate-800 transition flex items-center gap-1.5 whitespace-nowrap rounded-t-xl">
-                    <i class="fa-solid fa-pen-ruler text-amber-600"></i> 宿題管理
+                    <i class="fa-solid fa-pen-ruler text-amber-600"></i> 宿題・提出物確認
                 </button>
                 <button id="admin-tab-card" onclick="switchAdminSubTab('card')" class="py-2.5 px-3 text-xs sm:text-sm font-bold border-b-2 border-transparent text-slate-500 hover:text-slate-800 transition flex items-center gap-1.5 whitespace-nowrap rounded-t-xl">
                     <i class="fa-solid fa-layer-group text-indigo-500"></i> 暗記カード管理
@@ -727,8 +752,8 @@
             <div id="admin-subtab-homework" class="hidden space-y-3">
                 <div class="flex justify-between items-center bg-white p-3.5 rounded-2xl border border-slate-200">
                     <div>
-                        <h3 class="font-bold text-slate-900 text-sm sm:text-base">宿題の一覧・追加</h3>
-                        <p class="text-[11px] text-slate-500">期限や提出用写真を設定して受講生へ宿題を出せます。</p>
+                        <h3 class="font-bold text-slate-900 text-sm sm:text-base">宿題管理 & 提出物の確認</h3>
+                        <p class="text-[11px] text-slate-500">宿題の配信および受講生から提出された写真・コメントを確認できます。</p>
                     </div>
                     <button onclick="openHomeworkModal()" class="bg-amber-500 hover:bg-amber-600 text-slate-950 font-black text-xs px-3.5 py-2 rounded-xl shadow transition flex items-center gap-1.5">
                         <i class="fa-solid fa-plus"></i> 新しい宿題を追加
@@ -770,13 +795,14 @@
 
                 <div class="bg-white rounded-2xl border border-slate-200 overflow-hidden shadow-sm">
                     <div class="overflow-x-auto custom-scrollbar">
-                        <table class="w-full text-left text-xs sm:text-sm min-w-[450px]">
+                        <table class="w-full text-left text-xs sm:text-sm min-w-[500px]">
                             <thead class="bg-slate-50 text-[10px] sm:text-[11px] font-bold text-slate-500 uppercase border-b border-slate-200">
                                 <tr>
                                     <th class="px-3 py-2.5 w-8 text-center">
                                         <input type="checkbox" id="select-all-c-checkbox" onchange="toggleSelectAllCards(this)" class="rounded text-indigo-600">
                                     </th>
                                     <th class="px-3 py-2.5">科目</th>
+                                    <th class="px-3 py-2.5">単元</th>
                                     <th class="px-3 py-2.5">表面</th>
                                     <th class="px-3 py-2.5">裏面</th>
                                     <th class="px-3 py-2.5 text-right">操作</th>
@@ -793,7 +819,7 @@
 
     <!-- MODALS -->
 
-    <!-- MODAL: EXPANDED HORIZONTAL TEXTBOOK VIEWER (教科書拡大＆横スクロールビューアー) -->
+    <!-- MODAL: EXPANDED HORIZONTAL TEXTBOOK VIEWER -->
     <div id="modal-material-viewer" class="fixed inset-0 bg-slate-950/95 backdrop-blur-md z-[100] flex flex-col justify-between p-3 sm:p-6 hidden animate-fade-in select-none">
         <div class="flex items-center justify-between border-b border-slate-800 pb-3 text-white">
             <div class="flex items-center gap-2">
@@ -1031,6 +1057,10 @@
                     </select>
                 </div>
                 <div>
+                    <label class="block text-slate-500 mb-1">単元・テーマ</label>
+                    <input type="text" id="card-input-topic" placeholder="例: 重要英単語 / 2次関数" class="w-full bg-slate-50 border border-slate-300 rounded-xl p-2.5">
+                </div>
+                <div>
                     <label class="block text-slate-500 mb-1">表面 (問題・用語)</label>
                     <textarea id="card-input-front" rows="2" class="w-full bg-slate-50 border border-slate-300 rounded-xl p-2.5"></textarea>
                 </div>
@@ -1098,9 +1128,9 @@
         </div>
     </div>
 
-    <!-- MODAL: HOMEWORK DETAIL -->
+    <!-- MODAL: HOMEWORK DETAIL & SUBMIT (ユーザー側 宿題詳細・提出フォーム) -->
     <div id="modal-homework-detail" class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-50 flex items-center justify-center p-3 hidden animate-fade-in">
-        <div class="bg-white w-full max-w-lg rounded-3xl p-5 shadow-2xl border border-slate-100 space-y-4 max-h-[90vh] overflow-y-auto custom-scrollbar">
+        <div class="bg-white w-full max-w-lg rounded-3xl p-5 sm:p-6 shadow-2xl border border-slate-100 space-y-4 max-h-[90vh] overflow-y-auto custom-scrollbar">
             <div class="flex justify-between items-start border-b border-slate-200 pb-3">
                 <div>
                     <span id="hw-detail-subject" class="bg-amber-100 text-amber-900 font-bold text-xs px-2.5 py-0.5 rounded-full">国語</span>
@@ -1108,19 +1138,80 @@
                 </div>
                 <button onclick="closeModal('modal-homework-detail')" class="text-slate-400 p-1 hover:text-slate-600"><i class="fa-solid fa-xmark text-xl"></i></button>
             </div>
-            <div class="text-xs font-bold text-rose-600 bg-rose-50 p-2.5 rounded-xl border border-rose-200" id="hw-detail-duedate">期限: 2026-10-20</div>
+            
+            <div class="flex items-center justify-between">
+                <div class="text-xs font-bold text-rose-600 bg-rose-50 px-3 py-1.5 rounded-xl border border-rose-200" id="hw-detail-duedate">期限: 2026-10-20</div>
+                <div id="hw-submission-status-badge" class="text-xs font-bold bg-slate-100 text-slate-600 px-3 py-1.5 rounded-xl">未提出</div>
+            </div>
+
             <div class="space-y-1">
-                <label class="block text-[11px] font-bold text-slate-400 uppercase">説明・指示内容</label>
+                <label class="block text-[11px] font-bold text-slate-400 uppercase">指示・説明内容</label>
                 <p id="hw-detail-desc" class="text-xs sm:text-sm text-slate-800 leading-relaxed whitespace-pre-line bg-slate-50 p-3 rounded-xl border border-slate-200"></p>
             </div>
+
             <div id="hw-detail-image-container" class="space-y-1 hidden">
-                <label class="block text-[11px] font-bold text-slate-400 uppercase"><i class="fa-solid fa-image mr-1"></i> 添付写真 (タップで拡大)</label>
+                <label class="block text-[11px] font-bold text-slate-400 uppercase"><i class="fa-solid fa-image mr-1"></i> 参考用添付画像 (タップで拡大)</label>
                 <div class="bg-slate-900 p-1 rounded-2xl overflow-hidden flex justify-center cursor-pointer">
-                    <img id="hw-detail-image" src="" onclick="openImageModal(this.src)" class="max-h-60 rounded-xl object-contain hover:opacity-90 transition">
+                    <img id="hw-detail-image" src="" onclick="openImageModal(this.src)" class="max-h-52 rounded-xl object-contain hover:opacity-90 transition">
                 </div>
             </div>
-            <div class="pt-2">
+
+            <!-- Google Classroom風 課題提出エリア -->
+            <div class="p-4 bg-amber-50/60 rounded-2xl border-2 border-amber-200/80 space-y-3">
+                <h4 class="font-bold text-xs sm:text-sm text-amber-900 flex items-center gap-1.5">
+                    <i class="fa-solid fa-cloud-arrow-up text-amber-600"></i> 宿題を提出する (写真・コメント)
+                </h4>
+
+                <div id="hw-user-submitted-preview" class="hidden space-y-2 bg-white p-3 rounded-xl border border-amber-200">
+                    <div class="text-xs font-bold text-emerald-700 flex items-center gap-1">
+                        <i class="fa-solid fa-circle-check"></i> 提出済みのデータ
+                    </div>
+                    <div id="hw-submitted-image-box" class="hidden">
+                        <img id="hw-submitted-img" src="" onclick="openImageModal(this.src)" class="max-h-36 rounded-lg object-contain cursor-pointer border border-slate-200">
+                    </div>
+                    <p id="hw-submitted-comment-text" class="text-xs text-slate-700 font-medium"></p>
+                    <span id="hw-submitted-time-text" class="text-[10px] text-slate-400 font-mono block"></span>
+                </div>
+
+                <div class="space-y-2">
+                    <div>
+                        <label class="block text-[11px] font-bold text-slate-600 mb-1">宿題の写真・ノート画像を選択</label>
+                        <input type="file" id="hw-submit-file-input" accept="image/*" onchange="handleHomeworkFileSelect(event)" class="w-full text-xs font-bold text-slate-600 border border-slate-300 rounded-xl p-2 bg-white cursor-pointer">
+                    </div>
+                    <div id="hw-submit-image-preview" class="hidden">
+                        <img id="hw-submit-img-preview" src="" class="max-h-32 rounded-lg object-contain border border-slate-300">
+                    </div>
+                    <div>
+                        <label class="block text-[11px] font-bold text-slate-600 mb-1">メッセージ・補足コメント (任意)</label>
+                        <textarea id="hw-submit-comment" rows="2" placeholder="先生への連絡や質問事項があれば入力してください..." class="w-full bg-white border border-slate-300 rounded-xl p-2.5 text-xs font-medium"></textarea>
+                    </div>
+                    <button onclick="submitHomeworkForm()" class="w-full bg-amber-500 hover:bg-amber-600 active:bg-amber-700 text-slate-950 font-black py-2.5 rounded-xl text-xs shadow-md transition flex items-center justify-center gap-2">
+                        <i class="fa-solid fa-paper-plane"></i> 宿題を送信・提出する
+                    </button>
+                </div>
+            </div>
+
+            <div class="pt-1">
                 <button onclick="closeModal('modal-homework-detail')" class="w-full bg-slate-900 text-white font-bold py-2.5 rounded-xl text-xs">閉じる</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- MODAL: ADMIN HOMEWORK SUBMISSIONS LIST (管理者用 宿題提出物一覧モーダル) -->
+    <div id="modal-admin-hw-submissions" class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-50 flex items-center justify-center p-3 hidden animate-fade-in">
+        <div class="bg-white w-full max-w-2xl rounded-3xl p-5 sm:p-6 shadow-2xl border border-slate-100 space-y-4 max-h-[90vh] overflow-y-auto custom-scrollbar">
+            <div class="flex justify-between items-start border-b border-slate-200 pb-3">
+                <div>
+                    <span class="bg-amber-100 text-amber-900 font-bold text-xs px-2.5 py-0.5 rounded-full"><i class="fa-solid fa-folder-open mr-1"></i>管理者 宿題確認</span>
+                    <h3 id="admin-hw-sub-modal-title" class="text-base sm:text-xl font-black text-slate-900 mt-1">宿題タイトル</h3>
+                </div>
+                <button onclick="closeModal('modal-admin-hw-submissions')" class="text-slate-400 p-1 hover:text-slate-600"><i class="fa-solid fa-xmark text-xl"></i></button>
+            </div>
+
+            <div id="admin-hw-submissions-list" class="space-y-3"></div>
+
+            <div class="pt-2">
+                <button onclick="closeModal('modal-admin-hw-submissions')" class="w-full bg-slate-900 text-white font-bold py-2.5 rounded-xl text-xs">閉じる</button>
             </div>
         </div>
     </div>
@@ -1421,6 +1512,7 @@
                 snapshot.forEach(doc => cloudCards.push(doc.data()));
                 window.appState.flashcards = cloudCards;
                 window.saveLocalState();
+                if (window.appState.activeView === 'flashcards' && window.appState.fcStep === 'subjects') renderFcSubjectsGrid();
                 if (window.appState.activeView === 'admin') window.renderAdminCardsTable();
             });
 
@@ -1430,6 +1522,16 @@
                 list.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
                 window.appState.homeworks = list;
                 window.renderHomeworkView();
+                if (window.appState.activeView === 'admin') window.renderAdminHomeworkList();
+            });
+
+            // 宿題の提出物リストのリアルタイム同期
+            onSnapshot(collection(db, 'artifacts', appId, 'public', 'data', 'homework_submissions'), (snapshot) => {
+                const list = [];
+                snapshot.forEach(doc => list.push(doc.data()));
+                list.sort((a, b) => new Date(b.submittedAt) - new Date(a.submittedAt));
+                window.appState.homeworkSubmissions = list;
+                if (window.appState.activeView === 'homework') window.renderHomeworkView();
                 if (window.appState.activeView === 'admin') window.renderAdminHomeworkList();
             });
 
@@ -1501,6 +1603,14 @@
             } catch(e){}
         };
 
+        // 宿題の提出物保存
+        window.saveHomeworkSubmissionCloud = async function(submissionData) {
+            if (!db || window.appState.isBlocked) return;
+            try {
+                await setDoc(doc(db, 'artifacts', appId, 'public', 'data', 'homework_submissions', submissionData.id), submissionData);
+            } catch(e){}
+        };
+
         window.blockUserCloud = async function(uid, userName, email) {
             if (!db) return;
             try {
@@ -1556,6 +1666,7 @@
             questions: [],
             flashcards: [],
             homeworks: [],
+            homeworkSubmissions: [],
             materials: [],
             activeUsersList: [],
             blockedUsersList: [],
@@ -1569,11 +1680,17 @@
             currentQuizIndex: 0,
             quizScore: 0,
             isMockExam: false,
+            // 暗記カード用 ステップ状態 (subjects -> topics -> study)
+            fcStep: 'subjects',
+            fcSubjectId: '',
+            fcTopicName: 'all',
             currentFlashcardIndex: 0,
             filteredCards: [],
             activeView: 'dashboard',
             adminSubTab: 'users',
-            uploadedMaterialImages: []
+            uploadedMaterialImages: [],
+            currentSubmittingHwId: '',
+            currentSubmittedImgBase64: ''
         };
 
         function getTodayStr() {
@@ -1868,17 +1985,124 @@
             showToast('ニックネームを保存しました', 'success');
         };
 
-        function initFlashcardsView() { filterFlashcards(); }
+        // --- 暗記カード新機能 (1: 科目選択 -> 2: 単元選択 -> 3: 暗記学習) ---
+        function initFlashcardsView() {
+            window.appState.fcStep = 'subjects';
+            renderFcSubjectsGrid();
+            document.getElementById('fc-step-subject').classList.remove('hidden');
+            document.getElementById('fc-step-topic').classList.add('hidden');
+            document.getElementById('fc-step-study').classList.add('hidden');
+        }
 
-        window.filterFlashcards = function() {
-            const selSubject = document.getElementById('flashcard-subject-select').value;
-            if (selSubject === 'all') {
-                window.appState.filteredCards = [...window.appState.flashcards];
-            } else {
-                window.appState.filteredCards = window.appState.flashcards.filter(c => c.subjectId === selSubject);
+        function renderFcSubjectsGrid() {
+            const container = document.getElementById('fc-subjects-grid');
+            if (!container) return;
+
+            const allCards = window.appState.flashcards || [];
+
+            container.innerHTML = SUBJECTS.map(s => {
+                const cardsCount = allCards.filter(c => c.subjectId === s.id).length;
+
+                return `
+                    <div onclick="selectFcSubject('${s.id}')" class="bg-white p-4 rounded-2xl border border-slate-200 hover:border-indigo-500 cursor-pointer flex items-center justify-between shadow-sm group transition">
+                        <div class="flex items-center space-x-3">
+                            <div class="w-11 h-11 rounded-2xl bg-gradient-to-tr ${s.color} text-white flex items-center justify-center text-lg"><i class="fa-solid ${s.icon}"></i></div>
+                            <div>
+                                <h4 class="font-black text-slate-900 text-base group-hover:text-indigo-600 transition">${s.name}</h4>
+                                <span class="text-xs font-bold text-slate-400">${cardsCount} 枚の暗記カード</span>
+                            </div>
+                        </div>
+                        <i class="fa-solid fa-chevron-right text-slate-300 text-xs group-hover:text-indigo-500 transition"></i>
+                    </div>
+                `;
+            }).join('');
+        }
+
+        window.selectFcSubject = function(subjectId) {
+            window.appState.fcSubjectId = subjectId;
+            const subject = SUBJECTS.find(s => s.id === subjectId);
+            const cards = (window.appState.flashcards || []).filter(c => c.subjectId === subjectId);
+
+            if (cards.length === 0) {
+                showToast('この科目にはまだ暗記カードが登録されていません', 'info');
+                return;
             }
+
+            document.getElementById('fc-selected-subject-badge').innerText = subject ? subject.name : subjectId;
+
+            const topics = Array.from(new Set(cards.map(c => c.topic || '全般')));
+            const container = document.getElementById('fc-topics-list');
+
+            let html = `
+                <button onclick="startFcStudy('all')" class="w-full text-left bg-indigo-50 hover:bg-indigo-100 border-2 border-indigo-200 rounded-2xl p-3.5 font-bold text-indigo-950 transition flex items-center justify-between">
+                    <div>
+                        <div class="text-xs sm:text-sm">🌟 すべての単元から学習</div>
+                        <div class="text-[10px] text-indigo-600 font-normal">全 ${cards.length} 枚のカード</div>
+                    </div>
+                    <i class="fa-solid fa-chevron-right text-indigo-500"></i>
+                </button>
+            `;
+
+            topics.forEach(top => {
+                const count = cards.filter(c => (c.topic || '全般') === top).length;
+                html += `
+                    <button onclick="startFcStudy('${top}')" class="w-full text-left bg-slate-50 hover:bg-slate-100 border border-slate-200 rounded-2xl p-3.5 font-bold text-slate-800 transition flex items-center justify-between">
+                        <div>
+                            <div class="text-xs sm:text-sm flex items-center gap-1.5">
+                                <span class="text-indigo-500 text-xs">📌</span>
+                                <span>単元: ${top}</span>
+                            </div>
+                            <div class="text-[10px] text-slate-400 font-normal ml-5">${count} 枚収録</div>
+                        </div>
+                        <i class="fa-solid fa-chevron-right text-slate-300"></i>
+                    </button>
+                `;
+            });
+
+            container.innerHTML = html;
+
+            window.appState.fcStep = 'topics';
+            document.getElementById('fc-step-subject').classList.add('hidden');
+            document.getElementById('fc-step-topic').classList.remove('hidden');
+            document.getElementById('fc-step-study').classList.add('hidden');
+        };
+
+        window.backToFcSubjects = function() {
+            window.appState.fcStep = 'subjects';
+            document.getElementById('fc-step-subject').classList.remove('hidden');
+            document.getElementById('fc-step-topic').classList.add('hidden');
+            document.getElementById('fc-step-study').classList.add('hidden');
+        };
+
+        window.startFcStudy = function(topicName) {
+            window.appState.fcTopicName = topicName;
+            const subjectId = window.appState.fcSubjectId;
+            const subject = SUBJECTS.find(s => s.id === subjectId);
+
+            let cards = (window.appState.flashcards || []).filter(c => c.subjectId === subjectId);
+            if (topicName !== 'all') {
+                cards = cards.filter(c => (c.topic || '全般') === topicName);
+            }
+
+            window.appState.filteredCards = cards;
             window.appState.currentFlashcardIndex = 0;
+
+            document.getElementById('fc-study-subject-badge').innerText = subject ? subject.name : subjectId;
+            document.getElementById('fc-study-topic-badge').innerText = `単元: ${topicName === 'all' ? 'すべて' : topicName}`;
+
             renderCurrentFlashcard();
+
+            window.appState.fcStep = 'study';
+            document.getElementById('fc-step-subject').classList.add('hidden');
+            document.getElementById('fc-step-topic').classList.add('hidden');
+            document.getElementById('fc-step-study').classList.remove('hidden');
+        };
+
+        window.backToFcTopics = function() {
+            window.appState.fcStep = 'topics';
+            document.getElementById('fc-step-subject').classList.add('hidden');
+            document.getElementById('fc-step-topic').classList.remove('hidden');
+            document.getElementById('fc-step-study').classList.add('hidden');
         };
 
         function renderCurrentFlashcard() {
@@ -1891,7 +2115,7 @@
             if (!cards || cards.length === 0) {
                 document.getElementById('fc-front-text').innerText = '該当する暗記カードがありません。';
                 document.getElementById('fc-back-text').innerText = '管理者画面からカードを追加してください。';
-                document.getElementById('fc-subject').innerText = '未登録';
+                document.getElementById('fc-card-subject-tag').innerText = '未登録';
                 if (counter) counter.innerText = '0 / 0 枚目';
                 return;
             }
@@ -1901,7 +2125,7 @@
 
             document.getElementById('fc-front-text').innerText = card.front;
             document.getElementById('fc-back-text').innerText = card.back;
-            document.getElementById('fc-subject').innerText = subject ? subject.name : card.subjectId;
+            document.getElementById('fc-card-subject-tag').innerText = subject ? subject.name : card.subjectId;
             if (counter) counter.innerText = `${window.appState.currentFlashcardIndex + 1} / ${cards.length} 枚目`;
         }
 
@@ -2267,7 +2491,6 @@
             `).join('');
         }
 
-        // 正解・不正解を非常にわかりやすく表示する強化版 submitAnswer
         window.submitAnswer = function(selectedIndex) {
             const q = window.appState.currentQuizSet[window.appState.currentQuizIndex];
             const correctIdx = parseInt(q.correctIndex);
@@ -2286,15 +2509,12 @@
                 btn.classList.remove('hover:bg-brand-50', 'hover:border-brand-500');
                 
                 if (idx === correctIdx) {
-                    // 正解ボタン：鮮やかな緑枠＋バッジ追加
                     btn.className = "choice-btn w-full text-left bg-emerald-100 border-2 border-emerald-600 rounded-xl p-3 sm:p-3.5 font-extrabold text-emerald-950 shadow-md flex items-center justify-between ring-2 ring-emerald-400/50";
                     btn.innerHTML += `<span class="bg-emerald-600 text-white text-xs font-black px-2.5 py-1 rounded-full flex items-center gap-1 shrink-0 ml-2 shadow-sm"><i class="fa-solid fa-circle-check"></i> ⭕ 正解</span>`;
                 } else if (idx === selectedIndex && !isCorrect) {
-                    // 不正解の回答：赤枠＋「あなたの回答」バッジ追加
                     btn.className = "choice-btn w-full text-left bg-rose-100 border-2 border-rose-600 rounded-xl p-3 sm:p-3.5 font-extrabold text-rose-950 shadow-md flex items-center justify-between ring-2 ring-rose-400/50";
                     btn.innerHTML += `<span class="bg-rose-600 text-white text-xs font-black px-2.5 py-1 rounded-full flex items-center gap-1 shrink-0 ml-2 shadow-sm"><i class="fa-solid fa-circle-xmark"></i> ❌ あなたの回答</span>`;
                 } else {
-                    // 選ばれなかった問題：薄く減色
                     btn.className = "choice-btn w-full text-left bg-slate-100/70 border border-slate-200 rounded-xl p-3 sm:p-3.5 font-normal text-slate-400 opacity-60 flex items-center justify-between";
                 }
             });
@@ -2306,12 +2526,12 @@
                 window.appState.quizScore++;
                 resultHeader.className = "flex items-center gap-2 font-black text-lg sm:text-2xl text-emerald-800 bg-emerald-100 border-2 border-emerald-400 p-3.5 rounded-2xl shadow-sm";
                 resultHeader.innerHTML = `<i class="fa-solid fa-circle-check text-2xl sm:text-3xl text-emerald-600"></i> <span>⭕ 正解！素晴らしい！</span>`;
-                explanationBox.className = "bg-emerald-50/70 border-2 border-emerald-300 rounded-2xl p-3.5 sm:p-5 space-y-3 animate-fade-in";
+                explanationBox.className = "bg-emerald-50/80 border-2 border-emerald-300 rounded-2xl p-4 sm:p-6 space-y-3 animate-fade-in";
                 try { confetti({ particleCount: 30, spread: 60, origin: { y: 0.7 } }); } catch(e){}
             } else {
                 resultHeader.className = "flex items-center gap-2 font-black text-lg sm:text-2xl text-rose-900 bg-rose-100 border-2 border-rose-400 p-3.5 rounded-2xl shadow-sm";
                 resultHeader.innerHTML = `<i class="fa-solid fa-circle-xmark text-2xl sm:text-3xl text-rose-600"></i> <span>❌ 不正解... （正解は ${correctIdx + 1} 番）</span>`;
-                explanationBox.className = "bg-rose-50/70 border-2 border-rose-300 rounded-2xl p-3.5 sm:p-5 space-y-3 animate-fade-in";
+                explanationBox.className = "bg-rose-50/80 border-2 border-rose-300 rounded-2xl p-4 sm:p-6 space-y-3 animate-fade-in";
             }
 
             document.getElementById('quiz-explanation-text').innerText = q.explanation || '解説はありません。';
@@ -2381,31 +2601,47 @@
             showView('result');
         }
 
+        // --- 宿題一覧・提出（受講生側） & 確認（管理者側） ---
         window.renderHomeworkView = function() {
             const container = document.getElementById('user-homework-list');
             if (!container) return;
             const list = window.appState.homeworks || [];
+            const submissions = window.appState.homeworkSubmissions || [];
+            const userName = window.appState.userName;
 
             if (list.length === 0) {
                 container.innerHTML = `<div class="col-span-2 bg-white rounded-2xl p-8 text-center border border-slate-200"><h3 class="font-bold text-slate-900 text-sm">現在出されている宿題はありません！</h3></div>`;
                 return;
             }
 
-            container.innerHTML = list.map(hw => `
-                <div onclick="openHomeworkDetailModal('${hw.id}')" class="bg-white rounded-2xl border border-slate-200 p-4 shadow-sm space-y-2 hover:border-amber-400 transition cursor-pointer">
-                    <div class="flex justify-between items-center">
-                        <span class="bg-amber-100 text-amber-900 font-bold text-xs px-2.5 py-0.5 rounded-full">宿題</span>
-                        <span class="text-xs font-bold text-rose-600">期限: ${hw.dueDate || 'なし'}</span>
+            container.innerHTML = list.map(hw => {
+                const mySub = submissions.find(s => s.homeworkId === hw.id && s.userName === userName);
+                const isSubmitted = !!mySub;
+
+                return `
+                    <div onclick="openHomeworkDetailModal('${hw.id}')" class="bg-white rounded-2xl border ${isSubmitted ? 'border-emerald-300 bg-emerald-50/20' : 'border-slate-200'} p-4 shadow-sm space-y-2 hover:border-amber-400 transition cursor-pointer">
+                        <div class="flex justify-between items-center">
+                            <span class="bg-amber-100 text-amber-900 font-bold text-xs px-2.5 py-0.5 rounded-full">宿題</span>
+                            <div class="flex items-center gap-2">
+                                ${isSubmitted 
+                                    ? `<span class="text-xs font-bold bg-emerald-100 text-emerald-800 px-2.5 py-0.5 rounded-full"><i class="fa-solid fa-circle-check"></i> 提出済み</span>`
+                                    : `<span class="text-xs font-bold text-rose-600">期限: ${hw.dueDate || 'なし'}</span>`}
+                            </div>
+                        </div>
+                        <h3 class="font-black text-slate-900 text-base">${hw.title}</h3>
+                        <p class="text-xs text-slate-600 line-clamp-2">${hw.description || ''}</p>
                     </div>
-                    <h3 class="font-black text-slate-900 text-base">${hw.title}</h3>
-                    <p class="text-xs text-slate-600 line-clamp-2">${hw.description || ''}</p>
-                </div>
-            `).join('');
+                `;
+            }).join('');
         };
 
         window.openHomeworkDetailModal = function(hwId) {
             const hw = (window.appState.homeworks || []).find(i => i.id === hwId);
             if (!hw) return;
+
+            window.appState.currentSubmittingHwId = hwId;
+            window.appState.currentSubmittedImgBase64 = '';
+
             document.getElementById('hw-detail-title').innerText = hw.title;
             document.getElementById('hw-detail-duedate').innerText = hw.dueDate ? `提出期限: ${hw.dueDate}` : '期限なし';
             document.getElementById('hw-detail-desc').innerText = hw.description || '指示内容はありません。';
@@ -2417,7 +2653,114 @@
             } else {
                 imgContainer.classList.add('hidden');
             }
+
+            // 提出状態の初期化
+            document.getElementById('hw-submit-file-input').value = '';
+            document.getElementById('hw-submit-comment').value = '';
+            document.getElementById('hw-submit-image-preview').classList.add('hidden');
+
+            const submissions = window.appState.homeworkSubmissions || [];
+            const mySub = submissions.find(s => s.homeworkId === hwId && s.userName === window.appState.userName);
+            const statusBadge = document.getElementById('hw-submission-status-badge');
+            const submittedPreviewBox = document.getElementById('hw-user-submitted-preview');
+
+            if (mySub) {
+                statusBadge.className = "text-xs font-bold bg-emerald-100 text-emerald-800 px-3 py-1.5 rounded-xl";
+                statusBadge.innerHTML = `<i class="fa-solid fa-circle-check"></i> 提出済み`;
+
+                submittedPreviewBox.classList.remove('hidden');
+                if (mySub.imageUrl) {
+                    document.getElementById('hw-submitted-img').src = mySub.imageUrl;
+                    document.getElementById('hw-submitted-image-box').classList.remove('hidden');
+                } else {
+                    document.getElementById('hw-submitted-image-box').classList.add('hidden');
+                }
+                document.getElementById('hw-submitted-comment-text').innerText = mySub.comment ? `「${mySub.comment}」` : 'コメントなし';
+                document.getElementById('hw-submitted-time-text').innerText = `提出日時: ${new Date(mySub.submittedAt).toLocaleString('ja-JP')}`;
+            } else {
+                statusBadge.className = "text-xs font-bold bg-slate-100 text-slate-600 px-3 py-1.5 rounded-xl";
+                statusBadge.innerText = "未提出";
+                submittedPreviewBox.classList.add('hidden');
+            }
+
             openModal('modal-homework-detail');
+        };
+
+        window.handleHomeworkFileSelect = function(event) {
+            const file = event.target.files[0];
+            if (!file) return;
+
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                const base64Str = e.target.result;
+                window.appState.currentSubmittedImgBase64 = base64Str;
+                
+                const previewImg = document.getElementById('hw-submit-img-preview');
+                previewImg.src = base64Str;
+                document.getElementById('hw-submit-image-preview').classList.remove('hidden');
+            };
+            reader.readAsDataURL(file);
+        };
+
+        window.submitHomeworkForm = async function() {
+            const hwId = window.appState.currentSubmittingHwId;
+            if (!hwId) return;
+
+            const comment = document.getElementById('hw-submit-comment').value.trim();
+            const imgBase64 = window.appState.currentSubmittedImgBase64;
+
+            if (!comment && !imgBase64) {
+                showToast('写真画像または補足コメントを入力してください', 'warning');
+                return;
+            }
+
+            const submissionData = {
+                id: `sub_${hwId}_${Date.now()}`,
+                homeworkId: hwId,
+                userName: window.appState.userName || '学習者',
+                imageUrl: imgBase64 || '',
+                comment: comment || '',
+                submittedAt: new Date().toISOString()
+            };
+
+            if (window.saveHomeworkSubmissionCloud) {
+                await window.saveHomeworkSubmissionCloud(submissionData);
+            }
+
+            closeModal('modal-homework-detail');
+            showToast('宿題を正常に提出しました！ 📝', 'success');
+        };
+
+        // 管理者用 宿題提出物一覧表示
+        window.openAdminHomeworkSubmissionsModal = function(hwId) {
+            const hw = (window.appState.homeworks || []).find(i => i.id === hwId);
+            if (!hw) return;
+
+            document.getElementById('admin-hw-sub-modal-title').innerText = `${hw.title} - 提出一覧`;
+            const container = document.getElementById('admin-hw-submissions-list');
+
+            const allSubs = (window.appState.homeworkSubmissions || []).filter(s => s.homeworkId === hwId);
+
+            if (allSubs.length === 0) {
+                container.innerHTML = `<div class="p-6 text-center text-xs text-slate-400 bg-slate-50 rounded-2xl border border-slate-200">まだ提出された宿題はありません。</div>`;
+            } else {
+                container.innerHTML = allSubs.map(s => `
+                    <div class="bg-slate-50 p-3.5 sm:p-4 rounded-2xl border border-slate-200 space-y-2">
+                        <div class="flex items-center justify-between border-b border-slate-200 pb-2">
+                            <span class="font-bold text-xs sm:text-sm text-indigo-900"><i class="fa-solid fa-user-check text-emerald-600 mr-1"></i> ${s.userName}</span>
+                            <span class="text-[10px] text-slate-400 font-mono">${new Date(s.submittedAt).toLocaleString('ja-JP')}</span>
+                        </div>
+                        ${s.comment ? `<p class="text-xs text-slate-800 bg-white p-2.5 rounded-xl border border-slate-200 font-medium">${s.comment}</p>` : ''}
+                        ${s.imageUrl ? `
+                            <div class="bg-slate-900 p-1 rounded-xl overflow-hidden inline-block cursor-pointer">
+                                <img src="${s.imageUrl}" onclick="openImageModal(this.src)" class="max-h-40 rounded-lg object-contain hover:opacity-90 transition">
+                            </div>
+                        ` : ''}
+                    </div>
+                `).join('');
+            }
+
+            openModal('modal-admin-hw-submissions');
         };
 
         window.openImageModal = function(url) {
@@ -2718,6 +3061,7 @@
             const cItem = {
                 id: 'c_' + Date.now(),
                 subjectId: document.getElementById('card-input-subject').value,
+                topic: document.getElementById('card-input-topic').value.trim() || '全般',
                 front: document.getElementById('card-input-front').value,
                 back: document.getElementById('card-input-back').value
             };
@@ -3163,23 +3507,49 @@
             const container = document.getElementById('admin-homework-grid');
             if (!container) return;
             const list = window.appState.homeworks || [];
-            container.innerHTML = list.map(hw => `
-                <div class="bg-white p-3.5 rounded-2xl border border-slate-200 shadow-sm space-y-1.5">
-                    <div class="flex justify-between items-center">
-                        <span class="bg-slate-100 text-slate-800 text-[10px] font-bold px-2 py-0.5 rounded-full">${hw.subjectId}</span>
-                        <button onclick="deleteHomeworkItem('${hw.id}')" class="text-rose-600 text-xs font-bold p-1"><i class="fa-solid fa-trash"></i> 削除</button>
+            const submissions = window.appState.homeworkSubmissions || [];
+
+            container.innerHTML = list.map(hw => {
+                const subCount = submissions.filter(s => s.homeworkId === hw.id).length;
+                const subjectObj = SUBJECTS.find(s => s.id === hw.subjectId);
+
+                return `
+                    <div class="bg-white p-4 rounded-2xl border border-slate-200 shadow-sm space-y-2">
+                        <div class="flex justify-between items-center">
+                            <span class="bg-amber-100 text-amber-900 text-[10px] font-bold px-2.5 py-0.5 rounded-full">${subjectObj ? subjectObj.name : hw.subjectId}</span>
+                            <div class="flex items-center gap-1">
+                                <button onclick="openAdminHomeworkSubmissionsModal('${hw.id}')" class="bg-indigo-50 hover:bg-indigo-100 text-indigo-700 font-bold text-xs px-2.5 py-1 rounded-xl border border-indigo-200 transition flex items-center gap-1">
+                                    <i class="fa-solid fa-folder-open"></i> 提出物を確認 (${subCount}件)
+                                </button>
+                                <button onclick="deleteHomeworkItem('${hw.id}')" class="text-rose-600 hover:text-rose-800 text-xs font-bold p-1"><i class="fa-solid fa-trash"></i></button>
+                            </div>
+                        </div>
+                        <h4 class="font-bold text-slate-900 text-sm sm:text-base">${hw.title}</h4>
+                        <p class="text-xs text-slate-500 line-clamp-2">${hw.description || '説明なし'}</p>
                     </div>
-                    <h4 class="font-bold text-slate-900 text-sm">${hw.title}</h4>
-                </div>
-            `).join('');
+                `;
+            }).join('');
         };
 
         window.renderAdminCardsTable = function() {
             const tbody = document.getElementById('admin-cards-tbody');
-            tbody.innerHTML = window.appState.flashcards.map(c => `
+            const selSubject = document.getElementById('admin-card-filter-subject').value;
+            let cards = window.appState.flashcards || [];
+
+            if (selSubject !== 'all') {
+                cards = cards.filter(c => c.subjectId === selSubject);
+            }
+
+            if (cards.length === 0) {
+                tbody.innerHTML = `<tr><td colspan="6" class="text-center py-6 text-slate-400 text-xs">該当するカードはありません。</td></tr>`;
+                return;
+            }
+
+            tbody.innerHTML = cards.map(c => `
                 <tr class="hover:bg-slate-50 border-b border-slate-100 text-slate-800">
                     <td class="px-3 py-2 text-center"><input type="checkbox" value="${c.id}" class="c-select-checkbox rounded text-indigo-600"></td>
-                    <td class="px-3 py-2 font-bold text-xs">${c.subjectId}</td>
+                    <td class="px-3 py-2 font-bold text-xs">${SUBJECTS.find(s=>s.id===c.subjectId)?.name || c.subjectId}</td>
+                    <td class="px-3 py-2 text-xs font-bold text-indigo-600">${c.topic || '全般'}</td>
                     <td class="px-3 py-2 font-bold text-xs max-w-[120px] truncate">${c.front}</td>
                     <td class="px-3 py-2 text-xs max-w-[150px] truncate">${c.back}</td>
                     <td class="px-3 py-2 text-right"><button onclick="deleteCardItem('${c.id}')" class="text-rose-600 p-1"><i class="fa-solid fa-trash"></i></button></td>
@@ -3203,7 +3573,7 @@
             const container = document.getElementById('toast-container');
             const toast = document.createElement('div');
             toast.className = `bg-slate-900 text-white text-xs font-bold px-3.5 py-2.5 rounded-2xl shadow-xl flex items-center gap-2`;
-            toast.innerHTML = `<i class="fa-solid fa-circle-info"></i> <span>${message}</span>`;
+            toast.innerHTML = `<i class="fa-solid fa-circle-info text-amber-400"></i> <span>${message}</span>`;
             container.appendChild(toast);
             setTimeout(() => toast.remove(), 3000);
         }
