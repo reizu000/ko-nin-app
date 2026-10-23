@@ -392,7 +392,6 @@
 
                 <div id="quiz-choices-container" class="space-y-2"></div>
 
-                <!-- 改善ポイント: 解説ボックスとテキストのフォント拡大 & 装飾強化 -->
                 <div id="quiz-explanation-box" class="hidden rounded-2xl p-4 sm:p-6 space-y-3 animate-fade-in">
                     <div id="quiz-result-header" class="flex items-center gap-2 font-black text-base sm:text-xl p-3 rounded-xl"></div>
                     <div class="space-y-1.5 pt-1">
@@ -451,7 +450,7 @@
             </div>
         </section>
 
-        <!-- VIEW: FLASHCARDS (機能刷新: 科目選択 ➔ 単元選択 ➔ カード暗記) -->
+        <!-- VIEW: FLASHCARDS -->
         <section id="view-flashcards" class="hidden space-y-3 sm:space-y-6 max-w-3xl mx-auto animate-fade-in">
             
             <!-- STEP 1: 科目選択画面 -->
@@ -762,6 +761,7 @@
                 <div id="admin-homework-grid" class="grid grid-cols-1 md:grid-cols-2 gap-3"></div>
             </div>
 
+            <!-- 暗記カード管理タブ（単元別グループ表示型へ更新） -->
             <div id="admin-subtab-card" class="hidden space-y-3">
                 <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-2 bg-white p-3.5 rounded-2xl border border-slate-200">
                     <div class="flex items-center gap-2">
@@ -785,33 +785,16 @@
 
                     <div class="flex flex-wrap gap-2 w-full sm:w-auto justify-end">
                         <button onclick="deleteSelectedCards()" class="bg-rose-50 hover:bg-rose-100 text-rose-700 border border-rose-300 text-xs font-bold px-3 py-1.5 rounded-xl transition flex items-center gap-1">
-                            <i class="fa-solid fa-trash-can"></i> 選択したカードを一括削除
+                            <i class="fa-solid fa-trash-can"></i> チェックしたカードを一括削除
                         </button>
                         <button onclick="openCardModal()" class="bg-indigo-600 hover:bg-indigo-700 text-white text-xs font-bold px-3.5 py-2 rounded-xl shadow transition flex items-center gap-1.5">
-                            <i class="fa-solid fa-plus"></i> 新規カード
+                            <i class="fa-solid fa-plus"></i> 新規カード作成
                         </button>
                     </div>
                 </div>
 
-                <div class="bg-white rounded-2xl border border-slate-200 overflow-hidden shadow-sm">
-                    <div class="overflow-x-auto custom-scrollbar">
-                        <table class="w-full text-left text-xs sm:text-sm min-w-[500px]">
-                            <thead class="bg-slate-50 text-[10px] sm:text-[11px] font-bold text-slate-500 uppercase border-b border-slate-200">
-                                <tr>
-                                    <th class="px-3 py-2.5 w-8 text-center">
-                                        <input type="checkbox" id="select-all-c-checkbox" onchange="toggleSelectAllCards(this)" class="rounded text-indigo-600">
-                                    </th>
-                                    <th class="px-3 py-2.5">科目</th>
-                                    <th class="px-3 py-2.5">単元</th>
-                                    <th class="px-3 py-2.5">表面</th>
-                                    <th class="px-3 py-2.5">裏面</th>
-                                    <th class="px-3 py-2.5 text-right">操作</th>
-                                </tr>
-                            </thead>
-                            <tbody id="admin-cards-tbody" class="divide-y divide-slate-200"></tbody>
-                        </table>
-                    </div>
-                </div>
+                <!-- 単元ごとに暗記カードがグループ表示されるエリア -->
+                <div id="admin-cards-container" class="space-y-4"></div>
             </div>
         </section>
 
@@ -1031,17 +1014,17 @@
         </div>
     </div>
 
-    <!-- MODAL: CARD -->
+    <!-- MODAL: CARD (単元選択ドロップダウン対応型へ更新) -->
     <div id="modal-card" class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-50 flex items-center justify-center p-3 hidden animate-fade-in">
         <div class="bg-white w-full max-w-md rounded-3xl p-5 shadow-2xl border border-slate-100 space-y-3 max-h-[90vh] overflow-y-auto custom-scrollbar">
             <div class="flex justify-between items-center border-b pb-2">
-                <h3 class="text-base font-black text-slate-900">暗記カードの追加</h3>
+                <h3 class="text-base font-black text-slate-900">暗記カードの追加・作成</h3>
                 <button onclick="closeModal('modal-card')" class="text-slate-400 hover:text-slate-600 p-1"><i class="fa-solid fa-xmark text-lg"></i></button>
             </div>
             <div class="space-y-2 text-xs font-bold">
                 <div>
                     <label class="block text-slate-500 mb-1">科目</label>
-                    <select id="card-input-subject" class="w-full bg-slate-50 border border-slate-300 rounded-xl p-2.5 font-bold">
+                    <select id="card-input-subject" onchange="onAdminCardSubjectChange()" class="w-full bg-slate-50 border border-slate-300 rounded-xl p-2.5 font-bold">
                         <option value="japanese">国語</option>
                         <option value="math">数学I</option>
                         <option value="english">英語</option>
@@ -1057,7 +1040,10 @@
                     </select>
                 </div>
                 <div>
-                    <label class="block text-slate-500 mb-1">単元・テーマ</label>
+                    <label class="block text-slate-500 mb-1">単元（テーマ）の選択・仕分け</label>
+                    <select id="card-input-topic-select" onchange="onCardTopicSelectDropdownChange(this)" class="w-full bg-slate-50 border border-slate-300 rounded-xl p-2.5 font-bold mb-1.5">
+                        <option value="new">＋ 新しい単元を作成（自由入力）</option>
+                    </select>
                     <input type="text" id="card-input-topic" placeholder="例: 重要英単語 / 2次関数" class="w-full bg-slate-50 border border-slate-300 rounded-xl p-2.5">
                 </div>
                 <div>
@@ -1128,7 +1114,7 @@
         </div>
     </div>
 
-    <!-- MODAL: HOMEWORK DETAIL & SUBMIT (ユーザー側 宿題詳細・提出フォーム) -->
+    <!-- MODAL: HOMEWORK DETAIL & SUBMIT -->
     <div id="modal-homework-detail" class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-50 flex items-center justify-center p-3 hidden animate-fade-in">
         <div class="bg-white w-full max-w-lg rounded-3xl p-5 sm:p-6 shadow-2xl border border-slate-100 space-y-4 max-h-[90vh] overflow-y-auto custom-scrollbar">
             <div class="flex justify-between items-start border-b border-slate-200 pb-3">
@@ -1156,7 +1142,6 @@
                 </div>
             </div>
 
-            <!-- Google Classroom風 課題提出エリア -->
             <div class="p-4 bg-amber-50/60 rounded-2xl border-2 border-amber-200/80 space-y-3">
                 <h4 class="font-bold text-xs sm:text-sm text-amber-900 flex items-center gap-1.5">
                     <i class="fa-solid fa-cloud-arrow-up text-amber-600"></i> 宿題を提出する (写真・コメント)
@@ -1197,7 +1182,7 @@
         </div>
     </div>
 
-    <!-- MODAL: ADMIN HOMEWORK SUBMISSIONS LIST (管理者用 宿題提出物一覧モーダル) -->
+    <!-- MODAL: ADMIN HOMEWORK SUBMISSIONS LIST -->
     <div id="modal-admin-hw-submissions" class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-50 flex items-center justify-center p-3 hidden animate-fade-in">
         <div class="bg-white w-full max-w-2xl rounded-3xl p-5 sm:p-6 shadow-2xl border border-slate-100 space-y-4 max-h-[90vh] overflow-y-auto custom-scrollbar">
             <div class="flex justify-between items-start border-b border-slate-200 pb-3">
@@ -1525,7 +1510,6 @@
                 if (window.appState.activeView === 'admin') window.renderAdminHomeworkList();
             });
 
-            // 宿題の提出物リストのリアルタイム同期
             onSnapshot(collection(db, 'artifacts', appId, 'public', 'data', 'homework_submissions'), (snapshot) => {
                 const list = [];
                 snapshot.forEach(doc => list.push(doc.data()));
@@ -1603,7 +1587,6 @@
             } catch(e){}
         };
 
-        // 宿題の提出物保存
         window.saveHomeworkSubmissionCloud = async function(submissionData) {
             if (!db || window.appState.isBlocked) return;
             try {
@@ -1680,7 +1663,6 @@
             currentQuizIndex: 0,
             quizScore: 0,
             isMockExam: false,
-            // 暗記カード用 ステップ状態 (subjects -> topics -> study)
             fcStep: 'subjects',
             fcSubjectId: '',
             fcTopicName: 'all',
@@ -1985,7 +1967,6 @@
             showToast('ニックネームを保存しました', 'success');
         };
 
-        // --- 暗記カード新機能 (1: 科目選択 -> 2: 単元選択 -> 3: 暗記学習) ---
         function initFlashcardsView() {
             window.appState.fcStep = 'subjects';
             renderFcSubjectsGrid();
@@ -2601,7 +2582,6 @@
             showView('result');
         }
 
-        // --- 宿題一覧・提出（受講生側） & 確認（管理者側） ---
         window.renderHomeworkView = function() {
             const container = document.getElementById('user-homework-list');
             if (!container) return;
@@ -2654,7 +2634,6 @@
                 imgContainer.classList.add('hidden');
             }
 
-            // 提出状態の初期化
             document.getElementById('hw-submit-file-input').value = '';
             document.getElementById('hw-submit-comment').value = '';
             document.getElementById('hw-submit-image-preview').classList.add('hidden');
@@ -2731,7 +2710,6 @@
             showToast('宿題を正常に提出しました！ 📝', 'success');
         };
 
-        // 管理者用 宿題提出物一覧表示
         window.openAdminHomeworkSubmissionsModal = function(hwId) {
             const hw = (window.appState.homeworks || []).find(i => i.id === hwId);
             if (!hw) return;
@@ -3056,21 +3034,74 @@
             });
         };
 
-        window.openCardModal = function() { openModal('modal-card'); };
+        // 暗記カード モーダルオープン（標準）
+        window.openCardModal = function() {
+            document.getElementById('card-input-subject').value = 'japanese';
+            onAdminCardSubjectChange();
+            document.getElementById('card-input-topic').value = '';
+            document.getElementById('card-input-front').value = '';
+            document.getElementById('card-input-back').value = '';
+            openModal('modal-card');
+        };
+
+        // 特定の単元ヘッダーから直接カードを追加する場合
+        window.openCardModalForTopic = function(subjectId, topicName) {
+            document.getElementById('card-input-subject').value = subjectId;
+            onAdminCardSubjectChange();
+            document.getElementById('card-input-topic-select').value = topicName;
+            document.getElementById('card-input-topic').value = topicName;
+            document.getElementById('card-input-front').value = '';
+            document.getElementById('card-input-back').value = '';
+            openModal('modal-card');
+        };
+
+        // 科目変更時に既存単元のドロップダウンを動的生成
+        window.onAdminCardSubjectChange = function() {
+            const subjectId = document.getElementById('card-input-subject').value;
+            const subjectCards = (window.appState.flashcards || []).filter(c => c.subjectId === subjectId);
+            const topics = Array.from(new Set(subjectCards.map(c => c.topic || '全般')));
+
+            const selectEl = document.getElementById('card-input-topic-select');
+            if (selectEl) {
+                selectEl.innerHTML = '<option value="new">＋ 新しい単元を作成（自由入力）</option>' +
+                    topics.map(t => `<option value="${t}">📌 既存単元: ${t}</option>`).join('');
+                selectEl.value = 'new';
+            }
+            document.getElementById('card-input-topic').value = '';
+            document.getElementById('card-input-topic').focus();
+        };
+
+        // 単元ドロップダウン選択時の処理
+        window.onCardTopicSelectDropdownChange = function(selectEl) {
+            const topicInput = document.getElementById('card-input-topic');
+            if (selectEl.value === 'new') {
+                topicInput.value = '';
+                topicInput.placeholder = '例: 重要英単語 / 2次関数';
+                topicInput.focus();
+            } else {
+                topicInput.value = selectEl.value;
+            }
+        };
+
+        // 暗記カード保存処理
         window.saveCard = function() {
+            const topicInput = document.getElementById('card-input-topic').value.trim();
+            const topicSelect = document.getElementById('card-input-topic-select').value;
+            const finalTopic = topicInput || (topicSelect !== 'new' ? topicSelect : '全般');
+
             const cItem = {
                 id: 'c_' + Date.now(),
                 subjectId: document.getElementById('card-input-subject').value,
-                topic: document.getElementById('card-input-topic').value.trim() || '全般',
-                front: document.getElementById('card-input-front').value,
-                back: document.getElementById('card-input-back').value
+                topic: finalTopic,
+                front: document.getElementById('card-input-front').value.trim(),
+                back: document.getElementById('card-input-back').value.trim()
             };
 
             if (!cItem.front || !cItem.back) { showToast('表面と裏面を入力してください', 'warning'); return; }
 
             if (window.syncCardCloud) window.syncCardCloud(cItem);
             closeModal('modal-card');
-            showToast('暗記カードを追加しました', 'success');
+            showToast(`単元「${finalTopic}」に暗記カードを追加しました`, 'success');
         };
 
         window.deleteCardItem = function(cId) {
@@ -3080,9 +3111,30 @@
             });
         };
 
-        window.toggleSelectAllCards = function(masterEl) {
+        // 単元ごとのカード一括削除
+        window.deleteTopicCards = function(subjectId, topicName) {
+            const targets = (window.appState.flashcards || []).filter(c => c.subjectId === subjectId && (c.topic || '全般') === topicName);
+            if (targets.length === 0) return;
+
+            showConfirmModal('単元カード一括削除確認', `単元「${topicName}」の全 ${targets.length} 枚のカードを削除しますか？`, async () => {
+                for (const c of targets) {
+                    if (window.deleteCardCloud) await window.deleteCardCloud(c.id);
+                }
+                showToast(`単元「${topicName}」のカードを削除しました`, 'info');
+            });
+        };
+
+        // 単元ブロック内チェックボックスの一括選択
+        window.toggleSelectTopicCards = function(masterEl, subjectId, topicName) {
+            const cardGroup = (window.appState.flashcards || []).filter(c => c.subjectId === subjectId && (c.topic || '全般') === topicName);
+            const ids = new Set(cardGroup.map(c => c.id));
+            
             const checkboxes = document.querySelectorAll('.c-select-checkbox');
-            checkboxes.forEach(cb => cb.checked = masterEl.checked);
+            checkboxes.forEach(cb => {
+                if (ids.has(cb.value)) {
+                    cb.checked = masterEl.checked;
+                }
+            });
         };
 
         window.deleteSelectedCards = function() {
@@ -3531,30 +3583,88 @@
             }).join('');
         };
 
+        // 管理者画面：暗記カードを「単元（テーマ）別グループ」でレンダリング
         window.renderAdminCardsTable = function() {
-            const tbody = document.getElementById('admin-cards-tbody');
-            const selSubject = document.getElementById('admin-card-filter-subject').value;
+            const container = document.getElementById('admin-cards-container');
+            if (!container) return;
+
+            const selectedSubject = document.getElementById('admin-card-filter-subject').value;
             let cards = window.appState.flashcards || [];
 
-            if (selSubject !== 'all') {
-                cards = cards.filter(c => c.subjectId === selSubject);
+            if (selectedSubject !== 'all') {
+                cards = cards.filter(c => c.subjectId === selectedSubject);
             }
 
             if (cards.length === 0) {
-                tbody.innerHTML = `<tr><td colspan="6" class="text-center py-6 text-slate-400 text-xs">該当するカードはありません。</td></tr>`;
+                container.innerHTML = `<div class="bg-white rounded-2xl p-8 text-center border border-slate-200 text-xs text-slate-400">登録された暗記カードはありません。</div>`;
                 return;
             }
 
-            tbody.innerHTML = cards.map(c => `
-                <tr class="hover:bg-slate-50 border-b border-slate-100 text-slate-800">
-                    <td class="px-3 py-2 text-center"><input type="checkbox" value="${c.id}" class="c-select-checkbox rounded text-indigo-600"></td>
-                    <td class="px-3 py-2 font-bold text-xs">${SUBJECTS.find(s=>s.id===c.subjectId)?.name || c.subjectId}</td>
-                    <td class="px-3 py-2 text-xs font-bold text-indigo-600">${c.topic || '全般'}</td>
-                    <td class="px-3 py-2 font-bold text-xs max-w-[120px] truncate">${c.front}</td>
-                    <td class="px-3 py-2 text-xs max-w-[150px] truncate">${c.back}</td>
-                    <td class="px-3 py-2 text-right"><button onclick="deleteCardItem('${c.id}')" class="text-rose-600 p-1"><i class="fa-solid fa-trash"></i></button></td>
-                </tr>
-            `).join('');
+            const groupsMap = new Map();
+            cards.forEach(c => {
+                const subjId = c.subjectId || 'japanese';
+                const topicName = c.topic || '全般';
+                const key = `${subjId}___${topicName}`;
+                if (!groupsMap.has(key)) {
+                    groupsMap.set(key, { subjectId: subjId, topicName: topicName, cards: [] });
+                }
+                groupsMap.get(key).cards.push(c);
+            });
+
+            container.innerHTML = Array.from(groupsMap.values()).map(g => {
+                const subjectObj = SUBJECTS.find(s => s.id === g.subjectId);
+                const subjName = subjectObj ? subjectObj.name : g.subjectId;
+
+                return `
+                    <div class="bg-white rounded-2xl border border-slate-200 overflow-hidden shadow-sm space-y-0">
+                        <div class="bg-slate-50 border-b border-slate-200 p-3 sm:p-4 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-2">
+                            <div class="flex items-center gap-2">
+                                <span class="bg-indigo-100 text-indigo-700 font-bold text-xs px-2.5 py-0.5 rounded-full">${subjName}</span>
+                                <h4 class="font-black text-slate-900 text-sm sm:text-base flex items-center gap-1">📌 単元: ${g.topicName}</h4>
+                                <span class="text-xs font-bold text-slate-500 ml-1">(${g.cards.length} 枚)</span>
+                            </div>
+
+                            <div class="flex flex-wrap items-center gap-1.5 w-full sm:w-auto justify-end">
+                                <button onclick="openCardModalForTopic('${g.subjectId}', '${g.topicName}')" class="bg-indigo-50 hover:bg-indigo-100 text-indigo-700 border border-indigo-300 font-bold text-[11px] px-2.5 py-1 rounded-lg transition flex items-center gap-1">
+                                    <i class="fa-solid fa-plus"></i> この単元にカード追加
+                                </button>
+                                <button onclick="deleteTopicCards('${g.subjectId}', '${g.topicName}')" class="bg-rose-50 hover:bg-rose-100 text-rose-700 border border-rose-300 font-bold text-[11px] px-2 py-1 rounded-lg transition">
+                                    <i class="fa-solid fa-trash"></i> 単元ごと一括削除
+                                </button>
+                            </div>
+                        </div>
+
+                        <div class="overflow-x-auto custom-scrollbar">
+                            <table class="w-full text-left text-xs sm:text-sm min-w-[500px]">
+                                <thead class="bg-slate-100/50 text-[10px] font-bold text-slate-400 uppercase border-b border-slate-200">
+                                    <tr>
+                                        <th class="px-3 py-2 w-10 text-center">
+                                            <input type="checkbox" onchange="toggleSelectTopicCards(this, '${g.subjectId}', '${g.topicName}')" class="rounded text-indigo-600">
+                                        </th>
+                                        <th class="px-3 py-2">表面 (問題)</th>
+                                        <th class="px-3 py-2">裏面 (解答)</th>
+                                        <th class="px-3 py-2 w-16 text-right">操作</th>
+                                    </tr>
+                                </thead>
+                                <tbody class="divide-y divide-slate-100">
+                                    ${g.cards.map(c => `
+                                        <tr class="hover:bg-slate-50 text-slate-800">
+                                            <td class="px-3 py-2.5 text-center">
+                                                <input type="checkbox" value="${c.id}" class="c-select-checkbox rounded text-indigo-600">
+                                            </td>
+                                            <td class="px-3 py-2.5 font-bold text-xs max-w-xs truncate">${c.front}</td>
+                                            <td class="px-3 py-2.5 text-xs max-w-xs truncate text-slate-600">${c.back}</td>
+                                            <td class="px-3 py-2.5 text-right">
+                                                <button onclick="deleteCardItem('${c.id}')" class="text-rose-600 p-1 hover:text-rose-800"><i class="fa-solid fa-trash"></i></button>
+                                            </td>
+                                        </tr>
+                                    `).join('')}
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                `;
+            }).join('');
         };
 
         function openModal(id) { document.getElementById(id)?.classList.remove('hidden'); }
